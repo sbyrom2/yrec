@@ -15,7 +15,7 @@ C <<< YCK
       REAL*8 MOLES
       CHARACTER*1 BLANK
       COMMON/AA/ Q(4),H(4),XXH
-      COMMON/A/  XZ(MX,MV,NT,NR),  
+      COMMON/A/  XZ(MX,MV,NT,NR),
      .T6LIST(NR,NT),RHO(NR),T6A(NT),ESK(NT,NR),ESK2(NT,NR),DFSX(MX),
      . DFS(NT),DFSR(NR),XA(MX),M,MF
       COMMON/B/ ZZ(MX),IRI(10),INDEX(10),NTA(NR)
@@ -32,7 +32,7 @@ C <<< YCK
 
         IF (ITIMECO .NE. 12345678) THEN
         DO I=1,MX
-          DO J=1,MV 
+          DO J=1,MV
             DO K=1,NT
               DO L=1,NR
                 XZ(I,J,K,L)=1.D+35
@@ -42,13 +42,13 @@ C <<< YCK
         ENDDO
         ITIMECO=12345678
         ENDIF
- 
+
 C..... READ  TABLES
 C YCK >>>
        OPEN(IOPALE, FILE=FOPALE,STATUS='OLD')
 C <<< YCK
- 
- 
+
+
       DO 3 M=1,MX
 
       READ (IOPALE,'(3X,F6.4,3X,F6.4,11X,F10.7,17X,F10.7)')
@@ -86,7 +86,7 @@ C <<< YCK
     2 CONTINUE
       READ(IOPALE,'(A)') BLANK
     3 CONTINUE
- 
+
       DO 11 I=1,NT
         IF(T6LIST(1,I) .EQ. 0.0D0) THEN
           NTUSE=I

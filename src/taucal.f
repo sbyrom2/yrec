@@ -6,7 +6,7 @@ C$$$$$$
       INTEGER*4 IMAX
       COMMON/COMP/XENV,ZENV,ZENVM,AMUENV,FXENV(12),XNEW,ZNEW,STOTAL,
      *     SENV
-	COMMON/DEUTER/DRATE(JSON),DRATE0(JSON),FMASSACC,JCZ
+      COMMON/DEUTER/DRATE(JSON),DRATE0(JSON),FMASSACC,JCZ
       COMMON/ROT/WNEW,WALPCZ,ACFPFT,ITFP1,ITFP2,LROT,LINSTB,LWNEW
       COMMON/CONST2/CGAS,CA3,CA3L,CSIG,CSIGL,CGL,CMKH,CMKHN
       COMMON/CONST/CLSUN,CLSUNL,CLNSUN,CMSUN,CMSUNL,CRSUN,CRSUNL,CMBOL
@@ -15,13 +15,13 @@ C G Somers 3/17, ADDING NEW TAUCZ COMMON BLOCK
       COMMON/OVRTRN/LNEWTCZ,LCALCENV,TAUCZ,TAUCZ0,PPHOT,PPHOT0,FRACSTEP
       DIMENSION HCOMP(15,JSON),HS2(JSON),LCZ(JSON),
      *     XSUM(15), HR(JSON), HP(JSON), HD(JSON), HG(JSON), HS1(JSON),
-     *     DEL1(JSON), DEL2(JSON), SVEL(JSON)  
+     *     DEL1(JSON), DEL2(JSON), SVEL(JSON)
       SAVE
 
 
 
-C JVS 02/12 CALCULATE THE LOCAL CONVECTIVE OVERTURN TIMESCALE AT THE BASE 
-C OF THE CZ. IN OLDER VERSIONS THIS WAS ONLY DONE FOR ROTATING MODELS; 
+C JVS 02/12 CALCULATE THE LOCAL CONVECTIVE OVERTURN TIMESCALE AT THE BASE
+C OF THE CZ. IN OLDER VERSIONS THIS WAS ONLY DONE FOR ROTATING MODELS;
 C THIS MAKES IT SO TAUCZ IS CALCULATED FOR ALL MODELS. THIS PARTICULAR SUBROUTINE
 C DOES CALCULATES THE OVERTURN TIMESCALES IN MODELS WHERE THE CZ IS WITHIN
 C THE ENVELOPE
@@ -32,14 +32,14 @@ C  DETERMINE EXTENT OF SURFACE CONVECTION ZONE.
       LALLCZ = .FALSE.
 C JVS Allows the last point to be stable.
 C JVS 05/14 removed requirement for last point to be convective, since this routine
-C is only called from ENVINT, the near surface points in the envelope are often 
+C is only called from ENVINT, the near surface points in the envelope are often
 C radiative, despite the fact that a convective envelope exists. Code now checks
 C to make sure there is a CZ somewhere in the envelope.
 C      IF(LCZ(M) .OR. LCZ(M-1) .OR. LCZ(M-2))THEN
 
 
 
-C  SURFACE C.Z. EXISTS.  FIND LOWEST SHELL (IMAX), WHICH IS ALSO THE 
+C  SURFACE C.Z. EXISTS.  FIND LOWEST SHELL (IMAX), WHICH IS ALSO THE
 C  UPPERMOST ZONE CONSIDERED FOR STABILITY AGAINST ROTATIONALLY INDUCED MIXING.
 C         DO 71 I = M-1,1,-1
 C            IF(.NOT.LCZ(I)) GOTO 81
@@ -49,26 +49,26 @@ C         I = 0
 C   81    IMAX = I + 1
 
 C DEAL THE POSSIBILITY OF TWO OR MORE SURFACE CONVECTION ZONES IN THE ENVELOPE
-	  LFLAG = .FALSE.
-	  LTWOCZ = .FALSE.
-	  LCZEX = .FALSE. ! Flag for the existence of a CZ
+        LFLAG = .FALSE.
+        LTWOCZ = .FALSE.
+        LCZEX = .FALSE. ! Flag for the existence of a CZ
         DO 71 I = M-1,1,-1
             IF(.NOT.LCZ(I) .AND. .NOT. LFLAG .AND. LCZEX) THEN ! EXITING CZ
-			IMAX = I+1
-			LFLAG = .TRUE.  
-		ELSE IF (LFLAG .AND. LCZ(I)) THEN ! TWO CZS WITH RADIATIVE ZONE BETWEEN
-			LFLAG = .FALSE.
-			LTWOCZ = .TRUE.
-			ICZTOP = I
-		ELSE IF( LCZ(I) .AND. .NOT. LCZEX) THEN !First convective point from surface
-			LCZEX = .TRUE.
-		ENDIF
+                  IMAX = I+1
+                  LFLAG = .TRUE.
+            ELSE IF (LFLAG .AND. LCZ(I)) THEN ! TWO CZS WITH RADIATIVE ZONE BETWEEN
+                  LFLAG = .FALSE.
+                  LTWOCZ = .TRUE.
+                  ICZTOP = I
+            ELSE IF( LCZ(I) .AND. .NOT. LCZEX) THEN !First convective point from surface
+                  LCZEX = .TRUE.
+            ENDIF
    71    CONTINUE
-	   IF(IMAX .LT. 1)THEN 
-	        LALLCZ = .TRUE.
-	   ENDIF     
+         IF(IMAX .LT. 1)THEN
+              LALLCZ = .TRUE.
+         ENDIF
 
-      IF(LCZEX) THEN ! REPLACES "IF(LCZ(M)" THEN JVS 05/14	
+      IF(LCZEX) THEN ! REPLACES "IF(LCZ(M)" THEN JVS 05/14
 
 
 C  HSTOP IS THE MASS AT THE TOP OF THE C.Z.
@@ -91,7 +91,7 @@ C  NO SURFACE C.Z.
          LCZSUR = .FALSE.
       ENDIF
 
-C JVS 10/11/13 Concerned that this is inappropriate for LCZSUR = FALSE. 
+C JVS 10/11/13 Concerned that this is inappropriate for LCZSUR = FALSE.
 C Should never be the case, but removed it.
 C      IF(LCZSUR)THEN
          IF(.NOT.LALLCZ)THEN
@@ -110,42 +110,42 @@ C INFER HP
             PS1 = EXP(CLN*(HP(IMAX-1)-HD(IMAX-1)))/HG(IMAX-1)
             PSCA = PS1 + FX*(PS2-PS1)
             RTESTL = DLOG10(ENVR+PSCA)
-C JVS 03/14 WHEN THERE ARE TWO CZS, THE DEEPER ONE CAN BE ~HP THICK. IN 
+C JVS 03/14 WHEN THERE ARE TWO CZS, THE DEEPER ONE CAN BE ~HP THICK. IN
 C THIS CASE, WE"LL WANT AND AVERAGE CONVECTIVE VELOCITY ACROSS THE REGION
 C--------------------------------------------------------------
-		TOL = 0.5
-C		IF(ABS(1.0 - ((DEXP(CLN*(RTESTL-HR(IMAX))) - 1.0)/
+            TOL = 0.5
+C            IF(ABS(1.0 - ((DEXP(CLN*(RTESTL-HR(IMAX))) - 1.0)/
 C     *         (DEXP(CLN*(HR(ICZTOP)-HR(IMAX))) - 1.0))) .LT. TOL
 C     *          .AND. LTWOCZ) THEN
-		IF((ABS(1.0 - ((DEXP(CLN*(RTESTL-HR(IMAX))) - 1.0)/
+            IF((ABS(1.0 - ((DEXP(CLN*(RTESTL-HR(IMAX))) - 1.0)/
      *         (DEXP(CLN*(HR(ICZTOP)-HR(IMAX))) - 1.0))) .LT. TOL) .OR. LTWOCZ) THEN
-			! TAKE AVERAGE CONV VELOCITY
-			CVEAVG = 0.0
-C			DENOM = ABS(HS1(ICZTOP)-HS1(IMAX))/DEXP(CLN*STOTAL) ! MASS IN CZ 
-			DENOM = 0.0
-			UMER = 0.0
-			CZWIDE = ABS(DEXP(CLN*HR(ICZTOP))-DEXP(CLN*HR(IMAX))) 			
-			DO J=IMAX,ICZTOP,1
-				DENOM = DENOM + HS2(J)
-				UMER = UMER+ 0.5d0*(SVEL(J)+SVEL(J+1))*HS2(J)
-			ENDDO
-			CVEAVG = UMER/DENOM
-			TAUCZ = CZWIDE/CVEAVG
-		ELSE  
-C 		(ORIGINAL ROUTINE)
-C 		FIND V
-           	      DO K = IMAX+1,M
-               		IF(HR(K).GT.RTESTL)THEN
-                 	   		FX = (RTESTL-HR(K-1))/(HR(K)-HR(K-1))
-                 	   		CVEL = SVEL(K-1)+FX*(SVEL(K)-SVEL(K-1))
-                 	   		GOTO 85
-               		ENDIF
-              	END DO
-              	CVEL = SVEL(M)
- 85          	CONTINUE
-C            	DEFINE TAUCZ
-            	TAUCZ = PSCA/CVEL
-		ENDIF
+                  ! TAKE AVERAGE CONV VELOCITY
+                  CVEAVG = 0.0
+C                  DENOM = ABS(HS1(ICZTOP)-HS1(IMAX))/DEXP(CLN*STOTAL) ! MASS IN CZ
+                  DENOM = 0.0
+                  UMER = 0.0
+                  CZWIDE = ABS(DEXP(CLN*HR(ICZTOP))-DEXP(CLN*HR(IMAX)))
+                  DO J=IMAX,ICZTOP,1
+                        DENOM = DENOM + HS2(J)
+                        UMER = UMER+ 0.5d0*(SVEL(J)+SVEL(J+1))*HS2(J)
+                  ENDDO
+                  CVEAVG = UMER/DENOM
+                  TAUCZ = CZWIDE/CVEAVG
+            ELSE
+C             (ORIGINAL ROUTINE)
+C             FIND V
+                       DO K = IMAX+1,M
+                           IF(HR(K).GT.RTESTL)THEN
+                                      FX = (RTESTL-HR(K-1))/(HR(K)-HR(K-1))
+                                      CVEL = SVEL(K-1)+FX*(SVEL(K)-SVEL(K-1))
+                                      GOTO 85
+                           ENDIF
+                    END DO
+                    CVEL = SVEL(M)
+ 85                CONTINUE
+C                  DEFINE TAUCZ
+                  TAUCZ = PSCA/CVEL
+            ENDIF
 
 C JVS 10/11/13
 C         ELSE
@@ -191,7 +191,7 @@ C         ENDIF
       ELSE
          TAUCZ = 0.0D0
       ENDIF
-	print*, 'TauCal'
+      print*, 'TauCal'
 
 C END JVS
 

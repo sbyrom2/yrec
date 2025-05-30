@@ -19,7 +19,7 @@ C MHP 10/24 ADDED STOP CRITERIA FOR CENTRAL H,D,AND HE4
 C      COMMON/SETT/ENDAGE(50),SETDT(50),LENDAG(50),LSETDT(50)
       COMMON /NEWXYM/XENV0A(50),ZENV0A(50),CMIXLA(50),LSENV0A(50),
      1 SENV0A(50)
-      COMMON/CALSTAR/XLS, XLSTOL,  STEFF, SR, 
+      COMMON/CALSTAR/XLS, XLSTOL,  STEFF, SR,
      1      BLI, ALRI, AGER, BLR, BLRP, AGEI,
      2      LSTAR, LTEFF, LPASSR,LCALST
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
@@ -63,7 +63,7 @@ C     If not store L and age and return.
               ALRI = ALR
               RETURN
            END IF
-      ENDIF   
+      ENDIF
 C
 C     Check if track has passed through Teff the right number of
 C     times. If not store L and age and return.
@@ -72,7 +72,7 @@ C ZZZ
       WRITE(ITRACK,*) '#Just passed R*'
       LPASSR = .TRUE.
 C
-C     Have previous L,Age and current L,Age (one before R* and 
+C     Have previous L,Age and current L,Age (one before R* and
 C     one after R*).  Interpolate to get L,Age at R*
       DLDR = (BL-BLI)/(ALR-ALRI)
       BLR = BL + DLDR*(SR-ALR)
@@ -86,49 +86,49 @@ C        L and R. Use age at R for final
 C        run to stop at that age. Do one more run
 C        stopping at interpolated age.
          LSTAR=.TRUE.
-	 LENDAG(NK+1) = .TRUE.
-	 ENDAGE(NK+1) = AGER*1.0D9
-	 LENDAG(NK+2) = .TRUE.
-	 ENDAGE(NK+2) = AGER*1.0D9
-	 RESCAL(2,NK+1) = RESCAL(2,NK-1)
-	 XENV0A(NK+1) = RESCAL(2,NK+1)
-	 XENV0A(NK+2) = XENV0A(NK+1)
-C 
+       LENDAG(NK+1) = .TRUE.
+       ENDAGE(NK+1) = AGER*1.0D9
+       LENDAG(NK+2) = .TRUE.
+       ENDAGE(NK+2) = AGER*1.0D9
+       RESCAL(2,NK+1) = RESCAL(2,NK-1)
+       XENV0A(NK+1) = RESCAL(2,NK+1)
+       XENV0A(NK+2) = XENV0A(NK+1)
+C
       WRITE(*,*) ' Have hit R* & L*, prepare final run to age:',
      1  AGER
       WRITE(ITRACK,*)'#Have hit R* & L*, prepare final run to age:',
      1  AGER
-         RETURN	 
+         RETURN
       ELSE
          IF (NK .EQ. 2) THEN
-C           First time through. Save L and X at R*. 
+C           First time through. Save L and X at R*.
 C           Add 0.01 to Y. Start next run.
             BLRP = BLR
-	    XP = RESCAL(2,NK-1)
-	    X = XP - 0.01D0
-	    RESCAL(2,NK+1) = X
-	    XENV0A(NK+1) = X
-	    XENV0A(NK+2) = X
-C 
+          XP = RESCAL(2,NK-1)
+          X = XP - 0.01D0
+          RESCAL(2,NK+1) = X
+          XENV0A(NK+1) = X
+          XENV0A(NK+2) = X
+C
       WRITE(*,*) ' NK=2, Y=Y+0.01, Setup next run, X=', X
       WRITE(ITRACK,*) '#NK=2, Y=Y+0.01, Setup next run, X=', X
             RETURN
-	 ELSE 
+       ELSE
 C           If NK=4,6,8,... (second and more times through) then
 C           Use current and previous values of L at R and X to calculate
 C           dX/dlogL. Save L.  Start next run.
             X = RESCAL(2, NK-1)
-	    XP = RESCAL(2, NK-3)
+          XP = RESCAL(2, NK-3)
             DXDL = (X-XP)/(BLR-BLRP)
-	    X = DXDL*(LOG10(XLS)-BLR)+X
-C 
+          X = DXDL*(LOG10(XLS)-BLR)+X
+C
       WRITE(*,*) ' Setup next run, NK, X =', NK, X
       WRITE(ITRACK, *) ' Setup next run, NK, X =', NK, X
-	    BLRP = BLR
-	    RESCAL(2,NK+1) = X
-	    XENV0A(NK+1) = X
-	    XENV0A(NK+2) = X
-	 END IF
+          BLRP = BLR
+          RESCAL(2,NK+1) = X
+          XENV0A(NK+1) = X
+          XENV0A(NK+2) = X
+       END IF
       ENDIF
       RETURN
       END

@@ -19,7 +19,7 @@ C Needs access to this common block: grants knowledge of envellope
      *                 EDELS(3,JSON),EVELS(JSON),EBETAS(JSON),NUMENV
       DIMENSION HCOMP(15,JSON),HS2(JSON),LCZ(JSON),
      *     XSUM(15), HR(JSON), HP(JSON), HD(JSON), HG(JSON), HS1(JSON),
-     *     DEL1(JSON), DEL2(JSON), SVEL(JSON)  
+     *     DEL1(JSON), DEL2(JSON), SVEL(JSON)
 C G Somers; Adding vectors for cubic spline int.
       DIMENSION XDEL(4),XRAD(4),YRAD(4),YVEL(4),YPSC(4),YSPL(4)
       SAVE
@@ -66,7 +66,7 @@ C HAS A COMPLETELY RADIATIVE ENVLOPE, MAYBE WITH A CONVECTIVE CORE.
          I = 1
          J = 0
          JCORE = 1
-	 GOTO 90
+       GOTO 90
       ENDIF
    70 CONTINUE
 C FIND THE BASE OF THE UPPER-MOST CONVECTION ZONE
@@ -240,7 +240,7 @@ C     ENSURE THAT TAUCZ WAS NOT ACCIDENTALLY CALCULATED
 C     DEEP IN THE STELLAR INTERIOR. IF YES, REDO CALCULATION.
       IF (TAUCZ.GT.1.0E20) THEN
          IBEG = IMAX + 1
-	 GOTO 50
+       GOTO 50
       ENDIF
       RETURN
       END

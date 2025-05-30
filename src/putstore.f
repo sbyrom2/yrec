@@ -15,7 +15,7 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
      *DAGE,DDAGE,OMEGA,HS1,ETA2,R0,FP,FT,HJM,HI)
 
 C  PUTSTORE PUTS THE MOST RECENT VERBOSE OUTPUT FILE INTO THE .STORE FILE,
-C  EITHER AT SPECIFIED AGES, EVERY NPRTMOD MODELS, OR AT THE END OF RUNS. 
+C  EITHER AT SPECIFIED AGES, EVERY NPRTMOD MODELS, OR AT THE END OF RUNS.
 
 C     WRITE MODEL OUT IN ASCII FORMAT
       PARAMETER (JSON=5000)
@@ -39,10 +39,10 @@ c MHP 4/25 changed LOK name to make it unique, used elsewhere
      * CFENV(9),TLUMX(8),OMEGA(JSON),FP(JSON),FT(JSON),ETA2(JSON),R0(JSON),
      * HJM(JSON),HI(JSON),ID(JSON),HS1(JSON)
 C llp  3/19/03 Add COMMON block /I2O/ for info directly transferred from
-C      input to output model - starting with a code for th initial model 
+C      input to output model - starting with a code for th initial model
 C      compostion (COMPMIX)
-      COMMON /I2O/ COMPMIX     
-      
+      COMMON /I2O/ COMPMIX
+
 C llp 3/19/03 Add required COMMON blocks such that header flags
 C     ATM, EOS, HIK and LOK can be determined.
       COMMON/ATMOS/HRAS,KTTAU,KTTAU0,LTTAU
@@ -61,8 +61,8 @@ c     *      IOVIM, LOVSTC, LOVSTE, LOVSTM, LSEMIC, LADOV
       COMMON/GRAVS3/FGRY,FGRZ,LTHOUL,LDIFZ
 C OPACITY COMMON BLOCKS - modified 3/09
       COMMON /NEWOPAC/ZLAOL1,ZLAOL2,ZOPAL1,ZOPAL2, ZOPAL951,
-     +       ZALEX1, ZKUR1, ZKUR2,TMOLMIN,TMOLMAX,LALEX06,  
-     +       LLAOL89,LOPAL92,LOPAL95,LKUR90,LALEX95,L2Z 
+     +       ZALEX1, ZKUR1, ZKUR2,TMOLMIN,TMOLMAX,LALEX06,
+     +       LLAOL89,LOPAL92,LOPAL95,LKUR90,LALEX95,L2Z
       COMMON/NWLAOL/OLAOL(12,104,52),OXA(12),OT(52),ORHO(104),TOLLAOL,
      *  IOLAOL, NUMOFXYZ, NUMRHO, NUMT, LLAOL, LPUREZ, IOPUREZ,
      *   FLAOL, FPUREZ
@@ -71,7 +71,7 @@ C OPACITY COMMON BLOCKS - modified 3/09
       COMMON/SCVEOS/TLOGX(NTS),TABLEX(NTS,NPS,12),
      *TABLEY(NTS,NPS,12),SMIX(NTS,NPS),TABLEZ(NTS,NPS,13),
      *TABLENV(NTS,NPS,12),NPTSX(NTS),LSCV,IDTT,IDP
-      
+
 C INCLUDE COMMON BLOCKS WITH REQUIRED PHYSICS AND OUTPUT FLAGS
       COMMON/CCOUT/LSTORE,LSTATM,LSTENV,LSTMOD,LSTPHYS,LSTROT,LSCRIB
       COMMON/CCOUT1/NPENV,NPRTMOD,NPRTPT,NPOINT
@@ -82,7 +82,7 @@ C INCLUDE COMMON BLOCKS WITH REQUIRED PHYSICS AND OUTPUT FLAGS
      *LOCONS(JSON),SO(JSON),SDEL(3,JSON),SFXION(3,JSON),SVEL(JSON)
       COMMON/SOUND/GAM1(JSON),LSOUND
       COMMON/TEMP2/VES(JSON),VES0(JSON),VSS(JSON),VSS0(JSON),
-     *     HLE(JSON),VGSF(JSON),VGSF0(JSON),VMU(JSON)      
+     *     HLE(JSON),VGSF(JSON),VGSF0(JSON),VMU(JSON)
       COMMON/ROTEN/DEROT(JSON)
 
       SAVE
@@ -142,14 +142,14 @@ C Determine high temperature opacities flag, HIK
          WRITE(ISHORT,7)
   7      FORMAT('*** YREC7 input file, flags, etc., have been ',
      *          'defaulted.  ***')
-      ENDIF	 
-     
+      ENDIF
+
 C write header records
       IF(DAGE .lt. 1d3) THEN
          WRITE(ISTOR,10) 'MOD2 ',MODEL,M,SMASS,TEFFL,BL,HSTOT,DAGE,
      *      DDAGE,HS(1),HS(M)
  10      FORMAT(A5,2I8,5F16.11,1PE18.10,0P2F16.12)
-      ELSE IF (DAGE .LT. 1D4) THEN 
+      ELSE IF (DAGE .LT. 1D4) THEN
          WRITE(ISTOR,11) 'MOD2 ',MODEL,M,SMASS,TEFFL,BL,HSTOT,DAGE,
      *      DDAGE,HS(1),HS(M)
  11      FORMAT(A5,2I8,4F16.12,F16.10,1PE18.10,0P2F16.12)
@@ -157,7 +157,7 @@ C write header records
          WRITE(ISTOR,12) 'MOD2 ',MODEL,M,SMASS,TEFFL,BL,HSTOT,DAGE,
      *      DDAGE,HS(1),HS(M)
  12      FORMAT(A5,2I8,4F16.12,F16.9,1PE18.10,0P2F16.12)
-      ELSE 
+      ELSE
          WRITE(ISTOR,13) 'MOD2 ',MODEL,M,SMASS,TEFFL,BL,HSTOT,DAGE,
      *      DDAGE,HS(1),HS(M)
  13      FORMAT(A5,2I8,4F16.12,F16.8,1PE18.10,0P2F16.12)
@@ -172,14 +172,14 @@ C write physics flags:
      &     3(1PE18.10),1X,6(L1,1X))
 
 C write luminosities and output flags
-C If TLUMX are in solar units, convert to ergs.  Decide by 
+C If TLUMX are in solar units, convert to ergs.  Decide by
 C comparing to 10**20, if smaller, multiply by CLSUN
 
       CCCMAX = DMAX1(TLUMX(1),TLUMX(2),TLUMX(3),TLUMX(4),TLUMX(5),
      *     DABS(TLUMX(6)),TLUMX(7))
       IF(CCCMAX.LE.1.0D20) THEN
-	 DO J = 1,7
-	    TLUMX(J) = TLUMX(J) * CLSUN
+       DO J = 1,7
+          TLUMX(J) = TLUMX(J) * CLSUN
          ENDDO
       ENDIF
       WRITE(ISTOR,40) (TLUMX(J),J=1,7)
@@ -194,7 +194,7 @@ C write ENVELOPE DATA
       ENDDO
    50 FORMAT('ENV',I2,5F16.12,1P3E20.12)
 
-      CALL PINDEX(JXBEG,JXEND,LSHELL,M,ID,IDM)   
+      CALL PINDEX(JXBEG,JXEND,LSHELL,M,ID,IDM)
 
       IF(LSTMOD)THEN
 C write column headings for all per shell information
@@ -213,15 +213,15 @@ C write column headings for all per shell information
      1'      V_GSF      V_SS       VTOT   ',/)
 
 C write out the requested information.
-	 CG=DEXP(CLN*CGL)
+       CG=DEXP(CLN*CGL)
          DO II = 1,IDM
             I = ID(II)
-C write out the basic info           
+C write out the basic info
             WRITE(ISTOR,62,ADVANCE='no') I,HS(I),HR(I),HL(I),HP(I),
      *         HT(I),HD(I),OMEGA(I),LC(I),(HCOMP(J,I),J=1,15)
 C write out additional physics if desired
             IF(LSTPHYS)THEN
-	       SG = DEXP(CLN*(CGL - 2.0D0*HR(I)))*HS1(I)
+             SG = DEXP(CLN*(CGL - 2.0D0*HR(I)))*HS1(I)
                WRITE(ISTOR,63,ADVANCE='no') SO(I),SG,SDEL(1,I),SDEL(2,I),
      *           SDEL(3,I),SVEL(I),GAM1(I),0.0,0.0,0.0,SBETA(I),SETA(I),
      *           (SEG(K,I),K=1,5),SESUM(I),SEG(6,I),SEG(7,I)
@@ -234,10 +234,10 @@ c     *           SBETA(I),SETA(I),(SEG(K,I),K=1,5),SESUM(I),SEG(6,I),SEG(7,I)
             ENDIF
 C write out additional rotation info if desired
             IF(LSTROT.AND.LROT)THEN
-	       FM = DEXP(CLN*HS(I))
-	       DUMA = CC13*OMEGA(I)**2/(CG*FM)*5.D0/(2.D0+ETA2(I))
-	       A = DUMA * R0(I)**3
-	       RPOLEQ = (1.0D0 - A)/(1.0D0 + 0.5D0*A)
+             FM = DEXP(CLN*HS(I))
+             DUMA = CC13*OMEGA(I)**2/(CG*FM)*5.D0/(2.D0+ETA2(I))
+             A = DUMA * R0(I)**3
+             RPOLEQ = (1.0D0 - A)/(1.0D0 + 0.5D0*A)
                VTOT = VES(I)+VGSF(I)+VSS(I)
                WRITE(ISTOR,64) A,RPOLEQ,FP(I),FT(I),HJM(I),HI(I),DEROT(I),
      *            VES(I),VGSF(I),VSS(I),VTOT
@@ -259,8 +259,8 @@ C     &     F9.5,F9.5,F9.5,F9.5,F9.5,F9.5,F9.5,E13.5,E13.5,E13.5)
 C now call wrtmod, with the goal of outputting the envelope and atmosphere, or
 C if required by LPULSE.
       IF(LSTATM.OR.LSTENV)THEN
-	 IF(LMILNE) CALL WRTMIL(HCOMP,HD,HL,HP,HR,HS1,M,MODEL)
-	 CALL WRTMOD(M,LSHELL,JXBEG,JXEND,JCORE,JENV,HCOMP,HS1,HD,HL,
+       IF(LMILNE) CALL WRTMIL(HCOMP,HD,HL,HP,HR,HS1,M,MODEL)
+       CALL WRTMOD(M,LSHELL,JXBEG,JXEND,JCORE,JENV,HCOMP,HS1,HD,HL,
      *   HP,HR,HT,LC,MODEL,BL,TEFFL,OMEGA,FP,FT,ETA2,R0,HJM,HI,HS,
      *   DAGE)
       ENDIF

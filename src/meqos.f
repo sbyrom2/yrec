@@ -12,27 +12,27 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
      1 BETA14,FXION,RMU,AMU,EMU,ETA,QDT,QDP,QCP,DELA,
      2 QDTT,QDPT,QAT,QAP,QCPT,QCPP,LDERIV,LATMO,KSAHA)
 
-C     LATMO,KSAHA NEEDED FOR EQSAHA                              
-      IMPLICIT REAL*8 (A-H,O-Z)                                                
-      IMPLICIT LOGICAL*4(L)                                                    
- 
+C     LATMO,KSAHA NEEDED FOR EQSAHA
+      IMPLICIT REAL*8 (A-H,O-Z)
+      IMPLICIT LOGICAL*4(L)
+
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
-      PARAMETER ( IVARX = 25 )                                                 
+      PARAMETER ( IVARX = 25 )
       PARAMETER (CNVS = 0.434294481D0 )
       PARAMETER (ZERO = 0.0D0)
-      DIMENSION ATOMWT(4),FXION(3)                                       
+      DIMENSION ATOMWT(4),FXION(3)
       COMMON/COMP/XENV,ZENV,ZENVM,AMUENV,FXENV(12),XNEW,ZNEW,STOTAL,
-     *     SENV        
+     *     SENV
       COMMON/CTLIM/ATIME(14),TCUT(5),TSCUT,TENV0,TENV1,TENV,TGCUT
       COMMON/CONST1/ CLN,CLNI,C4PI,C4PIL,C4PI3L,CC13,CC23,CPI
-      COMMON/CONST2/CGAS,CA3,CA3L,CSIG,CSIGL,CGL,CMKH,CMKHN                    
+      COMMON/CONST2/CGAS,CA3,CA3L,CSIG,CSIGL,CGL,CMKH,CMKHN
       COMMON/CCOUT2/LDEBUG,LCORR,LMILNE,LTRACK,LSTPCH
-      COMMON/MHDOUT/VARMHD(IVARX)                                              
-      DATA NZP1/12/                                                            
-      DATA ATOMWT/0.9921D0,0.24975D0,0.08322D0,0.4995D0/                       
+      COMMON/MHDOUT/VARMHD(IVARX)
+      DATA NZP1/12/
+      DATA ATOMWT/0.9921D0,0.24975D0,0.08322D0,0.4995D0/
       SAVE
 
-      IER     = 0                     
+      IER     = 0
       T=10.0D0**T10
       P=10.0D0**P10
       CALL MHDPX(P10,T10,XC,R10)
@@ -63,13 +63,13 @@ C     LATMO,KSAHA NEEDED FOR EQSAHA
       IF(ABS((RMU-RMU2)/RMU).GT.5.0D-7)THEN
           WRITE(IOWR,*)' ERROR(MHD) IN MEAN WEIGHTS ... '
           WRITE(IOWR,*)RMU,RMU2
-	  WRITE(IOWR,*) 'ERROR (MHD): CHECK MU'
+        WRITE(IOWR,*) 'ERROR (MHD): CHECK MU'
           WRITE(ISHORT,*)' ERROR(MHD): IN MEAN WEIGHTS ... '
           WRITE(ISHORT,*)RMU,RMU2
-	  WRITE(ISHORT,*) 'ERROR (MHD): CHECK MU'
+        WRITE(ISHORT,*) 'ERROR (MHD): CHECK MU'
           STOP
       ENDIF
-      RETURN  
+      RETURN
   999 CONTINUE
       WRITE(ISHORT,*) 'ERROR(MHD):... MHD TABLE FAIL'
       STOP

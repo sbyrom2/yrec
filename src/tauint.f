@@ -5,33 +5,33 @@ C$$$$$$
       IMPLICIT LOGICAL*4(L)
       COMMON/COMP/XENV,ZENV,ZENVM,AMUENV,FXENV(12),XNEW,ZNEW,STOTAL,
      *     SENV
-	COMMON/DEUTER/DRATE(JSON),DRATE0(JSON),FMASSACC,JCZ
+      COMMON/DEUTER/DRATE(JSON),DRATE0(JSON),FMASSACC,JCZ
       COMMON/ROT/WNEW,WALPCZ,ACFPFT,ITFP1,ITFP2,LROT,LINSTB,LWNEW
       COMMON/CONST2/CGAS,CA3,CA3L,CSIG,CSIGL,CGL,CMKH,CMKHN
       COMMON/CONST/CLSUN,CLSUNL,CLNSUN,CMSUN,CMSUNL,CRSUN,CRSUNL,CMBOL
       COMMON/CONST1/ CLN,CLNI,C4PI,C4PIL,C4PI3L,CC13,CC23,CPI
-	COMMON/JTEST/ IMAX1, IMAX2, LJVS
+      COMMON/JTEST/ IMAX1, IMAX2, LJVS
 C Needs access to this common block: grants knowledge of envellope
-	COMMON/ENVSTRUCT/ENVP(JSON),ENVT(JSON),ENVS(JSON),ENVD(JSON),
+      COMMON/ENVSTRUCT/ENVP(JSON),ENVT(JSON),ENVS(JSON),ENVD(JSON),
      *                 ENVR(JSON),ENVX(JSON),ENVZ(JSON),LCENV(JSON),
      *                 EDELS(3,JSON),EVELS(JSON),EBETAS(JSON),NUMENV
 C G Somers 3/17, ADDING NEW TAUCZ COMMON BLOCK
       COMMON/OVRTRN/LNEWTCZ,LCALCENV,TAUCZ,TAUCZ0,PPHOT,PPHOT0,FRACSTEP
       DIMENSION HCOMP(15,JSON),HS2(JSON),LCZ(JSON),
      *     XSUM(15), HR(JSON), HP(JSON), HD(JSON), HG(JSON), HS1(JSON),
-     *     DEL1(JSON), DEL2(JSON), SVEL(JSON)  
+     *     DEL1(JSON), DEL2(JSON), SVEL(JSON)
       SAVE
 
 
-C JVS 02/12 CALCULATE THE LOCAL CONVECTIVE OVERTURN TIMESCALE AT THE BASE 
-C OF THE CZ. IN OLDER VERSIONS THIS WAS ONLY DONE FOR ROTATING MODELS; 
+C JVS 02/12 CALCULATE THE LOCAL CONVECTIVE OVERTURN TIMESCALE AT THE BASE
+C OF THE CZ. IN OLDER VERSIONS THIS WAS ONLY DONE FOR ROTATING MODELS;
 C THIS MAKES IT SO TAUCZ IS CALCULATED FOR ALL MODELS.
 C THIS CODE SNAGGED FROM MIDMOD
 C  DETERMINE EXTENT OF SURFACE CONVECTION ZONE.
       LALLCZ = .FALSE.
-C JVS Allows the last point to be stable. 
+C JVS Allows the last point to be stable.
       IF(LCZ(M) .OR. LCZ(M-1))THEN
-C  SURFACE C.Z. EXISTS.  FIND LOWEST SHELL (IMAX), WHICH IS ALSO THE 
+C  SURFACE C.Z. EXISTS.  FIND LOWEST SHELL (IMAX), WHICH IS ALSO THE
 C  UPPERMOST ZONE CONSIDERED FOR STABILITY AGAINST ROTATIONALLY INDUCED MIXING.
          DO 71 I = M-1,1,-1
             IF(.NOT.LCZ(I)) GOTO 81
@@ -84,9 +84,9 @@ C FIND V
                   GOTO 85
                ENDIF
             END DO
-		! One pressure scale height overshoots edge of interior 
-		! calculation. Stitch on the envelope for more room
-		DO K = 2,NUMENV
+            ! One pressure scale height overshoots edge of interior
+            ! calculation. Stitch on the envelope for more room
+            DO K = 2,NUMENV
                IF(ENVR(K).GT.RTESTL .AND. EVELS(K) .GT. 0.0)THEN
                   FX = (RTESTL-HR(M))/(ENVR(K)-HR(M))
                   CVEL = SVEL(M)+FX*(EVELS(K)-SVEL(M))
@@ -143,15 +143,15 @@ C DEFINE TAUCZ
       ENDIF
 
 C--------------------------------------------------------------
-C			OPEN(UNIT=100,FILE='diagnostic.out',STATUS='OLD')			
-C			DO 1505 I=1,M
-C			IF (LCZ(I)) HOLD = 1.0 
-C			IF (.NOT.LCZ(I)) HOLD = 0.0 
-C					WRITE(100,1504), HS2(I), HS1(I), HR(I),HOLD, 
-C     *			DEL1(I), DEL2(I), SVEL(I), 
-C1505			CONTINUE
-C1504			FORMAT(1X,7E16.8)
-C			CLOSE(100)
+C                  OPEN(UNIT=100,FILE='diagnostic.out',STATUS='OLD')
+C                  DO 1505 I=1,M
+C                  IF (LCZ(I)) HOLD = 1.0
+C                  IF (.NOT.LCZ(I)) HOLD = 0.0
+C                              WRITE(100,1504), HS2(I), HS1(I), HR(I),HOLD,
+C     *                  DEL1(I), DEL2(I), SVEL(I),
+C1505                  CONTINUE
+C1504                  FORMAT(1X,7E16.8)
+C                  CLOSE(100)
 C----------------------------------------------------------------
 
 C END JVS

@@ -75,7 +75,7 @@ C            CALL INTRP2(QR,QG,GL)
             CALL KSPLINE(QG,PTAB,YG)
             CALL KSPLINT(QG,PTAB,YG,GL,Y0)
 C            PP(N) = ATMPL(J,NG-3)*QG(1)+ATMPL(J,NG-2)*QG(2)+
-C     *              ATMPL(J,NG-1)*QG(3)+ATMPL(J,NG)*QG(4)            
+C     *              ATMPL(J,NG-1)*QG(3)+ATMPL(J,NG)*QG(4)
             PP(N) = Y0
             KP(N) = NG-3
             GOTO 20
@@ -96,7 +96,7 @@ C code from using -999 to interpolate in some instances.
                PP(N) = Y0
 C               CALL INTRP2(QR,QG,GL)
 C               PP(N) = ATMPL(J,KK)*QG(1)+ATMPL(J,KK+1)*QG(2)+
-C     *                 ATMPL(J,KK+2)*QG(3)+ATMPL(J,KK+3)*QG(4)            
+C     *                 ATMPL(J,KK+2)*QG(3)+ATMPL(J,KK+3)*QG(4)
                KP(N) = KK
                GOTO 20
             ENDIF
@@ -112,7 +112,7 @@ C DESIRED LOG G BELOW 2ND TABLE ENTRY -USE FIRST 4 POINTS.
 C         CALL INTRP2(QR,QG,GL)
 C         II = IMIN(J)
 C         PP(N) = ATMPL(J,II)*QG(1)+ATMPL(J,II+1)*QG(2)+
-C     *           ATMPL(J,II+2)*QG(3)+ATMPL(J,II+3)*QG(4)            
+C     *           ATMPL(J,II+2)*QG(3)+ATMPL(J,II+3)*QG(4)
          KP(N) = IMIN(J)
    20 CONTINUE
 C INTERPOLATE IN TEMPERATURE TO FIND CORRECT LOG P.

@@ -15,7 +15,7 @@ C if far enough, output pulsation model
       CHARACTER*256 FLAST, FFIRST, FRUN, FSTAND, FFERMI,
      1    FDEBUG, FTRACK, FSHORT, FMILNE, FMODPT,
      2    FSTOR, FPMOD, FPENV, FPATM, FDYN,
-     3    FLLDAT, FSNU, FSCOMP, FKUR, 
+     3    FLLDAT, FSNU, FSCOMP, FKUR,
      4    FMHD1, FMHD2, FMHD3, FMHD4, FMHD5, FMHD6, FMHD7, FMHD8,
      5    FLAOL2, FOPAL2
 C MHP 10/02 added proper dimensions to last 2 variables
@@ -32,7 +32,7 @@ C MHP 10/02 added proper dimensions to last 2 variables
       COMMON/LUFNM/ FLAST, FFIRST, FRUN, FSTAND, FFERMI,
      1    FDEBUG, FTRACK, FSHORT, FMILNE, FMODPT,
      2    FSTOR, FPMOD, FPENV, FPATM, FDYN,
-     3    FLLDAT, FSNU, FSCOMP, FKUR, 
+     3    FLLDAT, FSNU, FSCOMP, FKUR,
      4    FMHD1, FMHD2, FMHD3, FMHD4, FMHD5, FMHD6, FMHD7, FMHD8
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
       SAVE
@@ -58,7 +58,7 @@ C MHP 10/02 added proper dimensions to last 2 variables
              WRITE(CTEMP,'(I2.2,''_'',I5.5)')NK, MODELN
              COUT = FPMOD(1:IOCCOL) // CTEMP(1:8)
           ENDIF
-          OPEN(IOPMOD,FILE=COUT,STATUS='NEW',FORM='FORMATTED') 
+          OPEN(IOPMOD,FILE=COUT,STATUS='NEW',FORM='FORMATTED')
           IOCCOL = INDEX(FPENV,' ')-1
           IF (MODELN.LT.10000)THEN
              WRITE(CTEMP,'(I2.2,''_'',I4.4)')NK, MODELN
@@ -67,7 +67,7 @@ C MHP 10/02 added proper dimensions to last 2 variables
              WRITE(CTEMP,'(I2.2,''_'',I5.5)')NK, MODELN
              COUT = FPENV(1:IOCCOL) // CTEMP(1:8)
           ENDIF
-          OPEN(IOPENV,FILE=COUT,STATUS='NEW',FORM='FORMATTED') 
+          OPEN(IOPENV,FILE=COUT,STATUS='NEW',FORM='FORMATTED')
           IOCCOL = INDEX(FPATM,' ')-1
           IF (MODELN.LT.10000)THEN
              WRITE(CTEMP,'(I2.2,''_'',I4.4)')NK, MODELN
@@ -76,7 +76,7 @@ C MHP 10/02 added proper dimensions to last 2 variables
              WRITE(CTEMP,'(I2.2,''_'',I5.5)')NK, MODELN
              COUT = FPATM(1:IOCCOL) // CTEMP(1:8)
           ENDIF
-          OPEN(IOPATM,FILE=COUT,STATUS='NEW',FORM='FORMATTED') 
+          OPEN(IOPATM,FILE=COUT,STATUS='NEW',FORM='FORMATTED')
        ELSE
           CLOSE(IOPMOD)
           CLOSE(IOPENV)

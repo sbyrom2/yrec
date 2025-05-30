@@ -60,7 +60,7 @@ C
       IF(R.LE.-998.0D0)THEN
          RETURN 1
       ENDIF
-      D=R 
+      D=R
       D10=DLOG10(D)
 
       CALL ESAC(X,ZTAB,T6,R,IORDER,IRAD,*999)
@@ -71,7 +71,7 @@ C
       ENDIF
       QDP=1.0D0/EOS(6)
       QDT= -EOS(7)/ EOS(6)
-     
+
       QCP=1.0D6*EOS(5)*EOS(8)/EOS(6)
       DELA=1.0D0/EOS(9)
 

@@ -38,11 +38,11 @@ C CALIBRATED SOLAR MODEL.  SET UP OUTPUT FLAGS AND EXIT
       ENDIF
 
 c Added code to use pre-determined partial derivatives    LLP  6/28/09
-      DLDX = -3.78D0		! empirical result:  -3.783    RMS error .070
-      DRDX = -0.89D0 		! empirical result:  -0.890    RMS error .048
-      DLDA = 0.0139D0		! empirical result:  +0.139    RMS error .0022
-      DRDA = -0.050D0		! empirical result:  -0.0504   RMS error .0059
-      GOTO 1234		! Bypass partial derivative code
+      DLDX = -3.78D0            ! empirical result:  -3.783    RMS error .070
+      DRDX = -0.89D0             ! empirical result:  -0.890    RMS error .048
+      DLDA = 0.0139D0            ! empirical result:  +0.139    RMS error .0022
+      DRDA = -0.050D0            ! empirical result:  -0.0504   RMS error .0059
+      GOTO 1234            ! Bypass partial derivative code
 c mhp 5/96 added change to compute solar calibration for 3 kind cards
       IF(N.EQ.3)THEN
 C     SET UP RUN TO DETERMINE DERIVATIVE OF L AND R WITH RESPECT TO X.
@@ -97,15 +97,15 @@ C     GET IMPROVED GUESSES FOR ALPHA AND X.
          XENV0A(N+3) = RESCAL(2,N+1)
          BLP = BL
          RLP = RL
-         WRITE(IOWR,*) "New X, Old X, Calc DX: ", 
+         WRITE(IOWR,*) "New X, Old X, Calc DX: ",
      *       RESCAL(2,N+1), RESCAL(2,1), DX
-         WRITE(IOWR,*) "New A, Old A, Calc DA: ", 
+         WRITE(IOWR,*) "New A, Old A, Calc DA: ",
      *       CMIXLA(N+1), CMIXLA(1), DA
          GOTO 9999
 c      ELSE
       endif   ! terrminate old partial derivative code
 
- 1234 Continue       
+ 1234 Continue
 C     USE DERIVATIVES OF L AND R WITH RESPECT TO X AND ALPHA TO
 C     GET IMPROVED GUESSES FOR ALPHA AND X.
          DA = ((BL*DRDX/DLDX-RL)/(DRDA-DLDA*DRDX/DLDX))
@@ -124,16 +124,16 @@ C     GET IMPROVED GUESSES FOR ALPHA AND X.
          XENV0A(N+1) = RESCAL(2,N+1)
          XENV0A(N+2) = RESCAL(2,N+1)
          XENV0A(N+3) = RESCAL(2,N+1)
-         WRITE(IOWR,*) "New BL, Old BL, Delta BL: ", 
+         WRITE(IOWR,*) "New BL, Old BL, Delta BL: ",
      *       BL, BLP, BL-BLP
-         WRITE(IOWR,*) "New RL, Old RL, Delta RL: ", 
+         WRITE(IOWR,*) "New RL, Old RL, Delta RL: ",
      *       RL, RLP, RL-RLP
-         WRITE(IOWR,*) "New X, Old X, DX: ", 
+         WRITE(IOWR,*) "New X, Old X, DX: ",
      *       RESCAL(2,N+1), RESCAL(2,N-2), DX
-         WRITE(IOWR,*) "New A, Old A, DA: ", 
+         WRITE(IOWR,*) "New A, Old A, DA: ",
      *       CMIXLA(N+1), CMIXLA(N-2), DA
          IF(LCALSOLZX)THEN
-            WRITE(IOWR,*) "New Z, Old Z, DZ: ", 
+            WRITE(IOWR,*) "New Z, Old Z, DZ: ",
      *       RESCAL(3,N+1), RESCAL(3,N-2), DZ
          ENDIF
          BLP = BL

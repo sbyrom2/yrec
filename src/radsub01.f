@@ -1,22 +1,22 @@
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 C
 C     RADSUB01
-C 
+C
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-      
+
       subroutine radsub01 (t6,density,moles,tmass)
-      
+
       parameter (mx=5,mv=10,nr=169,nt=191)
       IMPLICIT REAL*8 (A-H,O-Z)
       real*8 moles,k,molenak,Na
       common/eeos/esact,eos(mv)
       common/beos/ zz(mx),iri(10),index(10),nta(nr)
 
-      data Na/6.0221367e+23/, k/1.380658e-16/, unitf/0.9648530/, 
+      data Na/6.0221367e+23/, k/1.380658e-16/, unitf/0.9648530/,
      x unitfold/0.965296/, c/2.9979245e+10/, sigma/5.67051e-5/
      x , sigmac/1.8914785e-15/, sigmacc/1.8914785e-3/, aprop/83.14510/
       SAVE
-      
+
 cPhysical constants
 c       Na=6.0221367e+23
 c       k =1.380658e-16 !   erg/degree K
@@ -37,7 +37,7 @@ c     rat=rat*1.e+24  !   Convert degrees K to units 10**6 K (T replaced with T6
       rat=sigmacc
 
       molenak=moles*aprop  ! Mb-cc/unit T6
-      pr=4D0/3D0*rat*t6**4   ! Mb 
+      pr=4D0/3D0*rat*t6**4   ! Mb
       er=3D0*pr/density   ! Mb-cc/gm
       sr=4D0/3D0*er/t6   ! Mb-cc/(gm-unit T6)
 
