@@ -26,7 +26,8 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
       DATA STOLEE/1.0D-09/
       SAVE
 
- 1    FXHE = FX(12)
+C  1    FXHE = FX(12)
+      FXHE = FX(12)
       EMAX = 1.0D0 + FXHE
       TI = 1.0D0/T
 C BEGIN SAHA ROUTINE

@@ -86,7 +86,8 @@ C     CONTROL WHEN Z DOES NOT LIE ON A MESH POINT
       IF(IL.EQ.1) GO TO 20
 C     CUBIC INTERPOLATION/EXTRAPOLATION
 C     PIVOTAL POINT (M) AND POINT (K) CLOSEST TO Z
-   10 M=N
+C    10 M=N
+      M=N
       K=3
       IF(N.GT.1+IR) GO TO 11
       M=1+IR+IR
@@ -103,17 +104,21 @@ C     WEIGHTING FACTORS
       Z2=Z-Y2
       Z3=Z-Y3
       Z4=Z-Y4
-   13 Z12=Z1*Z2
+C    13 Z12=Z1*Z2
+      Z12=Z1*Z2
       Z34=Z3*Z4
-   14 A(1)=Z2*Z34/((Y1-Y2)*(Y1-Y3)*(Y1-Y4))
+C    14 A(1)=Z2*Z34/((Y1-Y2)*(Y1-Y3)*(Y1-Y4))
+      A(1)=Z2*Z34/((Y1-Y2)*(Y1-Y3)*(Y1-Y4))
       A(2)=Z1*Z34/((Y2-Y1)*(Y2-Y3)*(Y2-Y4))
       A(3)=Z12*Z4/((Y3-Y1)*(Y3-Y2)*(Y3-Y4))
       A(4)=Z12*Z3/((Y4-Y1)*(Y4-Y2)*(Y4-Y3))
 C     CORRECT A(K)
-   15 DIFF=A(1)+A(2)+A(3)+A(4)
+C    15 DIFF=A(1)+A(2)+A(3)+A(4)
+      DIFF=A(1)+A(2)+A(3)+A(4)
       A(K)=(1.D0+A(K))-DIFF
 C     COMPUTE Y
-   16 M=(M-1)/IR-3
+C    16 M=(M-1)/IR-3
+      M=(M-1)/IR-3
       M=M*IRD
       DO 18 I=1,IIR
          K=I+M
@@ -147,9 +152,9 @@ C     DIAGNOSTICS
       RETURN
   102 CONTINUE
       RETURN
- 1001 FORMAT(/1X,10('*'),5X,'THERE ARE FEWER THAN TWO DATA POINTS IN',
-     *      ' LIR     NT =',I4,5X,10('*')/)
- 1002 FORMAT(/1X,10('*'),5X,'EXTREME VALUES OF INDEPENDENT VARIABLE',
-     *      ' EQUAL IN LIR',5X,10('*')/16X,'ZI(1) =',1PE13.5,',   ',
-     *       'ZI(',I4,') =',1PE13.5/)
+C  1001 FORMAT(/1X,10('*'),5X,'THERE ARE FEWER THAN TWO DATA POINTS IN',
+C      *      ' LIR     NT =',I4,5X,10('*')/)
+C  1002 FORMAT(/1X,10('*'),5X,'EXTREME VALUES OF INDEPENDENT VARIABLE',
+C      *      ' EQUAL IN LIR',5X,10('*')/16X,'ZI(1) =',1PE13.5,',   ',
+C      *       'ZI(',I4,') =',1PE13.5/)
       END

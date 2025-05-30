@@ -373,7 +373,7 @@ C Output acoustic depth info to ISHORT
 67       FORMAT(1X,'Acoustic depth to CZ:',F14.8,2X,'Acoustic depth to center',
      *F13.7,2X,'Normalized taucz:',F11.9, 'Acoustic depth of atmopshere:',F16.8,2X)
 
-555            CONTINUE
+C 555            CONTINUE
 C--------------------------------------------------------------
 C Save all vectors of interest when the end of a kind card is reached.
       IF(LCLCD)THEN
@@ -427,7 +427,7 @@ c444      CONTINUE
 
 
 
-50      CONTINUE
+C 50      CONTINUE
       RETURN
 
       END

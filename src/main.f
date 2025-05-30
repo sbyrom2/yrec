@@ -774,7 +774,7 @@ C (to be implemented when I know the rest of it works!)
      *           LMIX,LOCOND,QDT,QDP,MODEL,FP,FT,ETA2,OMEGA,R0,ITDONE,
      *           HG,HI,HJM,ITLVL,LCZ,MRZONE,MXZONE,NRZONE,NZONE,
      *           QIW,HKEROT,HKEROTO)
- 25         CONTINUE
+C  25         CONTINUE
             IF(.NOT.LFINI) THEN
 C MODEL FAILED TO CONVERGE WITHIN(NITER1+NITER2+NITER3+NITER4)ITERATIONS
                LARGE = .TRUE.

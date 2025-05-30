@@ -203,8 +203,8 @@ C CHECK IF THE SOLUTION HAS CONVERGED.
    30          CONTINUE
                IF(LDONE)THEN
 C                 WRITE(ISHORT,912)I,J,(YEXT(K2)K2=1,3)
-  912             FORMAT(1X,'CONVERGED',I5,' LEVEL ',I2,' LI6 ',1P,
-     *            E12.5,' LI7 ',E12.5,' BE9 ',E12.5)
+C   912             FORMAT(1X,'CONVERGED',I5,' LEVEL ',I2,' LI6 ',1P,
+C      *            E12.5,' LI7 ',E12.5,' BE9 ',E12.5)
                   GOTO 45
                ENDIF
             ENDIF
@@ -239,7 +239,7 @@ C FIND RATES AT THE BEGINNING OF THE TIMESTEP (USING THE DEPTH AT THE START).
          FBE90 = FBE90+HCOMP(15,I)*HS2(I)
          FM0 = FM0 + HS2(I)
    65 CONTINUE
-   67 CONTINUE
+C    67 CONTINUE
       FLI60 = FLI60/FM0
       FLI70 = FLI70/FM0
       FBE90 = FBE90/FM0
@@ -291,7 +291,7 @@ C FM IS THE TOTAL MASS IN THE CZ.
          FBE9 = FBE9+HCOMP(15,I)*HS2(I)
          FM = FM + HS2(I)
    70 CONTINUE
-   75 CONTINUE
+C    75 CONTINUE
       FLI6 = FLI6/FM
       FLI7 = FLI7/FM
       FBE9 = FBE9/FM

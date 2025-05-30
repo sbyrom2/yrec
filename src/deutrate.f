@@ -42,7 +42,7 @@ C NO SHORTER THAN THE CONVECTIVE OVERTURN TIMESCALE.
          IF(I.EQ.JCZ)THEN
 C JVS 0712 Commented out write command
 c            WRITE(*,911)RDEUT2,RDEUTMAX,TAUCZ
- 911        FORMAT(1P3E15.8)
+C  911        FORMAT(1P3E15.8)
          ENDIF
          IF(RDEUT2.GT.RDEUTMAX)THEN
 C JVS 0712 Commented out write command

@@ -66,9 +66,11 @@ C MIX ALL CONVECTIVE ZONES
          IF(MXZONE(J).LE.0) GO TO 110
          I1 = MXZONE(J)
          I2 = MIN0(M,MXZONE(J+1))
-  903    IF(I1.NE.1 .AND. I1.GE.I2) GOTO 100
+C   903    IF(I1.NE.1 .AND. I1.GE.I2) GOTO 100
+         IF(I1.NE.1 .AND. I1.GE.I2) GOTO 100
 C INITIALIZE SUMS
-  904    WTSUM = 0.0D0
+C   904    WTSUM = 0.0D0
+         WTSUM = 0.0D0
          DO 40 I = 1,IEND
             XSUM(I) = 0.0D0
    40    CONTINUE
