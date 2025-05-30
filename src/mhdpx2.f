@@ -59,68 +59,79 @@ C     ZAMS TABLES
          CALL INTPT (PL,TL,TDVR1A,NT1M,NR1M,IVARC,TLOG1,NT1,NR1,
      1               VVAR1,VVAR2,VY,VARO)
          DO 20 I=1,IVARC
-20       VAROUT(1,I) = VARO(I)
+            VAROUT(1,I) = VARO(I)
+20       CONTINUE
          XCOMP(1)    = ABFRCA(1)
       ELSE IF (ITBL.EQ. 1) THEN
          CALL INTPT (PL,TL,TDVR2A,NT2M,NR2M,IVARC,TLOG2,NT2,NR2,
      1               VVAR1,VVAR2,VY,VARO)
          DO 30 I=1,IVARC
-30       VAROUT(1,I) = VARO(I)
+            VAROUT(1,I) = VARO(I)
+30       CONTINUE
          XCOMP(1)    = ABFRCA(1)
       ELSE IF (ITBL.EQ.-2) THEN
          CALL INTPT (PL,TL,TDVR1B,NT1M,NR1M,IVARC,TLOG1,NT1,NR1,
      1               VVAR1,VVAR2,VY,VARO)
          DO 40 I=1,IVARC
-40       VAROUT(2,I) = VARO(I)
+            VAROUT(2,I) = VARO(I)
+40       CONTINUE
          XCOMP(2)    = ABFRCB(1)
       ELSE IF (ITBL.EQ. 2) THEN
          CALL INTPT (PL,TL,TDVR2B,NT2M,NR2M,IVARC,TLOG2,NT2,NR2,
      1               VVAR1,VVAR2,VY,VARO)
          DO 50 I=1,IVARC
-50       VAROUT(2,I) = VARO(I)
+            VAROUT(2,I) = VARO(I)
+50       CONTINUE
          XCOMP(2)    = ABFRCB(1)
       ELSE IF (ITBL.EQ.-3) THEN
          CALL INTPT (PL,TL,TDVR1C,NT1M,NR1M,IVARC,TLOG1,NT1,NR1,
      1               VVAR1,VVAR2,VY,VARO)
          DO 60 I=1,IVARC
-60       VAROUT(3,I) = VARO(I)
+            VAROUT(3,I) = VARO(I)
+60       CONTINUE
          XCOMP(3)    = ABFRCC(1)
       ELSE IF (ITBL.EQ. 3) THEN
          CALL INTPT (PL,TL,TDVR2C,NT2M,NR2M,IVARC,TLOG2,NT2,NR2,
      1               VVAR1,VVAR2,VY,VARO)
          DO 70 I=1,IVARC
-70       VAROUT(3,I) = VARO(I)
+            VAROUT(3,I) = VARO(I)
+70       CONTINUE
          XCOMP(3)    = ABFRCC(1)
 C     CENTER TABLES
       ELSE IF (ITBL.EQ. 4) THEN
          CALL INTPT (PL,TL,TDVRX1,NTXM,NRXM,IVARX,TLOGX,NTX,NRX,
      1               VVAR1,VVAR2,VY,VARO)
          DO 100 I=1,IVARX
-100      VAROUT(4,I) = VARO(I)
+            VAROUT(4,I) = VARO(I)
+100      CONTINUE
          XCOMP(4)    = ABFRC1(1)
       ELSE IF (ITBL.EQ. 5) THEN
          CALL INTPT (PL,TL,TDVRX2,NTXM,NRXM,IVARX,TLOGX,NTX,NRX,
      1               VVAR1,VVAR2,VY,VARO)
          DO 110 I=1,IVARX
-110      VAROUT(5,I) = VARO(I)
+            VAROUT(5,I) = VARO(I)
+110      CONTINUE
          XCOMP(5)    = ABFRC2(1)
       ELSE IF (ITBL.EQ. 6) THEN
          CALL INTPT (PL,TL,TDVRX3,NTXM,NRXM,IVARX,TLOGX,NTX,NRX,
      1               VVAR1,VVAR2,VY,VARO)
          DO 120 I=1,IVARX
-120      VAROUT(6,I) = VARO(I)
+            VAROUT(6,I) = VARO(I)
+120      CONTINUE
          XCOMP(6)    = ABFRC3(1)
       ELSE IF (ITBL.EQ. 7) THEN
          CALL INTPT (PL,TL,TDVRX4,NTXM,NRXM,IVARX,TLOGX,NTX,NRX,
      1               VVAR1,VVAR2,VY,VARO)
          DO 130 I=1,IVARX
-130      VAROUT(7,I) = VARO(I)
+            VAROUT(7,I) = VARO(I)
+130      CONTINUE
          XCOMP(7)    = ABFRC4(1)
       ELSE IF (ITBL.EQ. 8) THEN
          CALL INTPT (PL,TL,TDVRX5,NTXM,NRXM,IVARX,TLOGX,NTX,NRX,
      1               VVAR1,VVAR2,VY,VARO)
          DO 140 I=1,IVARX
-140      VAROUT(8,I) = VARO(I)
+            VAROUT(8,I) = VARO(I)
+140      CONTINUE
          XCOMP(8)    = ABFRC5(1)
       END IF
 C     END SELECTION OF TABLES

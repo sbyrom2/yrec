@@ -106,11 +106,13 @@ c..... read  tables
          t6a(i)=t6list(1,i)
       enddo
       do 12 i=2,nt
-   12 dfs(i)=1D0/(t6a(i)-t6a(i-1))
+         dfs(i)=1D0/(t6a(i)-t6a(i-1))
+   12 continue
       rho(1)=rhogr(1,1)
       do 13 i=2,nr
-      rho(i)=rhogr(1,i)
-   13 dfsr(i)=1D0/(rho(i)-rho(i-1))
+         rho(i)=rhogr(1,i)
+         dfsr(i)=1D0/(rho(i)-rho(i-1))
+   13 continue
       do i=2,mx
       dfsx(i)=1D0/(xx(i)-xx(i-1))
       enddo

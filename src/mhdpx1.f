@@ -92,7 +92,8 @@ C     INCREASE OR DECREASE.
             IF(X.LT.XC(7)) IXMIN=5
          END IF
          DO 200 I=1,4
- 200     IX(I)=IXMIN+I-1
+            IX(I)=IXMIN+I-1
+ 200     CONTINUE
          DO 250 I =1,4
          XX(I) = XC(IX(I))
          DO 250 IV=1,IVARX

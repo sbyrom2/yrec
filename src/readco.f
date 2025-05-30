@@ -92,13 +92,16 @@ C <<< YCK
           NTUSE=I
           GO TO 14
         ENDIF
-   11 T6A(I)=T6LIST(1,I)
+        T6A(I)=T6LIST(1,I)
+   11 CONTINUE
    14 DO 12 I=2,NT
-   12 DFS(I)=1.D0/(T6A(I)-T6A(I-1))
+         DFS(I)=1.D0/(T6A(I)-T6A(I-1))
+   12 CONTINUE
       RHO(1)=RHOGR(1,1)
       DO 13 I=2,NR
-      RHO(I)=RHOGR(1,I)
-   13 DFSR(I)=1.D0/(RHO(I)-RHO(I-1))
+         RHO(I)=RHOGR(1,I)
+         DFSR(I)=1.D0/(RHO(I)-RHO(I-1))
+   13 CONTINUE
       DO I=2,MX
       DFSX(I)=1.D0/(XX(I)-XX(I-1))
       ENDDO

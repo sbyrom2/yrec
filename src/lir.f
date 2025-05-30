@@ -58,8 +58,9 @@ C     DETERMINE POSITION OF Z WITHIN ZI
 C     SET Y WHEN Z LIES ON A MESH POINT
     6 J=(N-1)*ID
       DO 7 I=1,IIR
-      Y(I)=YI(I+J)
-    7 IF(Y(I).EQ.0.D0) Y(I+IR1)=0.D0
+         Y(I)=YI(I+J)
+         IF(Y(I).EQ.0.D0) Y(I+IR1)=0.D0
+    7 CONTINUE
       GO TO 30
 C     CONTROL WHEN Z DOES NOT LIE ON A MESH POINT
     8 INTER=0
@@ -97,14 +98,16 @@ C     COMPUTE Y
    16 M=(M-1)/IR-3
       M=M*IRD
       DO 18 I=1,IIR
-      K=I+M
-      YY=0.D0
-      DO 17 J=1,4
-      K=K+IRD
-      DIFF=YI(K)
-   17 YY=YY+A(J)*DIFF
-      Y(I)=YY
-   18 IF(Y(I).EQ.0.D0) Y(I+IR1)=0.D0
+         K=I+M
+         YY=0.D0
+         DO 17 J=1,4
+            K=K+IRD
+            DIFF=YI(K)
+            YY=YY+A(J)*DIFF
+   17    CONTINUE
+         Y(I)=YY
+         IF(Y(I).EQ.0.D0) Y(I+IR1)=0.D0
+   18 CONTINUE
       GO TO 30
 C     LINEAR INTERPOLATION/EXTRAPOLATION
    20 IF(N.EQ.1) N=1+IR
@@ -115,8 +118,9 @@ C     LINEAR INTERPOLATION/EXTRAPOLATION
       J=(N-1)*ID
       M=J-IRD
       DO 21 I=1,IIR,IR
-      Y(I)=Y1*YI(I+M)+Y2*YI(I+J)
-   21 IF(Y(I).EQ.0.D0) Y(I+IR1)=0.D0
+         Y(I)=Y1*YI(I+M)+Y2*YI(I+J)
+         IF(Y(I).EQ.0.D0) Y(I+IR1)=0.D0
+   21 CONTINUE
 C     RESET N
    30 N=(N+IR-1)/IR
       RETURN

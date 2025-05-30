@@ -22,7 +22,8 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
       ITMAX=NT-3
       IF(IT(1).GT.ITMAX) IT(1)=ITMAX
       DO 150 I=2,4
- 150  IT(I)=IT(1)+I-1
+         IT(I)=IT(1)+I-1
+ 150  CONTINUE
       DO 210 I=1,4
          IRM(I)=1
          INDT=IT(I)
@@ -62,12 +63,14 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
          INTER=1
          CALL LIR(PL,XX,Y,VAR1,II,ID,NP,L,INTER)
          DO 420 IV=1,IVAR
- 420     VAR2(IV,ILIR) = Y(IV)
+            VAR2(IV,ILIR) = Y(IV)
+ 420     CONTINUE
 
  500  CONTINUE
       DO 600 I=1,4
          INDT=IT(I)
- 600  XX(I) = TLOG(INDT)
+         XX(I) = TLOG(INDT)
+ 600  CONTINUE
 
       II=IVAR
       ID=IVAR

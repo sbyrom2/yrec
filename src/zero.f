@@ -10,6 +10,7 @@ C     SETS A(N)=0., N=1,NN
       save
 
       DO 1 N=1,NN
-    1 A(N)=0.D0
+         A(N)=0.D0
+    1 CONTINUE
       RETURN
       END
