@@ -18,7 +18,7 @@ C Needs access to this common block: grants knowledge of envellope
      *                 ENVR(JSON),ENVX(JSON),ENVZ(JSON),LCENV(JSON),
      *                 EDELS(3,JSON),EVELS(JSON),EBETAS(JSON),NUMENV
       DIMENSION HCOMP(15,JSON),HS2(JSON),LCZ(JSON),
-     *     XSUM(15), HR(JSON), HP(JSON), HD(JSON), HG(JSON), HS1(JSON),
+     *     HR(JSON), HP(JSON), HD(JSON), HG(JSON), HS1(JSON),  ! XSUM(15)
      *     DEL1(JSON), DEL2(JSON), SVEL(JSON)
 C G Somers; Adding vectors for cubic spline int.
       DIMENSION XDEL(4),XRAD(4),YRAD(4),YVEL(4),YPSC(4),YSPL(4)

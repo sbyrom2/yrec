@@ -31,7 +31,7 @@ c..declare the pass
 
 
 c..local variables
-      integer          i
+c       integer          i
       double precision spair,spairdt,spairdd,spairda,spairdz,
      1                 splas,splasdt,splasdd,splasda,splasdz,
      2                 sphot,sphotdt,sphotdd,sphotda,sphotdz,
@@ -41,12 +41,12 @@ c..local variables
 
       double precision t9,xl,xldt,xlp5,xl2,xl3,xl4,xl5,xl6,xl7,xl8,xl9,
      1                 xlmp5,xlm1,xlm2,xlm3,xlm4,xlnt,cc,den6,tfermi,
-     2                 a0,a1,a2,a3,b1,b2,b3,c00,c01,c02,c03,c04,c05,c06,
+     2                 a0,a1,a2,a3,b1,b2,c00,c01,c02,c03,c04,c05,c06,  ! b3
      3                 c10,c11,c12,c13,c14,c15,c16,c20,c21,c22,c23,c24,
      4                 c25,c26,dd00,dd01,dd02,dd03,dd04,dd05,dd11,dd12,
      5                 dd13,dd14,dd15,dd21,dd22,dd23,dd24,dd25,b,c,d,f0,
      6                 f1,deni,tempi,abari,zbari,f2,f3,z,xmue,ye,
-     7                 rp1,rn1,dum,dumdt,dumdd,dumda,dumdz,
+     7                 dum,dumdt,dumdd,dumda,dumdz,  ! rp1,rn1
      8                 gum,gumdt,gumdd,gumda,gumdz
 
 

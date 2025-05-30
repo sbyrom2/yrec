@@ -56,7 +56,7 @@ c
 c
       IMPLICIT REAL*8 (A-H,O-Z)
       real*8 moles
-      integer w
+c      integer w
       parameter (mx=5,mv=10,nr=169,nt=191)
 
 c***************************************************************************

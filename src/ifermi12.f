@@ -11,8 +11,8 @@ c..maximum error is 4.19d-9.   reference: antia apjs 84,101 1993
 
 c..declare
       integer          i,m1,k1,m2,k2
-      double precision f,an,a1(12),b1(12),a2(12),b2(12),rn,den,ff,
-     1                 z,drn
+      double precision f,an,a1(12),b1(12),a2(12),b2(12),rn,den,ff
+c     1                 z,drn
 
 
 

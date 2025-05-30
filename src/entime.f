@@ -18,7 +18,7 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
       COMMON/CENV/TRIDT,TRIDL,SENV0,LSENV0,LNEW0
 
       DIMENSION HL(JSON)
-      DIMENSION NHMAX(4),HMAX(4)
+      DIMENSION HMAX(4)  ! NHMAX(4)
       SAVE
 
 C  THIS SR LIMITS THE TIMESTEP BASED ON THE REQUIREMENT THAT THE CHANGES FROM
