@@ -95,9 +95,10 @@ C     INCREASE OR DECREASE.
             IX(I)=IXMIN+I-1
  200     CONTINUE
          DO 250 I =1,4
-         XX(I) = XC(IX(I))
-         DO 250 IV=1,IVARX
-         VARI1(IV,I) = VAROUT(IX(I),IV)
+            XX(I) = XC(IX(I))
+            DO 251 IV=1,IVARX
+               VARI1(IV,I) = VAROUT(IX(I),IV)
+ 251        CONTINUE
  250     CONTINUE
          II=IVARX
          ID=IVARX

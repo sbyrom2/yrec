@@ -24,9 +24,10 @@ C     CHECK LIMITS AND NUMBER OF DENSITIY POINTS OF TABLE
          STOP
       END IF
 C     END CHECK ....................................................
-      DO 10 J = 1, NR
+      DO 11 J = 1, NR
 C     READ(IR,1002) (TDVAR(N,J,IV),IV=1,IVAR)
       READ(IR     ) (TDVAR(N,J,IV),IV=1,IVAR)
+11    CONTINUE
 10    CONTINUE
       RETURN
 1001  FORMAT(I5,E16.8)

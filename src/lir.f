@@ -50,9 +50,27 @@ C     SET INDEX FOR START OF SEARCH
       IF(L.LE.1.OR.N.LT.1) N=1
 C     DETERMINE POSITION OF Z WITHIN ZI
     2 IF(N.GT.J) GO TO 8
-      IF(DIFF) 4,102,3
-    3 IF(ZI(N)-Z) 5,6,9
-    4 IF(ZI(N)-Z) 9,6,5
+      IF (DIFF .LT. 0.0) THEN
+         GOTO 4
+      ELSE IF (DIFF .EQ. 0.0) THEN
+         GOTO 102
+      ELSE
+         GOTO 3
+      END IF
+    3 IF (ZI(N) .LT. Z) THEN
+         GOTO 5
+      ELSE IF (ZI(N) .EQ. Z) THEN
+         GOTO 6
+      ELSE
+         GOTO 9
+      END IF
+    4 IF (ZI(N) .LT. Z) THEN
+         GOTO 9
+      ELSE IF (ZI(N) .EQ. Z) THEN
+         GOTO 6
+      ELSE
+         GOTO 5
+      END IF
     5 N=N+IR
       GO TO 2
 C     SET Y WHEN Z LIES ON A MESH POINT

@@ -41,8 +41,9 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
          IF(IRM(I).GT.IRMAX) IRM(I)=IRMAX
  210  CONTINUE
       DO 310 I=1,4
-         DO 310 J=1,4
+         DO 311 J=1,4
             IR(J,I)=IRM(I)+J-1
+ 311     CONTINUE
  310  CONTINUE
       DO 500 ILIR=1,4
          INDT=IT(ILIR)
@@ -52,8 +53,9 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
  400     CONTINUE
          DO 410 I=1,4
             INDR=IR(I,ILIR)
-            DO 410 IV=1,IVAR
+            DO 411 IV=1,IVAR
                VAR1(IV,I)=TDVAR(INDT,INDR,IV)
+ 411        CONTINUE
  410     CONTINUE
 
          II=IVAR
