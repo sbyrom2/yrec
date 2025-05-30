@@ -53,7 +53,7 @@ C DBG 7/95 To store variables for pulse output
      *HS1(JSON),HD(JSON),HL(JSON),HP(JSON),HR(JSON),HT(JSON),LC(JSON)
       DIMENSION OMEGA(JSON),FP(JSON),FT(JSON),ETA2(JSON),ID(JSON)
       DIMENSION R0(JSON),HJM(JSON),HI(JSON),HS(JSON)
-      DATA IHEADR/4H****/
+C      DATA IHEADR/4H****/
 
 C G Somers 10/14, Add spot common block, and store common block.
       COMMON/SPOTS/SPOTF,SPOTX,LSDEPTH

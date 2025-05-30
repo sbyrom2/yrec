@@ -1123,7 +1123,8 @@ C  IF THE VALUE FOR THIS SHELL IS NEGLIGIBLY SMALL, SET EQUAL TO ZERO.
          DO K = 1,10
             FLUX(K) = (1.0E-10)*FLUX(K)
             TEMP = FLUX(K)
-            IF(TEMP.LE.1.E-50) THEN
+C KC 2025-05-30 CHANGED 1.E-50 TO 0.0 TO AVOID UNDERFLOW
+            IF(TEMP.LE.0.0) THEN
               FLUX(K) = 0.0
             END IF
          END DO

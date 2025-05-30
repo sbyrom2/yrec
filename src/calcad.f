@@ -59,7 +59,7 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
      *	 STARZ(JSON),STARC(JSON),TNORM,TCZ,TAUCZN,STARCZ(JSON),STARRZ(JSON)	
 	REAL*8 ATMOSX, ATMOST(JSON),ATMOSD(JSON),ATMOSP(JSON),ADELAD(JSON),ATMOSC(JSON),
      *	 ATGAM1(JSON), ATMOSR(JSON),GM1(JSON)
-	INTEGER I, K, N, U, ICZ, NN, IENDJ, FLG, V, IATCNT, KTSAV
+	INTEGER I, K, P, U, ICZ, NN, IENDJ, FLG, V, IATCNT, KTSAV
 	INTEGER IDUMJ, KATMJ,KENVJ,KSAHAJ,IXXJ
 	DIMENSION RCZL(1), RCZ(1),HR(JSON), HD(JSON), HP(JSON), BJ(1),FPLJ(1),FTLJ(1),
      * FT(JSON),FP(JSON), HCOMP(15,JSON), HT(JSON), HL(JSON)
@@ -385,12 +385,12 @@ C Save all vectors of interest when the end of a kind card is reached.
 
 			DO 1505 I=1,M+NUMENV-1
 				IF (I .LE. K-ICZ+1) THEN
-				WRITE(UNIT=ICLCD,FMT=1504),DAGE, STARR(I), STARC(I),
+				WRITE(UNIT=ICLCD,FMT=1504) DAGE, STARR(I), STARC(I),
      *                     STARRZ(I), STARCZ(I), DELADJ(I), GM1(I), STARP(I),
      *			   START(I),STARD(I),STARX(I)
 
 				ELSE
-				WRITE(UNIT=ICLCD,FMT=1504),DAGE, STARR(I), STARC(I),
+				WRITE(UNIT=ICLCD,FMT=1504) DAGE, STARR(I), STARC(I),
      *                     0.0d0, 0.0d0, DELADJ(I), GM1(I), STARP(I),
      *			   START(I),STARD(I),STARX(I)
 			
