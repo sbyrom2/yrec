@@ -3,7 +3,7 @@ C
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 C SURFBC
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-      SUBROUTINE SURFBC(TRIT,TRIL,CFENV,PS,TS,RS,FTRI,ISTORE,ESTORE,
+      RECURSIVE SUBROUTINE SURFBC(TRIT,TRIL,CFENV,PS,TS,RS,FTRI,ISTORE,ESTORE,
      *       LNEW,LRESET,LSBC,KSAHA,KENV,KATM,HSTOT,BL,
      *       TEFFL,X,Z,FPL,FTL,LFLP,PLIM,LC,M)
 

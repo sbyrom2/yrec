@@ -4,7 +4,7 @@ C     T6RINTEOS01
 C
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
-      subroutine t6rinteos06(slr,slt)
+      recursive subroutine t6rinteos06(slr,slt)
 
 c     The purpose of this OPAL 2006 EOS subroutine is to interpolate in
 c     T6 and rho
