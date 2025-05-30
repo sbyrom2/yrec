@@ -16,7 +16,7 @@ C$$$$$$
 C Needs access to this common block: grants knowledge of envellope
       COMMON/ENVSTRUCT/ENVP(JSON),ENVT(JSON),ENVS(JSON),ENVD(JSON),
      *                 ENVR(JSON),ENVX(JSON),ENVZ(JSON),LCENV(JSON),
-     *                 NUMENV,EDELS(3,JSON),EVELS(JSON)
+     *                 EDELS(3,JSON),EVELS(JSON),EBETAS(JSON),NUMENV
       DIMENSION HCOMP(15,JSON),HS2(JSON),LCZ(JSON),
      *     XSUM(15), HR(JSON), HP(JSON), HD(JSON), HG(JSON), HS1(JSON),
      *     DEL1(JSON), DEL2(JSON), SVEL(JSON)  

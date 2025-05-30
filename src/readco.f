@@ -9,8 +9,8 @@ C YCK >>>  2/95 OPAL EOS
       LOGICAL*4 LOPALE,lopale01,lopale06,LNumDeriv
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
       CHARACTER*256 FOPALE,fopale01,fopale06
-      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
-     x     lopale06,LNumDeriv
+      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,fopale06,
+     *     lopale01,lopale06,lNumDeriv
 C <<< YCK
       REAL*8 MOLES
       CHARACTER*1 BLANK

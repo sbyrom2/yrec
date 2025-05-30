@@ -20,14 +20,14 @@ c..... The purpose of this subroutine is to read the data tables
       common/aeos/  xz(mx,mv,nt,nr),  
      . t6list(nr,nt),rho(nr),t6a(nt),esk(nt,nr),esk2(nt,nr),dfsx(mx)
      . ,dfs(nt),dfsr(nr),m,mf,xa(mx)
-      common/beos/ iri(10),index(10),nta(nr),zz(mx)
+      common/beos/ zz(mx),iri(10),index(10),nta(nr)
       common/eeos/esact,eos(mv)
       common/eeeos/ epl(mx,nt,nr),xx(mx)
-      common/eeeeos/moles(mx),xin(mx),tmass(mx),icycuse(mx,nr),
-     x    rhogr(mx,nr),frac(mx,6),alogr(nr,nt)
+      common/eeeeos/moles(mx),xin(mx),tmass(mx),
+     x    rhogr(mx,nr),frac(mx,6),alogr(nr,nt),icycuse(mx,nr)
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
-      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
-     x     lopale06,LNumDeriv
+      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,fopale06,
+     *     lopale01,lopale06,lNumDeriv
 C mhp 7/2003
       COMMON/RMPOPEOS01/RMX(NT),KRA(NT),KT
       DATA (KRA(I),I=1,NT)/16*169,168,167,166,165,2*164,163,2*162,

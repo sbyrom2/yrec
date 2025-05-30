@@ -96,7 +96,7 @@ C SET OF VECTORS, WHICH ARE FLIPPED AND CONVERTED INTO AN ASCENDING
 C SERIES AFTER THE INTEGRATION IS DONE.
       COMMON/ENVSTRUCT/ENVP(JSON),ENVT(JSON),ENVS(JSON),ENVD(JSON),
      *                 ENVR(JSON),ENVX(JSON),ENVZ(JSON),LCENV(JSON),
-     *                 NUMENV,EDELS(3,JSON),EVELS(JSON),EBETAS(JSON)
+     *                 EDELS(3,JSON),EVELS(JSON),EBETAS(JSON),NUMENV
 C LLP  3/19/03 Add COMMON block /I2O/ for info directly transferred from
 C      input to output model - starting with a code for th initial model 
 C      compostion (COMPMIX)

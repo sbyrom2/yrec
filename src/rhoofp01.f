@@ -13,7 +13,7 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
       common/aeos/  xz(mx,mv,nt,nr),  
      . t6list(nr,nt),rho(nr),t6a(nt),esk(nt,nr),esk2(nt,nr),dfsx(mx)
      . ,dfs(nt),dfsr(nr),m,mf,xa(mx)
-      common/beos/ iri(10),index(10),nta(nr),zz(mx)
+      common/beos/ zz(mx),iri(10),index(10),nta(nr)
       common/eeos/esact,eos(mv)
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
       

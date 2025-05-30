@@ -12,7 +12,7 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
       common/aeos06/  xz(mx,mv,nt,nr),  
      . t6list(nr,nt),rho(nr),t6a(nt),esk(nt,nr),esk2(nt,nr),dfsx(mx)
      . ,dfs(nt),dfsr(nr),m,mf,xa(mx)
-      common/beos06/ iri(10),index(10),nta(nr),zz(mx),nra(nt)
+      common/beos06/ zz(mx),iri(10),index(10),nta(nr),nra(nt)
       common/eeos06/esact,eos(mv)
       data sigmacc/1.8914785e-3/
 c--------------------------------------------------------------------

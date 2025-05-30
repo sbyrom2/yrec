@@ -10,7 +10,7 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
       IMPLICIT REAL*8 (A-H,O-Z)
       real*8 moles,k,molenak,Na
       common/eeos06/esact,eos(mv)
-      common/beos06/ iri(10),index(10),nta(nr),zz(mx),nra(nt)
+      common/beos06/ zz(mx),iri(10),index(10),nta(nr),nra(nt)
 
       data Na/6.0221367D+23/, k/1.380658D-16/, unitf/0.9648530D0/, 
      x unitfold/0.965296D0/, c/2.9979245D10/, sigma/5.67051D-5/

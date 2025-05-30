@@ -36,8 +36,8 @@ C LLP 2006 OPAL eos
 C LLP Add Use Numerical Derivatives flag, LNumDeriv   7/07
       LOGICAL*4 LOPALE, lopale01,lopale06,lNumDeriv
       CHARACTER*256 FOPALE,fopale01,fopale06
-      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
-     x     lopale06,lNumDeriv
+      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,fopale06,
+     *     lopale01,lopale06,lNumDeriv
 C MHP 3/94 ADDED METAL DIFFUSION
       COMMON/GRAVS3/FGRY,FGRZ,LTHOUL,LDIFZ
 C MHP  5/97 ADDED COMMON BLOCK FOR SCV EOS TABLES

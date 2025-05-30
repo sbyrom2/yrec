@@ -18,19 +18,19 @@ c..... The purpose of this subroutine is to read the OPAL 2006 EOS data tables
       common/aeos06/  xz(mx,mv,nt,nr),  
      . t6list(nr,nt),rho(nr),t6a(nt),esk(nt,nr),esk2(nt,nr),dfsx(mx)
      . ,dfs(nt),dfsr(nr),m,mf,xa(mx)
-      common/beos06/ iri(10),index(10),nta(nr),zz(mx),nra(nt)
+      common/beos06/ zz(mx),iri(10),index(10),nta(nr),nra(nt)
       common/eeos06/esact,eos(mv)
       common/eeeos06/ epl(mx,nt,nr),xx(mx)
 C Amu_M and alogNe were incorrectly dimensoned Amu_M(mx,nr) and alogNe(mx,nr).
 C the required dimensions are Amu_M(nr,nt) alogNe(nr,nt), which is much larger.
 C Something was being overwritten.         llp 8/19/08
 C     x    amu_M(mx,nr),alogNe(mx,nr),rhogr(mx,nr),frac(mx,6),
-      common/eeeeos06/moles(mx),xin(mx),tmass(mx),icycuse(mx,nr),
+      common/eeeeos06/moles(mx),xin(mx),tmass(mx),
      x    amu_M(nr,nt),alogNe(nr,nt),rhogr(mx,nr),frac(mx,6),
-     x    alogr(nr,nt)
+     x    alogr(nr,nt),icycuse(mx,nr)
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
-      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
-     x     lopale06,LNumDeriv
+      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,fopale06,
+     *     lopale01,lopale06,lNumDeriv
 
       save
       blank=' '
