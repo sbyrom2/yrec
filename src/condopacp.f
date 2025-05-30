@@ -50,9 +50,9 @@ c         print*,'Reading thermal conductivity data...'
       enddo
          close(IP)
          KRUN=12345
-         IZ=MAXZ/2+1
-         IT=MAXT/2+1
-         IR=MAXR/2+1
+         IZ=INT(MAXZ/2.)+1
+         IT=INT(MAXT/2.)+1
+         IR=INT(MAXR/2.)+1
 c         print*,'Potekhin Conductivity File read in.'
       endif
       ZLG=dlog10(Zion)
