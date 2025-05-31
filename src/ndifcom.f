@@ -1,6 +1,6 @@
 C $$$$$$
       SUBROUTINE NDIFCOM(DT,COD2,ECOD2,EM,HD,HL,HP,HR,HS,HS1,HS2,
-     *                   HSTOT,HV,IBEG,IEND,IMAX,IMIN,LCZ,LOK,M,NTOT,
+     *                   HSTOT,HV,IBEG,IEND,IMAX,IMIN,LCZ,LOK,M,  ! NTOT
      *                   HCOMP,JBEG,JEND)
       PARAMETER (JSON=5000)
       IMPLICIT REAL*8(A-H,O-Z)

@@ -4,7 +4,7 @@ C     ESAC06
 C
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
-      subroutine esac06 (xh,ztab,t6,r,iorder,irad,*)
+      subroutine esac06 (xh,t6,r,iorder,irad,*)  ! ztab
 
 c..... The purpose of this subroutine is to interpolate
 c      the equation of state and its derivatives in X, T6, density

@@ -71,8 +71,8 @@ C EXIT LOOP ONCE T DROPS BELOW NUCLEAR REACTION T CUTOFF
             IBEGIN = J
             IEND = J
             CALL KEMCOM(HT,IBEGIN,IEND,HR1,HR2,HR3,HR4,HR5,HR6,HR7,
-     *                   HR8,HR9,HR10,HR11,HR12,HR13,HF1,HS2,HCOMP,
-     *                   DDAGE,ITLVL)
+     *                   HR8,HR10,HR11,HR12,HF1,HS2,HCOMP,  ! HR9,HR13
+     *                   DDAGE)  ! ITLVL
    30    CONTINUE
    40 CONTINUE
    45 CONTINUE
@@ -84,8 +84,8 @@ C
          IBEGIN = MXZONE(K,1)
          IEND = MXZONE(K,2)
          CALL KEMCOM(HT,IBEGIN,IEND,HR1,HR2,HR3,HR4,HR5,HR6,HR7,
-     *                HR8,HR9,HR10,HR11,HR12,HR13,HF1,HS2,HCOMP,
-     *                DDAGE,ITLVL)
+     *                HR8,HR10,HR11,HR12,HF1,HS2,HCOMP,  ! HR9,HR13
+     *                DDAGE)  ! ITLVL
    50 CONTINUE
 C
 C MICROSCOPIC DIFFUSION OF HELIUM.

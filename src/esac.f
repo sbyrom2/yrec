@@ -1,7 +1,7 @@
 
 
 C*************************************************************************
-      SUBROUTINE ESAC (XH,ZTAB,T6,R,IORDER,IRAD,*)
+      SUBROUTINE ESAC (XH,T6,R,IORDER,IRAD,*)  ! ZTAB
 
       IMPLICIT REAL*8 (A-H,O-Z)
 

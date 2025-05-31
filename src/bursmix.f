@@ -69,10 +69,10 @@ C PERFORM NUCLEAR BURNING
      *               NRZONE,NZONE,HSTOT,HD,HS,HR,HP,LCZ,HS1)
 C PERFORM MIXING
             CALL NDIFCOM(DT,COD2,ECOD2,EM,HD,HL,HP,HR,HS,HS1,HS2,
-     *                   HSTOT,HV,IBEG,IEND,IMAX,IMIN,LCZ,LOK,M,NTOT,
+     *                   HSTOT,HV,IBEG,IEND,IMAX,IMIN,LCZ,LOK,M,  ! NTOT
      *                   HCOMP,JBEG,JEND)
             IF(LEXCOM)THEN
-               CALL LIBURN2(DT,HCOMP,HD,HR,HS1,HS2,HT,JENV1,JENV0,M)
+               CALL LIBURN2(DT,HCOMP,HR,HS1,HS2,HT,JENV1,JENV0,M)  ! HD
             ENDIF
             DO I = 1,M
                DO J = 1,NSPEC

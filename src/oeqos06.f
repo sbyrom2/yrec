@@ -74,7 +74,7 @@ c     NOTE: irad=0 does not add radiation; irad=1 adds radiation
       D=R
       D10=DLOG10(D)
 
-      CALL ESAC06(X,ZTAB,T6,R,IORDER,IRAD,*999)
+      CALL ESAC06(X,T6,R,IORDER,IRAD,*999)  ! ZTAB
 
 c      IF(ABS((P12-EOS(1))/P12).GT.0.5D-6)THEN
 c         WRITE(ISHORT,*)'***** RUN TERMINATED --ERROR IN OEQOS06 PTOT'

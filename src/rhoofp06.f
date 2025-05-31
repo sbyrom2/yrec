@@ -28,7 +28,7 @@ c--------------------------------------------------------------------
       T6DBG = 1.0D0
       RDBG = 0.001D0
       IDBG = 1
-      CALL ESAC06 (XDBG,ZTAB,T6DBG,RDBG,IDBG,IRAD,*999)
+      CALL ESAC06 (XDBG,T6DBG,RDBG,IDBG,IRAD,*999)  ! ZTAB
       endif
 
         ilo=2
@@ -72,20 +72,20 @@ c      write (ISHORT,'("pnr, pmax,pmin=",3e14.4)') pnr,pmax,pmin
       endif
 
       rhog1=rho(nra(klo))*pnr/pmax
-      call esac06 (x,ztab,t6,rhog1,1,0,*999)
+      call esac06 (x,t6,rhog1,1,0,*999)  ! ztab
       p1=eos(1)
         if(p1 .gt. pnr) then
           p2=p1
           rhog2=rhog1
           rhog1=0.2D0*rhog1
           if(rhog1 .lt. 1.D-14) rhog1=1.D-14
-          call esac06 (x,ztab,t6,rhog1,1,0,*999)
+          call esac06 (x,t6,rhog1,1,0,*999)  ! ztab
           p1=eos(1)
         else
           rhog2=5D0*rhog1
 C          if(rhog2 .gt. rho(klo)) rhog2=rho(klo)  ! Corrected below   llp  8/19/08
           if(rhog2 .gt. rho(nra(klo))) rhog2=rho(nra(klo)) ! Had wrong pointer, see rhog1= ten lines up
-          call esac06 (x,ztab,t6,rhog2,1,0,*999)
+          call esac06 (x,t6,rhog2,1,0,*999)  ! ztab
           p2=eos(1)
         endif
 
@@ -93,7 +93,7 @@ C          if(rhog2 .gt. rho(klo)) rhog2=rho(klo)  ! Corrected below   llp  8/19
     1 continue
       icount=icount+1
       rhog3=rhog1+(rhog2-rhog1)*(pnr-p1)/(p2-p1)
-      call esac06 (x,ztab,t6,rhog3,1,0,*999)
+      call esac06 (x,t6,rhog3,1,0,*999)  ! ztab
       p3=eos(1)
 C      if (abs((p3-pnr)/pnr) .lt. 1.D-5) then
       IF (DABS((P3-PNR)/PNR) .LT. 0.5D-7) THEN

@@ -197,7 +197,7 @@ C For OPAL 2006 EOS:
                   STX=STARX(I)
                   STT=START(I)
                   STD=STARD(I)
-                  CALL ESAC06(STX,ZTAB,STT,STD,IORDER,IRAD,*999)
+                  CALL ESAC06(STX,STT,STD,IORDER,IRAD,*999)  ! ZTAB
 999                  CONTINUE
                   STARC(I)=1.0D0/SQRT(eos(8)*STARP(I)/STARD(I))
                   DELADJ(I)=1.0D0/eos(9)

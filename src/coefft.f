@@ -139,7 +139,7 @@ C YC   IF LMHD USE MHD EQUATION OF STATE.
          IF(LMHD)THEN
             CALL MEQOS(TL,T,PL,P,DL,D,X,Z,BETA,BETAI,BETA14,FXION,RMU,
      *           AMU,EMU,ETA,QDT,QDP,QCP,DELA,QDTT,QDTP,QAT,QAP,QCPT,
-     *           QCPP,LDERIV,LATMO,KSAHA)
+     *           QCPP)  ! LDERIV,LATMO,KSAHA
          ELSE
             IF (LDH) THEN
                XXDH = HCOMP(1,IM)

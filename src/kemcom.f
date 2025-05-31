@@ -2,7 +2,7 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 C KEMCOM
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
       SUBROUTINE KEMCOM(HT,IBEGIN,IEND,HR1,HR2,HR3,HR4,HR5,HR6,HR7,HR8,
-     *HR9,HR10,HR11,HR12,HR13,HF1,HS2,HCOMP,DDAGE,ITLVL)
+     *HR10,HR11,HR12,HF1,HS2,HCOMP,DDAGE)  ! HR9,HR13,ITLVL
 
       PARAMETER(JSON=5000)
       IMPLICIT REAL*8 (A-H,O-Z)
@@ -14,8 +14,8 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
      *     HCOMPP(15,JSON),HSS(JSON),LCO(JSON),LCZO(JSON),TEFFLO,MO
       DIMENSION A(56),B(7),W(7),XSUM(11)
       DIMENSION HT(JSON),HR1(JSON),HR2(JSON),HR3(JSON),HR4(JSON),
-     *HR5(JSON),HR6(JSON),HR7(JSON),HR8(JSON),HR9(JSON),HR10(JSON),
-     *HR11(JSON),HR12(JSON),HR13(JSON),HF1(JSON),HCOMP(15,JSON),
+     *HR5(JSON),HR6(JSON),HR7(JSON),HR8(JSON),HR10(JSON),  ! HR9(JSON)
+     *HR11(JSON),HR12(JSON),HF1(JSON),HCOMP(15,JSON),  ! HR13(JSON)
      * HS2(JSON)
       EQUIVALENCE (A(50),B(1))
       SAVE
