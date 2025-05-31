@@ -56,7 +56,7 @@ C
       IRAD=1
       IORDER=10
 
-      R=RHOOFP(X,ZTAB,T6,P12,IRAD)
+      R=RHOOFP(X,T6,P12,IRAD)  ! ZTAB
       IF(R.LE.-998.0D0)THEN
          RETURN 1
       ENDIF

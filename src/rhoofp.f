@@ -1,5 +1,5 @@
 C********************************************************************
-      REAL*8 FUNCTION RHOOFP(X,ZTAB,T6,P,IRAD)
+      REAL*8 FUNCTION RHOOFP(X,T6,P,IRAD)  ! ZTAB
       IMPLICIT REAL*8 (A-H,O-Z)
       PARAMETER (MX=5,MV=10,NR=77,NT=56)
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR

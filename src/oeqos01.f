@@ -67,7 +67,7 @@ c     NOTE: irad=0 does not add radiation; irad=1 adds radiation
       X=XC
       ZTAB=Z
 
-      R=RHOOFP01(X,ZTAB,T6,P12,IRAD)
+      R=RHOOFP01(X,T6,P12,IRAD)  ! ZTAB
       IF(R.LE.-998.0D0)THEN
          RETURN 1
       ENDIF

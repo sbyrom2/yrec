@@ -4,7 +4,7 @@ C     RHOOFP01
 C
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
-      function rhoofp01(x,ztab,t6,p,irad)
+      function rhoofp01(x,t6,p,irad)  ! ztab
 
       parameter (mx=5,mv=10,nr=169,nt=191)
       IMPLICIT REAL*8 (A-H,O-Z)

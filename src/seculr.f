@@ -1,10 +1,10 @@
 C $$$$$$
-      SUBROUTINE SECULR(DELTS,DT,HD,HG,HI,HL,HP,HR,HS,HS1,HS2,HT,
-     *                  HJMSAV,LCZ,LC,M,MODEL,OMEGA,
-     *                  HJM,ETA2,QIW,R0,HCOMP,LFIRST,IMIN,IMAX,
+      SUBROUTINE SECULR(DT,HD,HG,HI,HL,HP,HR,HS,HS1,HS2,HT,  ! DELTS
+     *                  HJMSAV,LCZ,M,OMEGA,  ! LC,MODEL
+     *                  HJM,ETA2,QIW,R0,HCOMP,IMIN,IMAX,  ! LFIRST
      *                  BL,HSTOT,SJTOT,SMASS,TEFFL,LREDO,IREDO,
      *                  HICZ,HSBOT,HSTOP,OMEGAS,LCZSUR,
-     *                  MRZONE,MXZONE,NRZONE,NZONE,
+C      *                  MRZONE,MXZONE,NRZONE,NZONE,
      *                  COD2,HV,LOK)
 C MHP 6/00 ADDED MRZONE,MXZONE,NRZONE,NZONE FOR BS MIX PLUS BURN
       PARAMETER(JSON=5000)
