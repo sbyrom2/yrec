@@ -45,8 +45,10 @@ C        LJWRT = ouput on/off toggle
 C        LADON = toggle on calcad imposed 4d interpolation in opacity
 C
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+C       SUBROUTINE CALCAD(HR, RCZL, M, HD, HP, HT, BL, FP, FT, HSTOT,
+C      *                  LPRT, TEFFL, HCOMP, NKK, DAGE, DDAGE, JENV)
       SUBROUTINE CALCAD(HR, RCZL, M, HD, HP, HT, BL, FP, FT, HSTOT,
-     *                  LPRT, TEFFL, HCOMP, NKK, DAGE, DDAGE, JENV)
+     *                  TEFFL, HCOMP, DAGE, JENV)
       PARAMETER (JSON=5000)
       PARAMETER (NTS=63, NPS=76)
       IMPLICIT REAL*8(A-H,O-Z)

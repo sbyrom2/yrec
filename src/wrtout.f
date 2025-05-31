@@ -659,7 +659,8 @@ C acoustic depth, depth to CZ and acoustic crossing time, respectively.
         IF (LACOUT) THEN
             IF(JENV.GT.1 .AND. LADON) THEN
                   CALL CALCAD(HR, ENVRL, M, HD, HP,HT,BL, FP, FT, HSTOT,
-     *            LPRT, TEFFL, HCOMP, NKK, DAGE, DDAGE, JENV)
+     *            TEFFL, HCOMP, DAGE, JENV)
+C      *            LPRT, TEFFL, HCOMP, NKK, DAGE, DDAGE, JENV)
             ELSE IF (JENV.EQ.1) THEN
                   TAUCZN=0.0D0
             ENDIF

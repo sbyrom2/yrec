@@ -274,7 +274,7 @@ C 1995 OPAL eqos
          CALL OEQOS(TL,T,PL,P,D10o,Doo,X,Z,BETAo,BETAIo,
      1   BETA14o,RMUo,AMUo,EMUo,QDTo,QDPo,QCPo,DELAo,*998)
 
-         CALL EQBOUND(T,D10o,DL0,FAC,LTAB,LRAMP)
+         CALL EQBOUND(T,D10o,FAC,LTAB,LRAMP)  ! DL0
 
          IF(.NOT.LTAB)GOTO 998  ! Point is not in OPAL 1995 EOS table, so exit.
 
@@ -317,7 +317,7 @@ C 2001 OPAL eqos  LLP 6/17/03
          CALL OEQOS01(TL,T,PL,P,D10o,Doo,X,Z,BETAo,BETAIo,
      1   BETA14o,RMUo,AMUo,EMUo,QDTo,QDPo,QCPo,DELAo,*998)
 
-         CALL EQBOUND01(T,D10o,DL0,FAC,LTAB,LRAMP)
+         CALL EQBOUND01(T,D10o,FAC,LTAB,LRAMP)  ! DL0
 C eqbound01 determines whether or not the point is in the OPAL 2001 EOS table
 
          IF(.NOT.LTAB)GOTO 998  ! Point is not in OPAL 2001 tabel, so exit.
@@ -362,7 +362,7 @@ C 2006 OPAL eqos  LLP 10/13/2996
          CALL OEQOS06(TL,T,PL,P,D10o,Doo,X,Z,BETAo,BETAIo,
      1   BETA14o,RMUo,AMUo,EMUo,QDTo,QDPo,QCPo,DELAo,*998)
 
-         CALL EQBOUND06(T,D10o,DL0,FAC,LTAB,LRAMP)
+         CALL EQBOUND06(T,D10o,FAC,LTAB,LRAMP)  ! DL0
 C EQBOUND01 determines whether or not the point is in the OPAL 2006 EOS table
 C    If LTAB is true, point is in Opal 2006 table
 C    If LRAMP is true, point is in ramp area, and ramping is required. The ramp
