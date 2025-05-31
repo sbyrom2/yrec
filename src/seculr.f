@@ -2,7 +2,7 @@ C $$$$$$
       SUBROUTINE SECULR(DT,HD,HG,HI,HL,HP,HR,HS,HS1,HS2,HT,  ! DELTS
      *                  HJMSAV,LCZ,M,OMEGA,  ! LC,MODEL
      *                  HJM,ETA2,QIW,R0,HCOMP,IMIN,IMAX,  ! LFIRST
-     *                  BL,HSTOT,SJTOT,SMASS,TEFFL,LREDO,IREDO,
+     *                  BL,HSTOT,SMASS,TEFFL,LREDO,IREDO,  ! SJTOT
      *                  HICZ,HSBOT,HSTOP,OMEGAS,LCZSUR,
 C      *                  MRZONE,MXZONE,NRZONE,NZONE,
      *                  COD2,HV,LOK)

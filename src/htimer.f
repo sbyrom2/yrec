@@ -4,7 +4,7 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 C HTIMER
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
       SUBROUTINE HTIMER(DELTS,DELTSH,M,HD,HL,HS1,HS2,HT,HCOMP,JCORE,  ! LC
-     * JXMID,TLUMX,DAGE,DDAGE,QDT,QDP,NK,HP,HR,OMEGA,DWMAX,JXBEG,TEFFL)
+     * JXMID,TLUMX,DAGE,DDAGE,NK,HP,HR,OMEGA,DWMAX,JXBEG,TEFFL)  ! QDT,QDP
 
       PARAMETER(JSON=5000)
       IMPLICIT REAL*8 (A-H,O-Z)
