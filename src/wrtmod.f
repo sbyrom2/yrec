@@ -3,9 +3,11 @@ C
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 C WRTMOD
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-      SUBROUTINE WRTMOD(M,LSHELL,JXBEG,JXEND,JCORE,JENV,HCOMP,HS1,HD,
-     *HL,HP,HR,HT,LC,MODEL,BL,TEFFL,OMEGA,FP,FT,ETA2,R0,HJM,HI,HS,
-     * DAGE)
+C       SUBROUTINE WRTMOD(M,LSHELL,JXBEG,JXEND,JCORE,JENV,HCOMP,HS1,HD,
+C      *HL,HP,HR,HT,LC,MODEL,BL,TEFFL,OMEGA,FP,FT,ETA2,R0,HJM,HI,HS,
+C      * DAGE)
+      SUBROUTINE WRTMOD(M,JENV,HCOMP,HS1,HD,
+     *HL,HP,HR,HT,MODEL,BL,TEFFL,FP,FT,HS,DAGE)
       PARAMETER (JSON=5000)
       IMPLICIT LOGICAL*4(L)
       IMPLICIT REAL*8(A-H,O-Z)
@@ -50,9 +52,9 @@ C DBG 7/95 To store variables for pulse output
      *             VALFMLT(JSON),VPHMLT(JSON),VCMXMLT(JSON)
       COMMON/ROTEN/DEROT(JSON)
       DIMENSION HCOMP(15,JSON),DUM1(4),DUM2(3),DUM3(3),DUM4(3),
-     *HS1(JSON),HD(JSON),HL(JSON),HP(JSON),HR(JSON),HT(JSON),LC(JSON)
-      DIMENSION OMEGA(JSON),FP(JSON),FT(JSON),ETA2(JSON),ID(JSON)
-      DIMENSION R0(JSON),HJM(JSON),HI(JSON),HS(JSON)
+     *HS1(JSON),HD(JSON),HL(JSON),HP(JSON),HR(JSON),HT(JSON)  ! LC(JSON)
+      DIMENSION FP(JSON),FT(JSON),ID(JSON)  ! OMEGA(JSON),ETA2(JSON)
+      DIMENSION HS(JSON)  ! R0(JSON),HJM(JSON),HI(JSON)
 C      DATA IHEADR/4H****/
 
 C G Somers 10/14, Add spot common block, and store common block.

@@ -4,7 +4,7 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 C SURFBC
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
       RECURSIVE SUBROUTINE SURFBC(TRIT,TRIL,CFENV,PS,TS,RS,FTRI,ISTORE,ESTORE,
-     *       LNEW,LRESET,LSBC,KSAHA,KENV,KATM,HSTOT,BL,
+     *       LNEW,LRESET,KSAHA,KENV,KATM,HSTOT,BL,  ! LSBC
      *       TEFFL,X,Z,FPL,FTL,LFLP,PLIM,LC,M)
 
       PARAMETER(JSON=5000)

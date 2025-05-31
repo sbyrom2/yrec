@@ -1,6 +1,6 @@
 C$$$$$$
-      RECURSIVE SUBROUTINE TAUINTNEW(HCOMP,HS2,HS1,LCZ,HR,HP,HD,HG,M,MINT,SVEL,
-     *                     DEL1,DEL2,HSTOT,RBCZ)
+      RECURSIVE SUBROUTINE TAUINTNEW(HS1,LCZ,HR,HP,HD,HG,M,MINT,SVEL,  ! HCOMP,HS2
+     *                     DEL1,DEL2,RBCZ)  ! HSTOT
       PARAMETER(JSON=5000)
       IMPLICIT REAL*8(A-H,O-Z)
       IMPLICIT LOGICAL*4(L)
@@ -17,7 +17,7 @@ C Needs access to this common block: grants knowledge of envellope
       COMMON/ENVSTRUCT/ENVP(JSON),ENVT(JSON),ENVS(JSON),ENVD(JSON),
      *                 ENVR(JSON),ENVX(JSON),ENVZ(JSON),LCENV(JSON),
      *                 EDELS(3,JSON),EVELS(JSON),EBETAS(JSON),NUMENV
-      DIMENSION HCOMP(15,JSON),HS2(JSON),LCZ(JSON),
+      DIMENSION LCZ(JSON),  ! HCOMP(15,JSON),HS2(JSON)
      *     HR(JSON), HP(JSON), HD(JSON), HG(JSON), HS1(JSON),  ! XSUM(15)
      *     DEL1(JSON), DEL2(JSON), SVEL(JSON)
 C G Somers; Adding vectors for cubic spline int.
