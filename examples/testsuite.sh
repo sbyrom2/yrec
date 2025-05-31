@@ -1,8 +1,8 @@
 # Format: <relative path within examples/> <file name without suffix>
 # The extension .sh is chosen for making commenting and uncommenting easier.
 
-# # Solar Models
-# run_standard_solar_model Test_solarcal_noGS_norot
+# Solar Models
+run_standard_solar_model Test_solarcal_noGS_norot
 # run_standard_solar_model Test_solar_noGS_norot
 # run_standard_solar_model Test_solar_GS_norot_gray_OPALSCV_SF2_GS98_OP_CF10
 # run_standard_solar_model Test_solar_GS_rot_gray_OPALSCV_SF2_GS98_OP_CF10
@@ -188,7 +188,7 @@
 # run_from_dbl_to_zams Test_m0100_feh0_noGS_ZAMS
 # # run_from_dbl_to_zams Test_m0150_feh0_noGS_ZAMS
 # # run_from_dbl_to_zams Test_m0200_feh0_noGS_ZAMS
-run_from_dbl_to_zams Test_m0300_feh0_noGS_ZAMS
+# run_from_dbl_to_zams Test_m0300_feh0_noGS_ZAMS
 # # run_from_dbl_to_zams Test_m0400_feh0_noGS_ZAMS
 # # run_from_dbl_to_zams Test_m0500_feh0_noGS_ZAMS
 # # run_from_dbl_to_zams Test_m0600_feh0_noGS_ZAMS

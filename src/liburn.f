@@ -478,8 +478,8 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
       SUBROUTINE SAFEDIVEXP(NUMERATOR, EXPONENT)
       REAL*8 NUMERATOR, EXPONENT
 
-      IF (X .LT. 709.7827D0) THEN
-         NUMERATOR = NUMERATOR/EXP(X)
+      IF (EXPONENT .LT. 709.7827D0) THEN
+         NUMERATOR = NUMERATOR/EXP(EXPONENT)
       ELSE
          NUMERATOR = 0.0D0
       ENDIF
