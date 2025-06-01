@@ -8,13 +8,14 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
       parameter (mx=5,mv=10,nr=169,nt=191)
       IMPLICIT REAL*8 (A-H,O-Z)
-      real*8 moles,k,molenak,Na
+      real*8 moles,molenak  ! k,Na
       common/eeos/esact,eos(mv)
       common/beos/ zz(mx),iri(10),index(10),nta(nr)
 
-      data Na/6.0221367e+23/, k/1.380658e-16/, unitf/0.9648530/,
-     x unitfold/0.965296/, c/2.9979245e+10/, sigma/5.67051e-5/
-     x , sigmac/1.8914785e-15/, sigmacc/1.8914785e-3/, aprop/83.14510/
+c       data Na/6.0221367e+23/, k/1.380658e-16/, unitf/0.9648530/,
+c      x unitfold/0.965296/, c/2.9979245e+10/, sigma/5.67051e-5/
+c      x , sigmac/1.8914785e-15/, 
+      data sigmacc/1.8914785e-3/, aprop/83.14510/
       SAVE
 
 cPhysical constants

@@ -192,7 +192,7 @@ C subroutine PARMIN
       DATA SBP/0.9558,0.9690,0.9712,1.0,1.0,0.992,1.0,1.0,1.0,1.0,1.0,
      $  1.0,1.0,1.0,1.0,0.92088,0.1625/
 C MHP 3/96 added data for base solar age, L
-      DATA SUNAGE,SUNL/4.57D09,3.844D33/
+      DATA SUNL/3.844D33/  ! SUNAGE/4.57D09/
       SAVE
 
 C*******

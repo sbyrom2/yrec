@@ -24,7 +24,7 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
       IMPLICIT REAL*8 (A-H,O-Z)
       IMPLICIT LOGICAL*4(L)
-      DIMENSION ATOMWT(4)
+C       DIMENSION ATOMWT(4)
       COMMON/COMP/XENV,ZENV,ZENVM,AMUENV,FXENV(12),XNEW,ZNEW,STOTAL,
      *     SENV
       COMMON/CTLIM/ATIME(14),TCUT(5),TSCUT,TENV0,TENV1,TENV,TGCUT
@@ -39,8 +39,8 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
       COMMON/E/ ESACT,EOS(10)
 
-      DATA NZP1/12/
-      DATA ATOMWT/0.9921D0,0.24975D0,0.08322D0,0.4995D0/
+C       DATA NZP1/12/
+C       DATA ATOMWT/0.9921D0,0.24975D0,0.08322D0,0.4995D0/
       SAVE
 C
 C      CA3=2.5214D-15
