@@ -2,7 +2,7 @@
 *  This subroutine interpolates the electron thermal conductivity       *
 *               from the data file "condall.d"                          *
 *  ---------------------------------------------------  Version 23.05.99
-      subroutine CondOpacP(Zion,TLG,RLG,CK,DRK,DTK)
+      recursive subroutine CondOpacP(Zion,TLG,RLG,CK,DRK,DTK)
 * Input: Zion - ion charge, TLG - lg(T[K]), RLG - lg(rho[g/cc])
 * Output: CK - Log_{10} thermal conductivity (kappa) [CGS units]
 *         DRK - d log kappa / d log rho
@@ -178,7 +178,7 @@ C      if (IT.eq.0.or.IT.eq.MAXT) stop'CONINTER: T out of range'
    10 return
       end
 
-      subroutine HUNT(XX,N,X,JLO)
+      recursive subroutine HUNT(XX,N,X,JLO)
 *   W.H.Press, B.P.Flannery, S.A.Teukolsky, W.T.Vetterling
 *   Numerical Receipes(Cambridge Univ., 1986)
 *     Given an array XX of length N, and given a value X,
