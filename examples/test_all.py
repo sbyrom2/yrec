@@ -79,18 +79,18 @@ def vals_from_line(line):
     return vals
 
 
-def compare_filevals(ref_file, out_file, float_tol, int_tol):
+def filevals_differ(ref_file, out_file, float_tol, int_tol):
     '''Iterate over lines in two files to compare, split lines into tokens and
     compare each token with an integer or floating-point tolerance for numeric
     values or literally, otherwise.'''
     ref = open(ref_file, 'r')
     out = open(out_file, 'r')
     lineno = 1
-    files_identical = True
+    diff_found = False
 
     # Iterate over lines of files
     while True:
-        diff_found = False
+        difference = False
         locs = []
         try:
             refline = next(ref)
@@ -106,17 +106,17 @@ def compare_filevals(ref_file, out_file, float_tol, int_tol):
                 diff = abs(out_vals[i] - val)
                 if type(val) == float and diff > float_tol:
                     locs.append(i)
-                    diff_found = True
+                    difference = True
                 if type(val) == int and diff > int_tol:
                     locs.append(i)
-                    diff_found = True
+                    difference = True
             else:
                 if val != out_vals[i]:
-                    diff_found = True
+                    difference = True
                     locs.append(i)
 
-        if diff_found:
-            files_identical = False
+        if difference:
+            diff_found = True
             print(f"line: {lineno}")
             print(refline, end='')
             print(color_indicator(outline, locs))
@@ -124,7 +124,7 @@ def compare_filevals(ref_file, out_file, float_tol, int_tol):
 
     ref.close()
     out.close()
-    return files_identical
+    return diff_found
 
 
 def chunk_indicator(line, indices):
@@ -206,13 +206,15 @@ def test_yrec(tdir, nml1, nml2):
     # If not, copy output into reference.
     print("--------------------------------------------------------------")
     print("Comparing outputs with reference standards...\n")
+    #outputs_identical = True
     for out in outputs:
         refname = os.path.basename(out)
         ref = f"{tdir}/{ref_dir}/{refname}"
         if not os.path.isfile(ref):
             shutil.copyfile(out, ref)
             print(f"{out} copied to reference")
-        # Compare
-        print(f"--- Comparing standard {out}\n")
-        assert compare_filevals(ref, out, float_abs_tol, int_abs_tol), "Output differs from reference standard"
+        print(f"--- Comparing standard to {out}\n")
+        if filevals_differ(ref, out, float_abs_tol, int_abs_tol):
+            outputs_identical = False
+    assert outputs_identical, "Output differs from reference standard"
 
