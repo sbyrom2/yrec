@@ -36,24 +36,33 @@ class colors:
 
 def collect_tests(testreqs):
     '''Traverse testing directories and define a test for each applicable pair
-    of input/output files.'''
+    of YREC .nml1, .nml2 input files.'''
     tcases = []
     for testreq in testreqs:
-        curdir = os.getcwd()
-        os.chdir(testreq)
-        for nml1 in sorted(glob(f'*.nml1')):
-            tbase = nml1.replace(".nml1", "")
-            test_nml2 = f"{tbase}.nml2"
-            if os.path.exists(test_nml2):
-                tcases.append([testreq, nml1, test_nml2])
-            else:
-                dir_nml2 = f"{testreq}.nml2"
-                tcases.append([testreq, nml1, dir_nml2])
-        os.chdir(curdir)
+        if "," in testreq:
+            tcomps = testreq.split(',')
+            tcomps = [x.strip() for x in tcomps]
+            if len(tcomps) != 3:
+                raise ValueError("Individual test case has incorrect number of components")
+            tcases.append(tcomps)
+        else:
+            curdir = os.getcwd()
+            os.chdir(testreq)
+            for nml1 in sorted(glob(f'*.nml1')):
+                tbase = nml1.replace(".nml1", "")
+                test_nml2 = f"{tbase}.nml2"
+                if os.path.exists(test_nml2):
+                    tcases.append([testreq, nml1, test_nml2])
+                else:
+                    dir_nml2 = f"{testreq}.nml2"
+                    tcases.append([testreq, nml1, dir_nml2])
+            os.chdir(curdir)
     return tcases
 
 
 def vals_from_line(line):
+    '''Split text line and return list of separate integer, float,
+    and text segment components.'''
     vals = []
     # Split on whitespace or '-' not found in exponent notation.
     for tok in re.split("\\s+|(?<![Ee])-(?=\\d)", line.strip()):
@@ -205,6 +214,5 @@ def test_yrec(tdir, nml1, nml2):
             print(f"{out} copied to reference")
         # Compare
         print(f"--- Comparing standard {out}\n")
-        assert (compare_filevals(ref, out, float_abs_tol, int_abs_tol),
-                "Output differs from reference standard")
+        assert compare_filevals(ref, out, float_abs_tol, int_abs_tol), "Output differs from reference standard"
 
