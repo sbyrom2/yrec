@@ -21,10 +21,8 @@ yrec_exe = config['paths']['yrec']
 tests = [x for x in config['paths']['tests'].split('\n') if len(x) > 0 ]
 float_abs_tol = float(config['tolerances']['float_abs_tol'])
 int_abs_tol = int(config['tolerances']['int_abs_tol'])
+ref_dir = config['paths']['reference_dir']
 
-# The directory within each test subdirectory in which the test reference
-# standard outputs will be stored.
-ref_dir = "standard"
 
 class colors:
     BLUE = '\033[94m'
@@ -95,11 +93,7 @@ def compare_filevals(ref_file, out_file, float_tol, int_tol):
 
         # Compare all values on line
         for i, val in enumerate(ref_vals):
-            if val == 'T' or val == 'F':
-                if val != out_vals[i]:
-                    locs.append(i)
-                    diff_found = True
-            elif isinstance(val, numbers.Number):
+            if isinstance(val, numbers.Number):
                 diff = abs(out_vals[i] - val)
                 if type(val) == float and diff > float_tol:
                     locs.append(i)
@@ -107,9 +101,6 @@ def compare_filevals(ref_file, out_file, float_tol, int_tol):
                 if type(val) == int and diff > int_tol:
                     locs.append(i)
                     diff_found = True
-                #if diff > tol:
-                #    locs.append(i)
-                #    diff_found = True
             else:
                 if val != out_vals[i]:
                     diff_found = True
@@ -195,7 +186,7 @@ def test_yrec(tdir, nml1, nml2):
     # If process completed without error code,
     # check for the presence of a reference standard.
     # If no reference standard, copy outputs to
-    # test reference standard locadtion and return.
+    # reference standard location and return.
     tbase = nml1.replace(".nml1", "")
     outputs = glob(f"{tdir}/output/{tbase}.*")
 
@@ -214,5 +205,6 @@ def test_yrec(tdir, nml1, nml2):
             print(f"{out} copied to reference")
         # Compare
         print(f"--- Comparing standard {out}\n")
-        assert compare_filevals(ref, out, float_abs_tol, int_abs_tol), "Output differs from reference standard"
+        assert (compare_filevals(ref, out, float_abs_tol, int_abs_tol),
+                "Output differs from reference standard")
 
