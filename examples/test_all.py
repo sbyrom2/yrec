@@ -206,7 +206,7 @@ def test_yrec(tdir, nml1, nml2):
     # If not, copy output into reference.
     print("--------------------------------------------------------------")
     print("Comparing outputs with reference standards...\n")
-    #outputs_identical = True
+    outputs_identical = True
     for out in outputs:
         refname = os.path.basename(out)
         ref = f"{tdir}/{ref_dir}/{refname}"
