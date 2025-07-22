@@ -14,8 +14,10 @@ C$$$$$$
       COMMON/CONST1/ CLN,CLNI,C4PI,C4PIL,C4PI3L,CC13,CC23,CPI
       COMMON/JTEST/ IMAX1, IMAX2, LJVS
 C Needs access to this common block: grants knowledge of envellope
+C KC 2025-05-30 reordered common block elements
       COMMON/ENVSTRUCT/ENVP(JSON),ENVT(JSON),ENVS(JSON),ENVD(JSON),
      *                 ENVR(JSON),ENVX(JSON),ENVZ(JSON),LCENV(JSON),
+C      *                 NUMENV,EDELS(3,JSON),EVELS(JSON)
      *                 EDELS(3,JSON),EVELS(JSON),EBETAS(JSON),NUMENV
       DIMENSION LCZ(JSON),  ! HCOMP(15,JSON),HS2(JSON)
      *     HR(JSON), HP(JSON), HD(JSON), HG(JSON), HS1(JSON),  ! XSUM(15)

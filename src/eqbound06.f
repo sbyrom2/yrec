@@ -9,6 +9,8 @@ C OPAL 2006 EOS TABLE.
       common/aeos06/  xz(mx,mv,nt,nr),
      . t6list(nr,nt),rho(nr),t6a(nt),esk(nt,nr),esk2(nt,nr),dfsx(mx)
      . ,dfs(nt),dfsr(nr),m,mf,xa(mx)
+C KC 2025-05-30 reordered common block elements
+C       common/beos06/ iri(10),index(10),nta(nr),zz(mx),nra(nt)
       common/beos06/ zz(mx),iri(10),index(10),nta(nr),nra(nt)
       common/bbeos06/l1,l2,l3,l4,k1,k2,k3,k4,ip,iq
 

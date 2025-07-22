@@ -92,9 +92,15 @@ C     INCREASE OR DECREASE.
             IF(X.LT.XC(7)) IXMIN=5
          END IF
          DO 200 I=1,4
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C  200     IX(I)=IXMIN+I-1
             IX(I)=IXMIN+I-1
  200     CONTINUE
          DO 250 I =1,4
+C KC 2025-05-30 fixed "Shared DO termination label"
+C         XX(I) = XC(IX(I))
+C         DO 250 IV=1,IVARX
+C         VARI1(IV,I) = VAROUT(IX(I),IV)
             XX(I) = XC(IX(I))
             DO 251 IV=1,IVARX
                VARI1(IV,I) = VAROUT(IX(I),IV)

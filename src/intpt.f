@@ -22,6 +22,8 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
       ITMAX=NT-3
       IF(IT(1).GT.ITMAX) IT(1)=ITMAX
       DO 150 I=2,4
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C  150  IT(I)=IT(1)+I-1
          IT(I)=IT(1)+I-1
  150  CONTINUE
       DO 210 I=1,4
@@ -41,6 +43,8 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
          IF(IRM(I).GT.IRMAX) IRM(I)=IRMAX
  210  CONTINUE
       DO 310 I=1,4
+C KC 2025-05-30 fixed "Shared DO termination label"
+C          DO 310 J=1,4
          DO 311 J=1,4
             IR(J,I)=IRM(I)+J-1
  311     CONTINUE
@@ -53,6 +57,8 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
  400     CONTINUE
          DO 410 I=1,4
             INDR=IR(I,ILIR)
+C KC 2025-05-30 fixed "Shared DO termination label"
+C             DO 410 IV=1,IVAR
             DO 411 IV=1,IVAR
                VAR1(IV,I)=TDVAR(INDT,INDR,IV)
  411        CONTINUE
@@ -65,12 +71,16 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
          INTER=1
          CALL LIR(PL,XX,Y,VAR1,II,ID,NP,L,INTER)
          DO 420 IV=1,IVAR
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C  420     VAR2(IV,ILIR) = Y(IV)
             VAR2(IV,ILIR) = Y(IV)
  420     CONTINUE
 
  500  CONTINUE
       DO 600 I=1,4
          INDT=IT(I)
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C  600  XX(I) = TLOG(INDT)
          XX(I) = TLOG(INDT)
  600  CONTINUE
 

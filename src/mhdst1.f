@@ -83,8 +83,12 @@ C     AND PERFORM NUMERICAL DERIVATIVES W.R.T. X
  430  CONTINUE
 C     NUMERICAL DERIVATIVES W.R.T. X
       DO 440 N =1,NT2
+C KC 2025-05-30 fixed "Shared DO termination label"
+C       DO 440 M =1,NR2
       DO 441 M =1,NR2
       DO 435 IV=1,IVAR1
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C 435   TDVAR2(N,M,IV)=TDDIF0(N,M,IV)
         TDVAR2(N,M,IV)=TDDIF0(N,M,IV)
 435   CONTINUE
 C

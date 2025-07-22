@@ -55,6 +55,7 @@ C DBG 7/95 To store variables for pulse output
      *HS1(JSON),HD(JSON),HL(JSON),HP(JSON),HR(JSON),HT(JSON)  ! LC(JSON)
       DIMENSION FP(JSON),FT(JSON),ID(JSON)  ! OMEGA(JSON),ETA2(JSON)
       DIMENSION HS(JSON)  ! R0(JSON),HJM(JSON),HI(JSON)
+C KC 2025-05-30 addressed warning messages from Makefile.legacy
 C      DATA IHEADR/4H****/
 
 C G Somers 10/14, Add spot common block, and store common block.

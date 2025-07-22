@@ -62,18 +62,24 @@ C      *                  LPRT, TEFFL, HCOMP, NKK, DAGE, DDAGE, JENV)
 C      REAL*8 ATMOSX, ATMOST(JSON),ATMOSD(JSON),ATMOSP(JSON),ADELAD(JSON),ATMOSC(JSON),
 C     *       ATGAM1(JSON), ATMOSR(JSON),GM1(JSON)
       REAL*8 ATMOSX, GM1(JSON)
+C KC 2025-05-30 addressed warning messages from Makefile.legacy
+C       INTEGER I, K, N, U, ICZ, NN, IENDJ, FLG, V, IATCNT, KTSAV
       INTEGER I, K, P, U, ICZ, NN, IENDJ, FLG, V  ! IATCNT, KTSAV
       INTEGER IDUMJ, KATMJ,KENVJ,KSAHAJ,IXXJ
       DIMENSION RCZL(1), RCZ(1),HR(JSON), HD(JSON), HP(JSON), BJ(1),FPLJ(1),FTLJ(1),
      * FT(JSON),FP(JSON), HCOMP(15,JSON), HT(JSON)  ! HL(JSON)
       LOGICAL LPULPTJ,LPRTJ,LSBC0J  ! LTEST
 
+C KC 2025-05-30 reordered common block elements
+C       COMMON/ACDPTH/TAUCZN,DELADJ(JSON),TAUHE, TNORM, TCZ, WHE, ICLCD,
       COMMON/ACDPTH/TAUCZN,DELADJ(JSON),TAUHE, TNORM, TCZ, WHE,
      *ACATMR(JSON), ACATMD(JSON), ACATMP(JSON), ACATMT(JSON),TATMOS,
+C      *LCLCD, AGEOUT(5), IACAT, IJLAST, LJLAST, LJWRT, LADON, LAOLY, IJVS,
      *AGEOUT(5), LCLCD, ICLCD, IACAT, IJLAST, LJLAST, LJWRT, LADON, LAOLY, IJVS,
      *IJENT, IJDEL, LACOUT
       COMMON/ENVSTRUCT/ENVP(JSON),ENVT(JSON),ENVS(JSON),ENVD(JSON),
      *                 ENVR(JSON),ENVX(JSON),ENVZ(JSON),LCENV(JSON),
+C      *                 NUMENV,EDELS(3,JSON),EVELS(JSON),EBETAS(JSON)
      *                 EDELS(3,JSON),EVELS(JSON),EBETAS(JSON),NUMENV
       COMMON/INTATM/ATMERR,ATMD0,ATMBEG,ATMMIN,ATMMAX
       COMMON/INTENV/ENVERR,ENVBEG,ENVMIN,ENVMAX
@@ -97,6 +103,9 @@ C      COMMON/SETT/ENDAGE(50),SETDT(50),LENDAG(50),LSETDT(50)
       COMMON/SCVEOS/TLOGX(NTS),TABLEX(NTS,NPS,12),
      *     TABLEY(NTS,NPS,12),SMIX(NTS,NPS),TABLEZ(NTS,NPS,13),
      *     TABLENV(NTS,NPS,12),NPTSX(NTS),LSCV,IDT,IDP
+C KC 2025-05-30 reordered common block elements
+C       COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
+C      *     lopale06,lNumDeriv
       COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,fopale06,
      *     lopale01,lopale06,lNumDeriv
 C Added for experimantal mass loss section
@@ -388,11 +397,15 @@ C Save all vectors of interest when the end of a kind card is reached.
 
                   DO 1505 I=1,M+NUMENV-1
                         IF (I .LE. K-ICZ+1) THEN
+C KC 2025-05-30 addressed warning messages from Makefile.legacy
+C                         WRITE(UNIT=ICLCD,FMT=1504),DAGE, STARR(I), STARC(I),
                         WRITE(UNIT=ICLCD,FMT=1504) DAGE, STARR(I), STARC(I),
      *                     STARRZ(I), STARCZ(I), DELADJ(I), GM1(I), STARP(I),
      *                     START(I),STARD(I),STARX(I)
 
                         ELSE
+C KC 2025-05-30 addressed warning messages from Makefile.legacy
+C                         WRITE(UNIT=ICLCD,FMT=1504) DAGE, STARR(I), STARC(I),
                         WRITE(UNIT=ICLCD,FMT=1504) DAGE, STARR(I), STARC(I),
      *                     0.0d0, 0.0d0, DELADJ(I), GM1(I), STARP(I),
      *                     START(I),STARD(I),STARX(I)

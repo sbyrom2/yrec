@@ -41,6 +41,9 @@ C LLP 2006 OPAL eos Oct 2006
 C LLP Add Use Numerical Derivatives flag, LNumDeriv   7/07
       LOGICAL*4 LOPALE, lopale01,lopale06,lNumDeriv
       CHARACTER*256 FOPALE,fopale01,fopale06
+C KC 2025-05-30 reordered common block elements
+C       COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
+C      x     lopale06,lNumDeriv
       COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,fopale06,
      *     lopale01,lopale06,lNumDeriv
 C MHP 3/94 ADDED METAL DIFFUSION

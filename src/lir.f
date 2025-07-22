@@ -50,6 +50,10 @@ C     SET INDEX FOR START OF SEARCH
       IF(L.LE.1.OR.N.LT.1) N=1
 C     DETERMINE POSITION OF Z WITHIN ZI
     2 IF(N.GT.J) GO TO 8
+C KC 2025-05-30 fixed "Arithmetic IF statement"
+C       IF(DIFF) 4,102,3
+C     3 IF(ZI(N)-Z) 5,6,9
+C     4 IF(ZI(N)-Z) 9,6,5
       IF (DIFF .LT. 0.0) THEN
          GOTO 4
       ELSE IF (DIFF .EQ. 0.0) THEN
@@ -76,6 +80,9 @@ C     DETERMINE POSITION OF Z WITHIN ZI
 C     SET Y WHEN Z LIES ON A MESH POINT
     6 J=(N-1)*ID
       DO 7 I=1,IIR
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C       Y(I)=YI(I+J)
+C     7 IF(Y(I).EQ.0.D0) Y(I+IR1)=0.D0
          Y(I)=YI(I+J)
          IF(Y(I).EQ.0.D0) Y(I+IR1)=0.D0
     7 CONTINUE
@@ -121,6 +128,15 @@ C    16 M=(M-1)/IR-3
       M=(M-1)/IR-3
       M=M*IRD
       DO 18 I=1,IIR
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C       K=I+M
+C       YY=0.D0
+C       DO 17 J=1,4
+C       K=K+IRD
+C       DIFF=YI(K)
+C    17 YY=YY+A(J)*DIFF
+C       Y(I)=YY
+C    18 IF(Y(I).EQ.0.D0) Y(I+IR1)=0.D0
          K=I+M
          YY=0.D0
          DO 17 J=1,4
@@ -141,6 +157,9 @@ C     LINEAR INTERPOLATION/EXTRAPOLATION
       J=(N-1)*ID
       M=J-IRD
       DO 21 I=1,IIR,IR
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C       Y(I)=Y1*YI(I+M)+Y2*YI(I+J)
+C    21 IF(Y(I).EQ.0.D0) Y(I+IR1)=0.D0
          Y(I)=Y1*YI(I+M)+Y2*YI(I+J)
          IF(Y(I).EQ.0.D0) Y(I+IR1)=0.D0
    21 CONTINUE

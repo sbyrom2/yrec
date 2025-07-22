@@ -94,8 +94,10 @@ C OUTER FITTING POINT
 C MHP 07/02 STORE CONTENTS OF ENVELOPE INTEGRATION INTO A
 C SET OF VECTORS, WHICH ARE FLIPPED AND CONVERTED INTO AN ASCENDING
 C SERIES AFTER THE INTEGRATION IS DONE.
+C KC 2025-05-30 reordered common block elements
       COMMON/ENVSTRUCT/ENVP(JSON),ENVT(JSON),ENVS(JSON),ENVD(JSON),
      *                 ENVR(JSON),ENVX(JSON),ENVZ(JSON),LCENV(JSON),
+C      *                 NUMENV,EDELS(3,JSON),EVELS(JSON),EBETAS(JSON)
      *                 EDELS(3,JSON),EVELS(JSON),EBETAS(JSON),NUMENV
 C LLP  3/19/03 Add COMMON block /I2O/ for info directly transferred from
 C      input to output model - starting with a code for th initial model

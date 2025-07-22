@@ -9,6 +9,9 @@ C YCK >>>  2/95 OPAL EOS
       LOGICAL*4 LOPALE,lopale01,lopale06,LNumDeriv
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
       CHARACTER*256 FOPALE,fopale01,fopale06
+C KC 2025-05-30 reordered common block elements
+C       COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
+C      x     lopale06,LNumDeriv
       COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,fopale06,
      *     lopale01,lopale06,lNumDeriv
 C <<< YCK
@@ -92,13 +95,20 @@ C <<< YCK
           NTUSE=I
           GO TO 14
         ENDIF
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C    11 T6A(I)=T6LIST(1,I)
         T6A(I)=T6LIST(1,I)
    11 CONTINUE
    14 DO 12 I=2,NT
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C    12 DFS(I)=1.D0/(T6A(I)-T6A(I-1))
          DFS(I)=1.D0/(T6A(I)-T6A(I-1))
    12 CONTINUE
       RHO(1)=RHOGR(1,1)
       DO 13 I=2,NR
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C       RHO(I)=RHOGR(1,I)
+C    13 DFSR(I)=1.D0/(RHO(I)-RHO(I-1))
          RHO(I)=RHOGR(1,I)
          DFSR(I)=1.D0/(RHO(I)-RHO(I-1))
    13 CONTINUE

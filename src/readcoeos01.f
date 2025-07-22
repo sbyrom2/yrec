@@ -20,12 +20,20 @@ c..... The purpose of this subroutine is to read the data tables
       common/aeos/  xz(mx,mv,nt,nr),
      . t6list(nr,nt),rho(nr),t6a(nt),esk(nt,nr),esk2(nt,nr),dfsx(mx)
      . ,dfs(nt),dfsr(nr),m,mf,xa(mx)
+C KC 2025-05-30 reordered common block elements
+C       common/beos/ iri(10),index(10),nta(nr),zz(mx)
       common/beos/ zz(mx),iri(10),index(10),nta(nr)
       common/eeos/esact,eos(mv)
       common/eeeos/ epl(mx,nt,nr),xx(mx)
+C KC 2025-05-30 reordered common block elements
+C       common/eeeeos/moles(mx),xin(mx),tmass(mx),icycuse(mx,nr),
+C      x    rhogr(mx,nr),frac(mx,6),alogr(nr,nt)
       common/eeeeos/moles(mx),xin(mx),tmass(mx),
      x    rhogr(mx,nr),frac(mx,6),alogr(nr,nt),icycuse(mx,nr)
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
+C KC 2025-05-30 reordered common block elements
+C       COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
+C      x     lopale06,LNumDeriv
       COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,fopale06,
      *     lopale01,lopale06,lNumDeriv
 C mhp 7/2003
@@ -106,10 +114,15 @@ c..... read  tables
          t6a(i)=t6list(1,i)
       enddo
       do 12 i=2,nt
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C    12 dfs(i)=1D0/(t6a(i)-t6a(i-1))
          dfs(i)=1D0/(t6a(i)-t6a(i-1))
    12 continue
       rho(1)=rhogr(1,1)
       do 13 i=2,nr
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C       rho(i)=rhogr(1,i)
+C    13 dfsr(i)=1D0/(rho(i)-rho(i-1))
          rho(i)=rhogr(1,i)
          dfsr(i)=1D0/(rho(i)-rho(i-1))
    13 continue

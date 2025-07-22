@@ -22,6 +22,8 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
       COMMON/ROT/WNEW,WALPCZ,ACFPFT,ITFP1,ITFP2,LROT,LINSTB,LWNEW
       COMMON/MASSCHG2/SACC,SCEN,SMASS0,DLOGP,DLOGT
 C mhp 8/10 added option to scale mass loss rate by rotation; requires rotating model
+C KC 2025-05-30 reordered common block elements
+C       COMMON/MASSCHG3/LSOLWIND,DMSUN,DMWSUN,DMWMAX
       COMMON/MASSCHG3/DMSUN,DMWSUN,DMWMAX,LSOLWIND
       DIMENSION HCOMP(15,JSON),HS(JSON),HS1(JSON),HS2(JSON),
      *          HT(JSON),HJM(JSON),OMEGA(JSON),HR(JSON),

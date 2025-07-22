@@ -50,6 +50,10 @@ c         print*,'Reading thermal conductivity data...'
       enddo
          close(IP)
          KRUN=12345
+C KC 2025-05-30 fixed -Winteger-division
+C          IZ=MAXZ/2+1
+C          IT=MAXT/2+1
+C          IR=MAXR/2+1
          IZ=INT(MAXZ/2.)+1
          IT=INT(MAXT/2.)+1
          IR=INT(MAXR/2.)+1

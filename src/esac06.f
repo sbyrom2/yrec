@@ -153,6 +153,8 @@ c      dfsr(2)=1/(rho(2)-rho(1)), ..., dfsr(169)=1/(rho(169)-rho(168)).
 c
 c***************************************************************************
 
+C KC 2025-05-30 reordered common block elements
+C       common/beos06/ iri(10),index(10),nta(nr),zz(mx),nra(nt)
       common/beos06/ zz(mx),iri(10),index(10),nta(nr),nra(nt)
 
 c***************************************************************************

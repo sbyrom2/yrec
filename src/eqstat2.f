@@ -19,6 +19,8 @@ c
       PARAMETER (NTS=63, NPS=76)
       IMPLICIT REAL*8 (A-H,O-Z)
       IMPLICIT LOGICAL*4(L)
+C KC 2025-05-30 addressed warning messages from Makefile.legacy
+C       SAVE
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
       DIMENSION FX(12),ATOMWT(4),FXION(3),ATOMW2(12)
       COMMON/COMP/XENV,ZENV,ZENVM,AMUENV,FXENV(12),XNEW,ZNEW,STOTAL,
@@ -35,6 +37,9 @@ C LLP 2006 OPAL eos
 C LLP Add Use Numerical Derivatives flag, LNumDeriv   7/07
       LOGICAL*4 LOPALE, lopale01,lopale06,lNumDeriv
       CHARACTER*256 FOPALE,fopale01,fopale06
+C KC 2025-05-30 reordered common block elements
+C       COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
+C      x     lopale06,lNumDeriv
       COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,fopale06,
      *     lopale01,lopale06,lNumDeriv
 C MHP 3/94 ADDED METAL DIFFUSION

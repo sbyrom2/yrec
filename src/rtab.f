@@ -24,6 +24,8 @@ C     CHECK LIMITS AND NUMBER OF DENSITIY POINTS OF TABLE
          STOP
       END IF
 C     END CHECK ....................................................
+C KC 2025-05-30 fixed "Shared DO termination label"
+C       DO 10 J = 1, NR
       DO 11 J = 1, NR
 C     READ(IR,1002) (TDVAR(N,J,IV),IV=1,IVAR)
       READ(IR     ) (TDVAR(N,J,IV),IV=1,IVAR)

@@ -10,6 +10,8 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
       IMPLICIT REAL*8 (A-H,O-Z)
       real*8 moles,molenak  ! k,Na
       common/eeos/esact,eos(mv)
+C KC 2025-05-30 reordered common block elements
+C       common/beos/ iri(10),index(10),nta(nr),zz(mx)
       common/beos/ zz(mx),iri(10),index(10),nta(nr)
 
 c       data Na/6.0221367e+23/, k/1.380658e-16/, unitf/0.9648530/,
