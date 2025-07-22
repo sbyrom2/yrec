@@ -4,7 +4,8 @@ C     RHOOFP01
 C
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
-      function rhoofp01(x,t6,p,irad)  ! ztab
+C       function rhoofp01(x,ztab,t6,p,irad)  ! KC 2025-05-31
+      function rhoofp01(x,t6,p,irad)
 
       parameter (mx=5,mv=10,nr=169,nt=191)
       IMPLICIT REAL*8 (A-H,O-Z)
@@ -38,7 +39,8 @@ C      IF(IRAD .EQ. 1) PR=4.D0/3.D0*RAT*T6**4   ! MB
       T6DBG = 1.0D0
       RDBG = 0.001D0
       IDBG = 1
-      CALL ESAC01 (XDBG,T6DBG,RDBG,IDBG,IRAD,*999)  ! ZTAB
+C       CALL ESAC01 (XDBG,ZTAB,T6DBG,RDBG,IDBG,IRAD,*999)  ! KC 2025-05-31
+      CALL ESAC01 (XDBG,T6DBG,RDBG,IDBG,IRAD,*999)
       ENDIF
 
         ilo=2
@@ -84,20 +86,23 @@ C      write (ISHORT,'("pnr, pmax,pmin=",3e14.4)') pnr,pmax,pmin
       endif
 
       rhog1=rho(nra(klo))*pnr/pmax
-      CALL ESAC01 (X,T6,RHOG1,1,IRAD,*999)  ! ZTAB
+C       CALL ESAC01 (X,ZTAB,T6,RHOG1,1,IRAD,*999)  ! KC 2025-05-31
+      CALL ESAC01 (X,T6,RHOG1,1,IRAD,*999)
       p1=eos(1)
         if(p1 .gt. pnr) then
           p2=p1
           rhog2=rhog1
           rhog1=0.2D0*rhog1
           if(rhog1 .lt. 1.D-14) rhog1=1.D-14
-          CALL ESAC01 (X,T6,RHOG1,1,IRAD,*999)  ! ZTAB
+C           CALL ESAC01 (X,ZTAB,T6,RHOG1,1,IRAD,*999)  ! KC 2025-05-31
+          CALL ESAC01 (X,T6,RHOG1,1,IRAD,*999)
           p1=eos(1)
         else
           rhog2=5D0*rhog1
 C          if(rhog2 .gt. rho(klo)) rhog2=rho(klo)  ! Corrected below llp 8/19/08
           if(rhog2 .gt. rho(nra(klo))) rhog2=rho(nra(klo)) ! Had wrong pointer, see rhog1= ten lines up
-          CALL ESAC01 (X,T6,RHOG2,1,IRAD,*999)  ! ZTAB
+C           CALL ESAC01 (X,ZTAB,T6,RHOG2,1,IRAD,*999)  ! KC 2025-05-31
+          CALL ESAC01 (X,T6,RHOG2,1,IRAD,*999)
           p2=eos(1)
         endif
 
@@ -105,7 +110,8 @@ C          if(rhog2 .gt. rho(klo)) rhog2=rho(klo)  ! Corrected below llp 8/19/08
     1 continue
       icount=icount+1
       rhog3=rhog1+(rhog2-rhog1)*(pnr-p1)/(p2-p1)
-      CALL ESAC01 (X,T6,RHOG3,1,IRAD,*999)  ! ZTAB
+C       CALL ESAC01 (X,ZTAB,T6,RHOG3,1,IRAD,*999)  ! KC 2025-05-31
+      CALL ESAC01 (X,T6,RHOG3,1,IRAD,*999)
       p3=eos(1)
 C      if (abs((p3-pnr)/pnr) .lt. 1.D-5) then
       IF (ABS((P3-PNR)/PNR) .LT. 0.5D-7) THEN

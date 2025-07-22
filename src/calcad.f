@@ -45,9 +45,8 @@ C        LJWRT = ouput on/off toggle
 C        LADON = toggle on calcad imposed 4d interpolation in opacity
 C
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-C       SUBROUTINE CALCAD(HR, RCZL, M, HD, HP, HT, BL, FP, FT, HSTOT,
-C      *                  LPRT, TEFFL, HCOMP, NKK, DAGE, DDAGE, JENV)
       SUBROUTINE CALCAD(HR, RCZL, M, HD, HP, HT, BL, FP, FT, HSTOT,
+C      *                  LPRT, TEFFL, HCOMP, NKK, DAGE, DDAGE, JENV)  ! KC 2025-05-31
      *                  TEFFL, HCOMP, DAGE, JENV)
       PARAMETER (JSON=5000)
       PARAMETER (NTS=63, NPS=76)
@@ -206,7 +205,8 @@ C For OPAL 2006 EOS:
                   STX=STARX(I)
                   STT=START(I)
                   STD=STARD(I)
-                  CALL ESAC06(STX,STT,STD,IORDER,IRAD,*999)  ! ZTAB
+C                   CALL ESAC06(STX,ZTAB,STT,STD,IORDER,IRAD,*999)  ! KC 2025-05-31
+                  CALL ESAC06(STX,STT,STD,IORDER,IRAD,*999)
 999                  CONTINUE
                   STARC(I)=1.0D0/SQRT(eos(8)*STARP(I)/STARD(I))
                   DELADJ(I)=1.0D0/eos(9)

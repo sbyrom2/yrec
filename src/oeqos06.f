@@ -67,14 +67,16 @@ c     NOTE: irad=0 does not add radiation; irad=1 adds radiation
       X=XC
       ZTAB=Z
 
-      R=RHOOFP06(X,T6,P12,IRAD)  ! ZTAB
+C       R=RHOOFP06(X,ZTAB,T6,P12,IRAD)  ! KC 2025-05-31
+      R=RHOOFP06(X,T6,P12,IRAD)
       IF(R.LE.-998.0D0)THEN
          RETURN 1
       ENDIF
       D=R
       D10=DLOG10(D)
 
-      CALL ESAC06(X,T6,R,IORDER,IRAD,*999)  ! ZTAB
+C       CALL ESAC06(X,ZTAB,T6,R,IORDER,IRAD,*999)  ! KC 2025-05-31
+      CALL ESAC06(X,T6,R,IORDER,IRAD,*999)
 
 c      IF(ABS((P12-EOS(1))/P12).GT.0.5D-6)THEN
 c         WRITE(ISHORT,*)'***** RUN TERMINATED --ERROR IN OEQOS06 PTOT'

@@ -4,7 +4,8 @@ C     ESAC01
 C
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
-      subroutine esac01 (xh,t6,r,iorder,irad,*)  ! ztab
+C       subroutine esac01 (xh,ztab,t6,r,iorder,irad,*)  ! KC 2025-05-31
+      subroutine esac01 (xh,t6,r,iorder,irad,*)
 
 c      The purpose of this subroutine is to interpolate
 c      the equation of state and its derivatives in X, T6, density

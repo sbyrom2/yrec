@@ -4,7 +4,8 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 C EQRELV
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
       SUBROUTINE EQRELV(TL,T,PL,P,DL,D,BETA,AMU,EMU,ETA,QDT,QDP,QCP,
-     1   DELA,QDTT,QDTP,QAT,QAP,QCPT,QCPP)  ! X
+C      1   DELA,QDTT,QDTP,QAT,QAP,QCPT,QCPP,X)  ! KC 2025-05-31
+     1   DELA,QDTT,QDTP,QAT,QAP,QCPT,QCPP)
 
 C          QDTT,QDTP = NAT-LOG DERIVATIVES OF QDT=D(LOG D )/D(LOG T )
 C          QAT,QAP = NAT-LOG DERIVATIVES OF THE ADIABATIC DERIVATIVE

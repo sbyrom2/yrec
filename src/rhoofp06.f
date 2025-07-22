@@ -4,7 +4,8 @@ C     RHOOFP06
 C
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
-      function rhoofp06(x,t6,p,irad)  ! ztab
+C       function rhoofp06(x,ztab,t6,p,irad)  ! KC 2025-05-31
+      function rhoofp06(x,t6,p,irad)
 
       parameter (mx=5,mv=10,nr=169,nt=197)
       IMPLICIT REAL*8 (A-H,O-Z)
@@ -30,7 +31,8 @@ c--------------------------------------------------------------------
       T6DBG = 1.0D0
       RDBG = 0.001D0
       IDBG = 1
-      CALL ESAC06 (XDBG,T6DBG,RDBG,IDBG,IRAD,*999)  ! ZTAB
+C       CALL ESAC06 (XDBG,ZTAB,T6DBG,RDBG,IDBG,IRAD,*999)  ! KC 2025-05-31
+      CALL ESAC06 (XDBG,T6DBG,RDBG,IDBG,IRAD,*999)
       endif
 
         ilo=2
@@ -74,28 +76,32 @@ c      write (ISHORT,'("pnr, pmax,pmin=",3e14.4)') pnr,pmax,pmin
       endif
 
       rhog1=rho(nra(klo))*pnr/pmax
-      call esac06 (x,t6,rhog1,1,0,*999)  ! ztab
+C       call esac06 (x,ztab,t6,rhog1,1,0,*999)  ! KC 2025-05-31
+      call esac06 (x,t6,rhog1,1,0,*999)
       p1=eos(1)
         if(p1 .gt. pnr) then
           p2=p1
           rhog2=rhog1
           rhog1=0.2D0*rhog1
           if(rhog1 .lt. 1.D-14) rhog1=1.D-14
-          call esac06 (x,t6,rhog1,1,0,*999)  ! ztab
+C           call esac06 (x,ztab,t6,rhog1,1,0,*999)  ! KC 2025-05-31
+          call esac06 (x,t6,rhog1,1,0,*999)
           p1=eos(1)
         else
           rhog2=5D0*rhog1
 C          if(rhog2 .gt. rho(klo)) rhog2=rho(klo)  ! Corrected below   llp  8/19/08
           if(rhog2 .gt. rho(nra(klo))) rhog2=rho(nra(klo)) ! Had wrong pointer, see rhog1= ten lines up
-          call esac06 (x,t6,rhog2,1,0,*999)  ! ztab
+C           call esac06 (x,ztab,t6,rhog2,1,0,*999)  ! KC 2025-05-31
+          call esac06 (x,t6,rhog2,1,0,*999)
           p2=eos(1)
         endif
 
       icount=0
     1 continue
       icount=icount+1
-      rhog3=rhog1+(rhog2-rhog1)*(pnr-p1)/(p2-p1)
-      call esac06 (x,t6,rhog3,1,0,*999)  ! ztab
+      rhog3=rhog1+(rhog2-rhog1)*(pnr-p1)/(p2-p1)  ! KC 2025-05-31
+C       call esac06 (x,ztab,t6,rhog3,1,0,*999)
+      call esac06 (x,t6,rhog3,1,0,*999)
       p3=eos(1)
 C      if (abs((p3-pnr)/pnr) .lt. 1.D-5) then
       IF (DABS((P3-PNR)/PNR) .LT. 0.5D-7) THEN

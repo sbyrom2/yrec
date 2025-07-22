@@ -1,6 +1,8 @@
 C$$$$$$
-      RECURSIVE SUBROUTINE TAUINTNEW(HS1,LCZ,HR,HP,HD,HG,M,MINT,SVEL,  ! HCOMP,HS2
-     *                     DEL1,DEL2,RBCZ)  ! HSTOT
+C       RECURSIVE SUBROUTINE TAUINTNEW(HCOMP,HS2,HS1,LCZ,HR,HP,HD,HG,M,MINT,SVEL,
+C      *                     DEL1,DEL2,HSTOT,RBCZ)  ! KC 2025-05-31
+      RECURSIVE SUBROUTINE TAUINTNEW(HS1,LCZ,HR,HP,HD,HG,M,MINT,SVEL,
+     *                     DEL1,DEL2,RBCZ)
       PARAMETER(JSON=5000)
       IMPLICIT REAL*8(A-H,O-Z)
       IMPLICIT LOGICAL*4(L)
@@ -19,7 +21,8 @@ C KC 2025-05-30 reordered common block elements
      *                 ENVR(JSON),ENVX(JSON),ENVZ(JSON),LCENV(JSON),
 C      *                 NUMENV,EDELS(3,JSON),EVELS(JSON)
      *                 EDELS(3,JSON),EVELS(JSON),EBETAS(JSON),NUMENV
-      DIMENSION LCZ(JSON),  ! HCOMP(15,JSON),HS2(JSON)
+C       DIMENSION HCOMP(15,JSON),HS2(JSON),LCZ(JSON),  ! KC 2025-05-31
+      DIMENSION LCZ(JSON),
      *     HR(JSON), HP(JSON), HD(JSON), HG(JSON), HS1(JSON),  ! XSUM(15)
      *     DEL1(JSON), DEL2(JSON), SVEL(JSON)
 C G Somers; Adding vectors for cubic spline int.

@@ -1,8 +1,10 @@
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 C RATES
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-      SUBROUTINE RATES(DL,TL,X,Y,XHE3,XC12,XC13,XN14,XO16,  ! Z,XN15,XO17
-     *XO18,IU,HR1,HR2,HR3,HR4,HR5,HR6,HR7,  ! XH2,XLI6,XLI7,XBE9
+C       SUBROUTINE RATES(DL,TL,X,Y,Z,XHE3,XC12,XC13,XN14,XN15,XO16,XO17,
+C      *XO18,XH2,XLI6,XLI7,XBE9,IU,HR1,HR2,HR3,HR4,HR5,HR6,HR7,  ! KC 2025-05-31
+      SUBROUTINE RATES(DL,TL,X,Y,XHE3,XC12,XC13,XN14,XO16,
+     *XO18,IU,HR1,HR2,HR3,HR4,HR5,HR6,HR7,
      *HR8,HR9,HR10,HR11,HR12,HR13,HF1,HF2)
 
 C JULY 3, 1991 (MHP)

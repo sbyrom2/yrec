@@ -4,7 +4,8 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 C LIBURN
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 C 11/91 HR ADDED TO CALL.
-      SUBROUTINE LIBURN(DELTS,HCOMP,HR,HS1,HS2,HT,JNENV,JNENV0,M)  ! HD
+C       SUBROUTINE LIBURN(DELTS,HCOMP,HD,HR,HS1,HS2,HT,JNENV,JNENV0,M)  ! KC 2025-05-31
+      SUBROUTINE LIBURN(DELTS,HCOMP,HR,HS1,HS2,HT,JNENV,JNENV0,M)
       PARAMETER(JSON=5000)
       IMPLICIT REAL*8(A-H,O-Z)
       IMPLICIT LOGICAL*4(L)

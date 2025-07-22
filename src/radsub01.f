@@ -8,7 +8,8 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
       parameter (mx=5,mv=10,nr=169,nt=191)
       IMPLICIT REAL*8 (A-H,O-Z)
-      real*8 moles,molenak  ! k,Na
+C       real*8 moles,k,molenak,Na  ! KC 2025-05-31
+      real*8 moles,molenak
       common/eeos/esact,eos(mv)
 C KC 2025-05-30 reordered common block elements
 C       common/beos/ iri(10),index(10),nta(nr),zz(mx)
@@ -16,7 +17,7 @@ C       common/beos/ iri(10),index(10),nta(nr),zz(mx)
 
 c       data Na/6.0221367e+23/, k/1.380658e-16/, unitf/0.9648530/,
 c      x unitfold/0.965296/, c/2.9979245e+10/, sigma/5.67051e-5/
-c      x , sigmac/1.8914785e-15/, 
+c      x , sigmac/1.8914785e-15/,  ! KC 2025-05-31
       data sigmacc/1.8914785e-3/, aprop/83.14510/
       SAVE
 
