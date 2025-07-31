@@ -1,3 +1,41 @@
+Test Suite Use
+==============
+
+## Environment
+
+The test suite is implemented using pytest, which in turn requires python. A python virtualenv may be useful.
+
+```
+python -m venv ./yrec
+source ./yrec/bin/activate
+pip install pytest pytest-xdist
+```
+
+If a suitable python is not available, one may be installed using mamba or conda.
+
+```
+mamba create -n yrec python=3.10
+mamba activate yrec
+pip install pytest pytest-xdist
+```
+
+## Running Tests
+
+1. Activate environment containing pytest
+2. Edit configuration file to specify various parameters, such as:
+   a. Location of yrec executable
+   b. Subset of test cases to run, if desired
+   c. Numerical tolerances for comparisons with reference standard outputs
+3. $ cd yrec/examples
+4. Run tests
+   a. Sequentially
+      1. `pytest`
+   b. In parallel, using X concurrent workers
+      1. `pytest -nX`
+
+The test runner will produce a summary of pass/fail results and indicate any differences from reference outputs indentified.
+
+
 Sample Namelists
 ================
 
@@ -13,7 +51,7 @@ Sample Namelists
   S0_1_13 = 7.6D0 !(6.1D0)
   S0_1_14 = 1.66D0 !(1.68D0)
   S0_1_16 = 1.06D1 !(1.09D1)
-  S0_PEP = 3.5734D-6 
+  S0_PEP = 3.5734D-6
   S0_1_BE7E = 1.7709D-10
   S0_1_BE7P = 0.0208D0 !(0.0205D0)
   S0_HEP = 8.6D-20
@@ -40,3 +78,5 @@ Sample Namelists
 ## Pre-MS to MS (subdirectory)
 
 3. `run_from_dbl_to_zams` models has sample namelists and scripts to generate models from the pre-MS to the ZAMS.  Note that, by setting a different stop condition, these same scripts could be used to evolve either to the He flash or through He core burning for higher mass stars.  You should use these as templates, paying attention to differences in the numerical parameters for stars below 0.2 solar masses.
+
+

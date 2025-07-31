@@ -1,7 +1,7 @@
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 C
 C     READCOEOS06
-C 
+C
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
       subroutine readcoeos06
@@ -15,22 +15,30 @@ c..... The purpose of this subroutine is to read the OPAL 2006 EOS data tables
       CHARACTER*256 FOPALE,fopale01,fopale06
       character*1 blank
       common/aaeos06/ q(4),h(4),xxh
-      common/aeos06/  xz(mx,mv,nt,nr),  
+      common/aeos06/  xz(mx,mv,nt,nr),
      . t6list(nr,nt),rho(nr),t6a(nt),esk(nt,nr),esk2(nt,nr),dfsx(mx)
      . ,dfs(nt),dfsr(nr),m,mf,xa(mx)
-      common/beos06/ iri(10),index(10),nta(nr),zz(mx),nra(nt)
+C KC 2025-05-30 reordered common block elements
+C       common/beos06/ iri(10),index(10),nta(nr),zz(mx),nra(nt)
+      common/beos06/ zz(mx),iri(10),index(10),nta(nr),nra(nt)
       common/eeos06/esact,eos(mv)
       common/eeeos06/ epl(mx,nt,nr),xx(mx)
 C Amu_M and alogNe were incorrectly dimensoned Amu_M(mx,nr) and alogNe(mx,nr).
 C the required dimensions are Amu_M(nr,nt) alogNe(nr,nt), which is much larger.
 C Something was being overwritten.         llp 8/19/08
 C     x    amu_M(mx,nr),alogNe(mx,nr),rhogr(mx,nr),frac(mx,6),
-      common/eeeeos06/moles(mx),xin(mx),tmass(mx),icycuse(mx,nr),
+C KC 2025-05-30 reordered common block elements
+C       common/eeeeos06/moles(mx),xin(mx),tmass(mx),icycuse(mx,nr),
+      common/eeeeos06/moles(mx),xin(mx),tmass(mx),
      x    amu_M(nr,nt),alogNe(nr,nt),rhogr(mx,nr),frac(mx,6),
-     x    alogr(nr,nt)
+C      x    alogr(nr,nt)
+     x    alogr(nr,nt),icycuse(mx,nr)
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
-      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
-     x     lopale06,LNumDeriv
+C KC 2025-05-30 reordered common block elements
+C       COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
+C      x     lopale06,LNumDeriv
+      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,fopale06,
+     *     lopale01,lopale06,lNumDeriv
 
       save
       blank=' '
@@ -38,7 +46,7 @@ C     x    amu_M(mx,nr),alogNe(mx,nr),rhogr(mx,nr),frac(mx,6),
 
         if (itimeco .ne. 12345678) then
         do i=1,mx
-          do j=1,mv 
+          do j=1,mv
             do k=1,nt
               do l=1,nr
                 xz(i,j,k,l)=1.D+35
@@ -47,16 +55,16 @@ C     x    amu_M(mx,nr),alogNe(mx,nr),rhogr(mx,nr),frac(mx,6),
           enddo
         enddo
         do j = 1,mv
-	  eos(j) = 1D0
-	enddo
+        eos(j) = 1D0
+      enddo
         itimeco=12345678
         endif
- 
+
       close (2)
 c..... read  tables
        open(IOPALE, FILE=FOPALE06,STATUS='OLD')
- 
- 
+
+
       do 3 m=1,mx
       read (IOPALE,'(3x,f6.4,3x,f12.9,11x,f10.7,17x,f10.7)')
      x  xin(m),zz(m),moles(m),tmass(m)
@@ -83,7 +91,7 @@ c..... read  tables
          read (IOPALE,'(a)') blank
          go to 4
       endif
-      read (IOPALE,'(f11.6,1x,f6.4,e11.4,2e13.6,2e11.3,5f10.6)') 
+      read (IOPALE,'(f11.6,1x,f6.4,e11.4,2e13.6,2e11.3,5f10.6)')
      x t6list(jcs,i),amu_M(jcs,i),alogNe(jcs,j),
      x (xz(m,index(iv),i,jcs),iv=1,9)
     4 continue
@@ -94,7 +102,7 @@ c..... read  tables
     2 continue
       read(IOPALE,'(a)') blank
     3 continue
- 
+
       do i=1,nt
          if(t6list(1,i) .eq. 0D0) then
             write(ISHORT,'("READCOEOS06: Error:",i4,
@@ -104,11 +112,18 @@ c..... read  tables
          t6a(i)=t6list(1,i)
       enddo
       do 12 i=2,nt
-   12 dfs(i)=1D0/(t6a(i)-t6a(i-1))
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C    12 dfs(i)=1D0/(t6a(i)-t6a(i-1))
+        dfs(i)=1D0/(t6a(i)-t6a(i-1))
+   12 continue
       rho(1)=rhogr(1,1)
       do 13 i=2,nr
-      rho(i)=rhogr(1,i)
-   13 dfsr(i)=1D0/(rho(i)-rho(i-1))
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C       rho(i)=rhogr(1,i)
+C    13 dfsr(i)=1D0/(rho(i)-rho(i-1))
+         rho(i)=rhogr(1,i)
+         dfsr(i)=1D0/(rho(i)-rho(i-1))
+   13 continue
       do i=2,mx
       dfsx(i)=1D0/(xx(i)-xx(i-1))
       enddo

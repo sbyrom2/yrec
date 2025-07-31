@@ -18,7 +18,7 @@ C $$$$$$
       DO 2 J=NPT-1,1,-1
          EX(J) = EX(J) - GAMA(J+1)*EX(J+1)
     2 CONTINUE
- 911  FORMAT(1P6E10.2)
+C  911  FORMAT(1P6E10.2)
 
       RETURN
       END

@@ -1,33 +1,41 @@
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 C
 C     READCOEOS01
-C 
+C
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-      
+
       subroutine readcoeos01
 
 c..... The purpose of this subroutine is to read the data tables
-      
+
       parameter (mx=5,mv=10,nr=169,nt=191)
-      
+
       IMPLICIT REAL*8 (A-H,O-Z)
-      
+
       real*8 moles
       LOGICAL*4 LOPALE, lopale01,lopale06,LNumDeriv
       CHARACTER*256 FOPALE,fopale01,fopale06
       character*1 blank
       common/aaeos/ q(4),h(4),xxh
-      common/aeos/  xz(mx,mv,nt,nr),  
+      common/aeos/  xz(mx,mv,nt,nr),
      . t6list(nr,nt),rho(nr),t6a(nt),esk(nt,nr),esk2(nt,nr),dfsx(mx)
      . ,dfs(nt),dfsr(nr),m,mf,xa(mx)
-      common/beos/ iri(10),index(10),nta(nr),zz(mx)
+C KC 2025-05-30 reordered common block elements
+C       common/beos/ iri(10),index(10),nta(nr),zz(mx)
+      common/beos/ zz(mx),iri(10),index(10),nta(nr)
       common/eeos/esact,eos(mv)
       common/eeeos/ epl(mx,nt,nr),xx(mx)
-      common/eeeeos/moles(mx),xin(mx),tmass(mx),icycuse(mx,nr),
-     x    rhogr(mx,nr),frac(mx,6),alogr(nr,nt)
+C KC 2025-05-30 reordered common block elements
+C       common/eeeeos/moles(mx),xin(mx),tmass(mx),icycuse(mx,nr),
+C      x    rhogr(mx,nr),frac(mx,6),alogr(nr,nt)
+      common/eeeeos/moles(mx),xin(mx),tmass(mx),
+     x    rhogr(mx,nr),frac(mx,6),alogr(nr,nt),icycuse(mx,nr)
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
-      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
-     x     lopale06,LNumDeriv
+C KC 2025-05-30 reordered common block elements
+C       COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
+C      x     lopale06,LNumDeriv
+      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,fopale06,
+     *     lopale01,lopale06,lNumDeriv
 C mhp 7/2003
       COMMON/RMPOPEOS01/RMX(NT),KRA(NT),KT
       DATA (KRA(I),I=1,NT)/16*169,168,167,166,165,2*164,163,2*162,
@@ -43,7 +51,7 @@ C mhp 7/2003
 
         if (itimeco .ne. 12345678) then
         do i=1,mx
-          do j=1,mv 
+          do j=1,mv
             do k=1,nt
               do l=1,nr
                 xz(i,j,k,l)=1.D+35
@@ -53,12 +61,12 @@ C mhp 7/2003
         enddo
         itimeco=12345678
         endif
- 
+
       close (2)
 c..... read  tables
        open(IOPALE, FILE=FOPALE01,STATUS='OLD')
- 
- 
+
+
       do 3 m=1,mx
 
       read (IOPALE,'(3x,f6.4,3x,f12.9,11x,f10.7,17x,f10.7)')
@@ -96,7 +104,7 @@ c..... read  tables
     2 continue
       read(IOPALE,'(a)') blank
     3 continue
- 
+
       do i=1,nt
          if(t6list(1,i) .eq. 0.0D0) then
             write(ISHORT,'("READCOEOS01: Error:",i4,
@@ -106,11 +114,18 @@ c..... read  tables
          t6a(i)=t6list(1,i)
       enddo
       do 12 i=2,nt
-   12 dfs(i)=1D0/(t6a(i)-t6a(i-1))
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C    12 dfs(i)=1D0/(t6a(i)-t6a(i-1))
+         dfs(i)=1D0/(t6a(i)-t6a(i-1))
+   12 continue
       rho(1)=rhogr(1,1)
       do 13 i=2,nr
-      rho(i)=rhogr(1,i)
-   13 dfsr(i)=1D0/(rho(i)-rho(i-1))
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C       rho(i)=rhogr(1,i)
+C    13 dfsr(i)=1D0/(rho(i)-rho(i-1))
+         rho(i)=rhogr(1,i)
+         dfsr(i)=1D0/(rho(i)-rho(i-1))
+   13 continue
       do i=2,mx
       dfsx(i)=1D0/(xx(i)-xx(i-1))
       enddo
@@ -122,6 +137,6 @@ C  NEED EDGE OF TABLE AT HIGH RHO, FIXED T.
       DO I = 1, NT
          RMX(I) = RHO(KRA(I))
       END DO
-            
+
       return
       end

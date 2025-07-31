@@ -1,13 +1,14 @@
 C MHP 7/2003 SUBROUTINE TO CHECK IF POINT IS WITHIN
 C OPAL EOS TABLE.
-      SUBROUTINE EQBOUND01(T,DL,DL0,FAC,LTAB,LRAMP)
+C       SUBROUTINE EQBOUND01(T,DL,DL0,FAC,LTAB,LRAMP)  ! KC 2025-05-31
+      SUBROUTINE EQBOUND01(T,DL,FAC,LTAB,LRAMP)
       IMPLICIT REAL*8(A-H,O-Z)
       IMPLICIT LOGICAL*4(L)
       PARAMETER (MX=5,MV=10,NR=169,NT=191)
-      common/aeos/  xz(mx,mv,nt,nr),  
+      common/aeos/  xz(mx,mv,nt,nr),
      . t6list(nr,nt),rho(nr),t6a(nt),esk(nt,nr),esk2(nt,nr),dfsx(mx)
      . ,dfs(nt),dfsr(nr),m,mf,xa(mx)
-C      COMMON/A/  XZ(MX,MV,NT,NR),  
+C      COMMON/A/  XZ(MX,MV,NT,NR),
 C     *T6LIST(NR,NT),RHO(NR),T6A(NT),ESK(NT,NR),ESK2(NT,NR),DFSX(MX),
 C     * DFS(NT),DFSR(NR),XA(MX),M,MF
       COMMON/RMPOPEOS01/RMX(NT),KRA(NT),KT
@@ -94,5 +95,5 @@ C Error Exit.
       FAC = 0D0            ! Set ramping factor to zero
 C                            This way, out of table results are ramped to zero.
       RETURN      ! Error exit
- 
+
       END

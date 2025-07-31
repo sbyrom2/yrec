@@ -1,10 +1,10 @@
-   
+
 C***********************************************************************
       BLOCK DATA
       IMPLICIT REAL*8 (A-H,O-Z)
       PARAMETER (MX=5,MV=10,NR=77,NT=56)
       COMMON/AA/ Q(4),H(4),XXH
-      COMMON/A/  XZ(MX,MV,NT,NR),  
+      COMMON/A/  XZ(MX,MV,NT,NR),
      .T6LIST(NR,NT),RHO(NR),T6A(NT),ESK(NT,NR),ESK2(NT,NR),DFSX(MX),
      . DFS(NT),DFSR(NR),XA(MX),M,MF
       COMMON/B/ ZZ(MX),IRI(10),INDEX(10),NTA(NR)

@@ -11,8 +11,8 @@ c..maximum error is 4.19d-9.   reference: antia apjs 84,101 1993
 
 c..declare
       integer          i,m1,k1,m2,k2
-      double precision f,an,a1(12),b1(12),a2(12),b2(12),rn,den,ff,
-     1                 z,drn
+      double precision f,an,a1(12),b1(12),a2(12),b2(12),rn,den,ff
+c     1                 z,drn
 
 
 
@@ -23,7 +23,7 @@ c..load the coefficients of the expansion
      2     1.0d0/
       data  (b1(i),i=1,4)/ 1.771804140488d4,  -2.014785161019d3,
      1     9.130355392717d1,  -1.670718177489d0/
-      data  (a2(i),i=1,7)/-1.277060388085d-2,  7.187946804945d-2, 
+      data  (a2(i),i=1,7)/-1.277060388085d-2,  7.187946804945d-2,
      1                    -4.262314235106d-1,  4.997559426872d-1,
      2                    -1.285579118012d0,  -3.930805454272d-1,
      3     1.0d0/

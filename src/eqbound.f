@@ -1,10 +1,11 @@
 C MHP 8/98 SUBROUTINE TO CHECK IF POINT IS WITHIN
 C OPAL EOS TABLE.
-      SUBROUTINE EQBOUND(T,DL,DL0,FAC,LTAB,LRAMP)
+C       SUBROUTINE EQBOUND(T,DL,DL0,FAC,LTAB,LRAMP)  ! KC 2025-05-31
+      SUBROUTINE EQBOUND(T,DL,FAC,LTAB,LRAMP)
       IMPLICIT REAL*8(A-H,O-Z)
       IMPLICIT LOGICAL*4(L)
       PARAMETER (MX=5,MV=10,NR=77,NT=56)
-      COMMON/A/  XZ(MX,MV,NT,NR),  
+      COMMON/A/  XZ(MX,MV,NT,NR),
      *T6LIST(NR,NT),RHO(NR),T6A(NT),ESK(NT,NR),ESK2(NT,NR),DFSX(MX),
      * DFS(NT),DFSR(NR),XA(MX),M,MF
       COMMON/RMPOPEOS/RMX(NT),KRA(NT),KT
@@ -78,11 +79,11 @@ C  If we get here, ramping in density is needed.
 C         WRITE(*,912)DL,DL0,DLIM,DLIM2,FAC
 C 912     format(' high rho ramp',5f9.6)
       ELSE
-C        If we get here, we are in the middel of the table and 
+C        If we get here, we are in the middel of the table and
 C        no ramping is needed.
-         LRAMP = .FALSE.  
+         LRAMP = .FALSE.
       ENDIF
-      
+
       RETURN
 
 C Error Exit.

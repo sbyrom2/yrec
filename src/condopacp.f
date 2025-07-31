@@ -2,22 +2,22 @@
 *  This subroutine interpolates the electron thermal conductivity       *
 *               from the data file "condall.d"                          *
 *  ---------------------------------------------------  Version 23.05.99
-      subroutine CondOpacP(Zion,TLG,RLG,CK,DRK,DTK)
+      recursive subroutine CondOpacP(Zion,TLG,RLG,CK,DRK,DTK)
 * Input: Zion - ion charge, TLG - lg(T[K]), RLG - lg(rho[g/cc])
 * Output: CK - Log_{10} thermal conductivity (kappa) [CGS units]
 *         DRK - d log kappa / d log rho
 *         DTK - d log kappa / d log T
 ***      (it is also possible to obtain all second derivatives)      ***
 
-C     This Subroutine interpolates thermal conductivity from 
-C     a precalculated table condall.d available at 
+C     This Subroutine interpolates thermal conductivity from
+C     a precalculated table condall.d available at
 C     http://www.ioffe.rssi.ru/astro/conduct
 C     For theoretical base of this calculation, see
 C      A.Y.Potekhin, D.A.Baiko, P.Haensel, D.G.Yakovlev, 1999
-C                  Astron. Astrophys. 346, 345.      
+C                  Astron. Astrophys. 346, 345.
 C     Extension from strongly- to weakly-degenerate regime
 C     has been done using the thermal averaging - for example
-C         A.Y.Potekhin, 1999, Astron. Astrophys. 351, 787.  
+C         A.Y.Potekhin, 1999, Astron. Astrophys. 351, 787.
 C     Please quote these publication when using this program
 C     SOURCE DATA FILE 'condall.d' MUST BE IN YOUR
 C      CURRENT DIRECTORY
@@ -31,12 +31,12 @@ C     e-mail: palex@astro.ioffe.rssi.ru
       dimension AT(MAXT),AR(MAXR),AZ(MAXZ),AKAP(MAXT,MAXR,MAXZ)
       data KRUN/-1/
 
-C The following three lines provide and interface to PARMIN in order to 
+C The following three lines provide and interface to PARMIN in order to
 C locate the Potekhin files.
       COMMON /MISCOPAC/IKUR2,FKUR2,IcondOpacP,FcondOpacp,LcondOpacP
       LOGICAL*4 LcondOpacP
       CHARACTER*256 FKUR2,FcondOpacP
-	if (KRUN.ne.12345) then ! Reading
+      if (KRUN.ne.12345) then ! Reading
          IP = IcondOpacP
          open(IP,file=FcondOpacP,status='OLD')
 c         print*,'Reading thermal conductivity data...'
@@ -47,12 +47,16 @@ c         print*,'Reading thermal conductivity data...'
           do IR=1,MAXR
              read(IP,*) AR(IR),(AKAP(IT,IR,IZ),IT=1,MAXT)
           enddo
-	enddo
+      enddo
          close(IP)
          KRUN=12345
-         IZ=MAXZ/2+1
-         IT=MAXT/2+1
-         IR=MAXR/2+1
+C KC 2025-05-30 fixed -Winteger-division
+C          IZ=MAXZ/2+1
+C          IT=MAXT/2+1
+C          IR=MAXR/2+1
+         IZ=INT(MAXZ/2.)+1
+         IT=INT(MAXT/2.)+1
+         IR=INT(MAXR/2.)+1
 c         print*,'Potekhin Conductivity File read in.'
       endif
       ZLG=dlog10(Zion)
@@ -61,11 +65,11 @@ c         print*,'Potekhin Conductivity File read in.'
       call HUNT(AT,MAXT,TLG,IT)
 
 C      if (IT.eq.0.or.IT.eq.MAXT) stop'CONINTER: T out of range'
-	if (IT.eq.0.or.IT.eq.MAXT) then 
-			print*, AZ
-			print*, MAXZ, TLG, IZ
-			stop'CONINTER: T out of range'
-	endif
+      if (IT.eq.0.or.IT.eq.MAXT) then
+                  print*, AZ
+                  print*, MAXZ, TLG, IZ
+                  stop'CONINTER: T out of range'
+      endif
 
       call HUNT(AR,MAXR,RLG,IR)
       if (IR.eq.0.or.IR.eq.MAXR) stop'CONINTER: rho out of range'
@@ -178,12 +182,12 @@ C      if (IT.eq.0.or.IT.eq.MAXT) stop'CONINTER: T out of range'
    10 return
       end
 
-      subroutine HUNT(XX,N,X,JLO)
+      recursive subroutine HUNT(XX,N,X,JLO)
 *   W.H.Press, B.P.Flannery, S.A.Teukolsky, W.T.Vetterling
 *   Numerical Receipes(Cambridge Univ., 1986)
 *     Given an array XX of length N, and given a value X,
 *     returns a value JLO such that X is between XX(JLO) and XX(JLO+1).
-*     XX must be monotonic, either increasing or decreasing. 
+*     XX must be monotonic, either increasing or decreasing.
 *     JLO=0 or JLO=N is returned to indicate that X is out of range.
 *     JLO on input is taken as the initial guess for JLO on output.
       implicit double precision (A-H), double precision (O-Z)

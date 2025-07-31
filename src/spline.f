@@ -48,7 +48,15 @@ C
 C CASES 1,2, OR 3.
 C
 C DETERMINE THE LOCATION OF XVALS RELATIVE TO THE KNOT.
-      IF (Z1 - XVALS) 10,20,30
+C KC 2025-05-30 fixed "Arithmetic IF statement"
+C       IF (Z1 - XVALS) 10,20,30
+      IF (Z1 .LT. XVALS) THEN
+         GOTO 10
+      ELSE IF (Z1 .EQ. XVALS) THEN
+         GOTO 20
+      ELSE
+         GOTO 30
+      END IF
 C
   10  CONTINUE
       IF(XTABS1.NE.Z1)THEN
@@ -76,7 +84,15 @@ C
 C CASE 4.
 C
 C DETERMINE THE LOCATION OF XVALS RELATIVE TO THE FIRST KNOT.
-  40  IF (Y1 - XVALS) 70,60,50
+C KC 2025-05-30 fixed "Arithmetic IF statement"
+C   40  IF (Y1 - XVALS) 70,60,50
+  40  IF (Y1 .LT. XVALS) THEN
+         GOTO 70
+      ELSE IF (Y1 .EQ. XVALS) THEN
+         GOTO 60
+      ELSE
+         GOTO 50
+      END IF
 C
   50  CONTINUE
       IF(Y1.NE.XTABS)THEN
@@ -92,7 +108,15 @@ C
       RETURN
 C
 C DETERMINE THE LOCATION OF XVALS RELATIVE TO THE SECOND KNOT.
-  70  IF (Z1 - XVALS) 100,90,80
+C KC 2025-05-30 fixed "Arithmetic IF statement"
+C   70  IF (Z1 - XVALS) 100,90,80
+  70  IF (Z1 .LT. XVALS) THEN
+         GOTO 100
+      ELSE IF (Z1 .EQ. XVALS) THEN
+         GOTO 90
+      ELSE
+         GOTO 80
+      END IF
 C
   80  CONTINUE
       IF(Z1.NE.Y1)THEN

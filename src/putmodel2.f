@@ -39,14 +39,14 @@ C Any error messages go to LU ISHORT.
          WRITE(ISHORT,7)
   7      FORMAT('*** YREC7 input file, flags, etc., have been ',
      *          'defaulted.  ***')
-      ENDIF	 
-     
+      ENDIF
+
 C write header records
       IF(DAGE .lt. 1d3) THEN
          WRITE(IWRITE,10) 'MOD2 ',MODEL,M,SMASS,TEFFL,BL,HSTOT,DAGE,
      *      DDAGE,HS(1),HS(M)
  10      FORMAT(A5,2I8,5F16.11,1PE18.10,0P2F16.12)
-      ELSE IF (DAGE .LT. 1D4) THEN 
+      ELSE IF (DAGE .LT. 1D4) THEN
          WRITE(IWRITE,11) 'MOD2 ',MODEL,M,SMASS,TEFFL,BL,HSTOT,DAGE,
      *      DDAGE,HS(1),HS(M)
  11      FORMAT(A5,2I8,4F16.12,F16.10,1PE18.10,0P2F16.12)
@@ -54,7 +54,7 @@ C write header records
          WRITE(IWRITE,12) 'MOD2 ',MODEL,M,SMASS,TEFFL,BL,HSTOT,DAGE,
      *      DDAGE,HS(1),HS(M)
  12      FORMAT(A5,2I8,4F16.12,F16.9,1PE18.10,0P2F16.12)
-      ELSE 
+      ELSE
          WRITE(IWRITE,13) 'MOD2 ',MODEL,M,SMASS,TEFFL,BL,HSTOT,DAGE,
      *      DDAGE,HS(1),HS(M)
  13      FORMAT(A5,2I8,4F16.12,F16.8,1PE18.10,0P2F16.12)
@@ -68,14 +68,14 @@ C write physics flags:
      &     3(1PE18.10))
 
 C write luminosities
-C If TLUMX are in solar units, convert to ergs.  Decide by 
+C If TLUMX are in solar units, convert to ergs.  Decide by
 C comparing to 10**20, if smaller, multiply by CLSUN
 
       CCCMAX = DMAX1(TLUMX(1),TLUMX(2),TLUMX(3),TLUMX(4),TLUMX(5),
      *     DABS(TLUMX(6)),TLUMX(7))
       IF(CCCMAX.LE.1.0D20) THEN
-	 DO J = 1,7
-	    TLUMX(J) = TLUMX(J) * CLSUN
+       DO J = 1,7
+          TLUMX(J) = TLUMX(J) * CLSUN
          ENDDO
       ENDIF
       WRITE(IWRITE,40) (TLUMX(J),J=1,7)

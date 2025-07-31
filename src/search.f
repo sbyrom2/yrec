@@ -39,7 +39,7 @@ C
 C----------------------------------------------------------------------
 C
       save
-      
+
       FIRST=1
       LAST=NUM
       FND=0
@@ -62,7 +62,15 @@ C
 C
 C CHECK IF S .EQ. XTAB(MIDDLE). IF NOT, CONTINUE THE SEARCH IN THE
 C APPROPRIATE HALF OF THE VECTOR XTAB.
-      IF (XTAB(MIDDLE) - S) 40,50,60
+C KC 2025-05-30 fixed "Arithmetic IF statement"
+C       IF (XTAB(MIDDLE) - S) 40,50,60
+      IF (XTAB(MIDDLE) .LT. S) THEN
+         GOTO 40
+      ELSE IF (XTAB(MIDDLE) .EQ. S) THEN
+         GOTO 50
+      ELSE
+         GOTO 60
+      END IF
 C
   30  LCN=FIRST
       RETURN

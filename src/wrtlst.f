@@ -21,7 +21,7 @@ c     CHARACTER*4 ATM, LOK, HIK, COMPMIX
 c MHP 4/25 changed LOK name to make it unique, used elsewhere
       CHARACTER*4 ATM, ALOK, HIK, COMPMIX
       CHARACTER*256 FLAOL, FPUREZ
-      CHARACTER*256 FOPALE,FOPALE01,FcondOpacP,FOPALE06
+      CHARACTER*256 FOPALE,FOPALE01,FOPALE06  ! FcondOpacP
 
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
       COMMON/CONST3/CDELRL,CMIXL,CMIXL2,CMIXL3,CLNDP,CSECYR
@@ -32,10 +32,10 @@ c MHP 4/25 changed LOK name to make it unique, used elsewhere
      * HS(JSON),HT(JSON),LC(JSON),TRIT(3),TRIL(3),PS(3),TS(3),RS(3),
      * CFENV(9),TLUMX(8),OMEGA(JSON)
 C llp  3/19/03 Add COMMON block /I2O/ for info directly transferred from
-C      input to output model - starting with a code for th initial model 
+C      input to output model - starting with a code for th initial model
 C      compostion (COMPMIX)
-      COMMON /I2O/ COMPMIX     
-      
+      COMMON /I2O/ COMPMIX
+
 C llp 3/19/03 Add required COMMON blocks such that header flags
 C     ATM, EOS, HIK and LOK can be determined.
       COMMON/ATMOS/HRAS,KTTAU,KTTAU0,LTTAU
@@ -52,18 +52,21 @@ C MHP 8/17 ADDED EXCEN, C_2 TO COMMON BLOCK FOR MATT ET AL. 2012 CENT. TERM
       COMMON/GRAVS3/FGRY,FGRZ,LTHOUL,LDIFZ
 C OPACITY COMMON BLOCKS - modified 3/09
       COMMON /NEWOPAC/ZLAOL1,ZLAOL2,ZOPAL1,ZOPAL2, ZOPAL951,
-     +       ZALEX1, ZKUR1, ZKUR2,TMOLMIN,TMOLMAX,LALEX06,  
-     +       LLAOL89,LOPAL92,LOPAL95,LKUR90,LALEX95,L2Z 
+     +       ZALEX1, ZKUR1, ZKUR2,TMOLMIN,TMOLMAX,LALEX06,
+     +       LLAOL89,LOPAL92,LOPAL95,LKUR90,LALEX95,L2Z
       COMMON/NWLAOL/OLAOL(12,104,52),OXA(12),OT(52),ORHO(104),TOLLAOL,
      *  IOLAOL, NUMOFXYZ, NUMRHO, NUMT, LLAOL, LPUREZ, IOPUREZ,
      *   FLAOL, FPUREZ
-      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,FOPALE01,LOPALE01,
-     x  FOPALE06,LOPALE06,LNumDeriv
+C KC 2025-05-30 reordered common block elements
+C       COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,FOPALE01,LOPALE01,
+C      x  FOPALE06,LOPALE06,LNumDeriv
+      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,fopale06,
+     *     lopale01,lopale06,lNumDeriv
       COMMON/SCVEOS/TLOGX(NTS),TABLEX(NTS,NPS,12),
      *TABLEY(NTS,NPS,12),SMIX(NTS,NPS),TABLEZ(NTS,NPS,13),
      *TABLENV(NTS,NPS,12),NPTSX(NTS),LSCV,IDTT,IDP
-      
-      
+
+
       SAVE
 
 C physics flags:
@@ -129,14 +132,14 @@ C First three lines above are YREC7 inputs
 C Last two lines are MODEL2 add-ons
 
 
-      
+
       WRITE(IOWR,360) MODEL,M,TEFFL,BL,DAGE
   360 FORMAT(I6,'  #SHELLS=', I4, '  LogTeff=',F8.5,
      *       '  Log(L/Lsun)=',F8.5,'  Age=',F12.5)
       IF(IWRITE.EQ.11) THEN
-	 WRITE(ISHORT,330) MODEL,IWRITE
+       WRITE(ISHORT,330) MODEL,IWRITE
       ELSE
-	 WRITE(ISHORT,340) MODEL,DAGE,IWRITE
+       WRITE(ISHORT,340) MODEL,DAGE,IWRITE
       ENDIF
   330 FORMAT(' DUMPED MODEL',I5,'  FILE',I3)
   340 FORMAT(' DUMPED MODEL',I5,' AGE',F13.9,'  FILE',I3)

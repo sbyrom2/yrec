@@ -11,11 +11,13 @@ c..reference: antia apjs 84,101 1993
 
 c..declare
       integer          i,m1,k1,m2,k2
-      double precision x,an,a1(12),b1(12),a2(12),b2(12),rn,den,xx
+C       double precision x,an,a1(12),b1(12),a2(12),b2(12),rn,den,xx  ! KC 2025-05-31
+      double precision x,a1(12),b1(12),a2(12),b2(12),rn,den,xx
 
 
 c..load the coefficients of the expansion
-      data  an,m1,k1,m2,k2 /-0.5d0, 7, 7, 11, 11/
+C       data  an,m1,k1,m2,k2 /-0.5d0, 7, 7, 11, 11/  ! KC 2025-05-31
+      data  m1,k1,m2,k2 /7, 7, 11, 11/
       data  (a1(i),i=1,8)/ 1.71446374704454d7,    3.88148302324068d7,
      1                     3.16743385304962d7,    1.14587609192151d7,
      2                     1.83696370756153d6,    1.14980998186874d5,

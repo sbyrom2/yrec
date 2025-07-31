@@ -26,7 +26,8 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
       DATA STOLEE/1.0D-09/
       SAVE
 
- 1    FXHE = FX(12)
+C  1    FXHE = FX(12)
+      FXHE = FX(12)
       EMAX = 1.0D0 + FXHE
       TI = 1.0D0/T
 C BEGIN SAHA ROUTINE
@@ -178,7 +179,10 @@ C COMPUTE FIRST DERIVATIVES
       IF(NZ0.LE.0) GO TO 31
       DO 30 I=NZ1,NZ0
          R3P = R3P - FXS(I)
- 30   R3T = R3T -FXS(I)*(2.5D0 + BETA14 + SAHATT(I))
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C  30   R3T = R3T -FXS(I)*(2.5D0 + BETA14 + SAHATT(I))
+         R3T = R3T -FXS(I)*(2.5D0 + BETA14 + SAHATT(I))
+ 30   CONTINUE
       R3P = -BETAI*R3P
  31   IF(LNOHE) GO TO 33
       SAHEX0 = 1.0D0 - SAHEX1 - SAHEX2
@@ -218,7 +222,10 @@ C COMPUTE INTERNAL ENERGY TEMPERATURE DERIVATIVE(QUT)
       STEMP = 2.50D0 + BETA14 - EP1E*SQET
       DO 36 I=NZ1,NZ0
          FXT(I) = FXS(I)*(STEMP + SAHATT(I))
- 36   USUM = USUM + FXT(I)*SAHAT(I)
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C  36   USUM = USUM + FXT(I)*SAHAT(I)
+         USUM = USUM + FXT(I)*SAHAT(I)
+ 36   CONTINUE
  37   CONTINUE
       BETAUT = 0.75D0*(2.0D0 + BETA14)
       RAMU = CGAS*AMU
@@ -249,7 +256,10 @@ C COMPUTE DERIVATIVES OF QDT,QCP,DELA
          UTSUM = UTSUM + SAHAT(I)*(STEMP6 - FXT(I))
          STEMP7 = FXS(I)*(STEMP3 + STEMP2*STEMP5)
          R3P = R3P - STEMP7
- 41   UPSUM = UPSUM + SAHAT(I)*STEMP7
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C  41   UPSUM = UPSUM + SAHAT(I)*STEMP7
+         UPSUM = UPSUM + SAHAT(I)*STEMP7
+ 41   CONTINUE
  42   CONTINUE
       IF(LNOHE) GO TO 44
       STEMP = 2.0D0*SAHEX1*EP1*SQET
@@ -278,7 +288,10 @@ C COMPUTE DERIVATIVES OF QDT,QCP,DELA
       STEMP1 = EP1E*SQETP
       DO 45 I=NZ1,NZ0
          UTSUM = UTSUM - FXS(I)*SAHAT(I)*STEMP
- 45   UPSUM = UPSUM - FXS(I)*SAHAT(I)*STEMP1
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C  45   UPSUM = UPSUM - FXS(I)*SAHAT(I)*STEMP1
+         UPSUM = UPSUM - FXS(I)*SAHAT(I)*STEMP1
+ 45   CONTINUE
  46   CONTINUE
       IF(LNOHE) GO TO 48
       SX1QTT = (R2T - C23*SQETT)/C22

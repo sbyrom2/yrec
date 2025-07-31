@@ -9,13 +9,16 @@ C YCK >>>  2/95 OPAL EOS
       LOGICAL*4 LOPALE,lopale01,lopale06,LNumDeriv
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
       CHARACTER*256 FOPALE,fopale01,fopale06
-      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
-     x     lopale06,LNumDeriv
+C KC 2025-05-30 reordered common block elements
+C       COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
+C      x     lopale06,LNumDeriv
+      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,fopale06,
+     *     lopale01,lopale06,lNumDeriv
 C <<< YCK
       REAL*8 MOLES
       CHARACTER*1 BLANK
       COMMON/AA/ Q(4),H(4),XXH
-      COMMON/A/  XZ(MX,MV,NT,NR),  
+      COMMON/A/  XZ(MX,MV,NT,NR),
      .T6LIST(NR,NT),RHO(NR),T6A(NT),ESK(NT,NR),ESK2(NT,NR),DFSX(MX),
      . DFS(NT),DFSR(NR),XA(MX),M,MF
       COMMON/B/ ZZ(MX),IRI(10),INDEX(10),NTA(NR)
@@ -32,7 +35,7 @@ C <<< YCK
 
         IF (ITIMECO .NE. 12345678) THEN
         DO I=1,MX
-          DO J=1,MV 
+          DO J=1,MV
             DO K=1,NT
               DO L=1,NR
                 XZ(I,J,K,L)=1.D+35
@@ -42,13 +45,13 @@ C <<< YCK
         ENDDO
         ITIMECO=12345678
         ENDIF
- 
+
 C..... READ  TABLES
 C YCK >>>
        OPEN(IOPALE, FILE=FOPALE,STATUS='OLD')
 C <<< YCK
- 
- 
+
+
       DO 3 M=1,MX
 
       READ (IOPALE,'(3X,F6.4,3X,F6.4,11X,F10.7,17X,F10.7)')
@@ -86,19 +89,29 @@ C <<< YCK
     2 CONTINUE
       READ(IOPALE,'(A)') BLANK
     3 CONTINUE
- 
+
       DO 11 I=1,NT
         IF(T6LIST(1,I) .EQ. 0.0D0) THEN
           NTUSE=I
           GO TO 14
         ENDIF
-   11 T6A(I)=T6LIST(1,I)
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C    11 T6A(I)=T6LIST(1,I)
+        T6A(I)=T6LIST(1,I)
+   11 CONTINUE
    14 DO 12 I=2,NT
-   12 DFS(I)=1.D0/(T6A(I)-T6A(I-1))
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C    12 DFS(I)=1.D0/(T6A(I)-T6A(I-1))
+         DFS(I)=1.D0/(T6A(I)-T6A(I-1))
+   12 CONTINUE
       RHO(1)=RHOGR(1,1)
       DO 13 I=2,NR
-      RHO(I)=RHOGR(1,I)
-   13 DFSR(I)=1.D0/(RHO(I)-RHO(I-1))
+C KC 2025-05-30 fixed "DO termination statement which is not END DO or CONTINUE"
+C       RHO(I)=RHOGR(1,I)
+C    13 DFSR(I)=1.D0/(RHO(I)-RHO(I-1))
+         RHO(I)=RHOGR(1,I)
+         DFSR(I)=1.D0/(RHO(I)-RHO(I-1))
+   13 CONTINUE
       DO I=2,MX
       DFSX(I)=1.D0/(XX(I)-XX(I-1))
       ENDDO

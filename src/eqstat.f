@@ -4,7 +4,7 @@ C
 C   EQSTAT - New front end to equation of state routines
 C            Provided to allow numerical differentiation of
 C            current EOS routines by calling old EOS routine
-C            (now called EQSTAT2) at aappropriated P and T 
+C            (now called EQSTAT2) at aappropriated P and T
 C            points in support of numerical differentiation.
 C                                                                 LLP  10-22-06
 C
@@ -18,7 +18,7 @@ c  Input Arguments: TL, PL, X, Z, LDERIV, LATMO
 c
 c  Output Arguments: T, P, D, DL, BETA, BETAI, BETA14, FXION, RMU, AMU,
 c          EMU, QDT, QDP, QCP, DELA, QDTT, QDTP, QAT, QAP, QCPT, QCPP,
-c     
+c
 c  Update (Input and Output) Arguments: KSAHA
 c
 
@@ -26,7 +26,8 @@ c
       IMPLICIT REAL*8 (A-H,O-Z)
       IMPLICIT LOGICAL*4(L)
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
-      DIMENSION FX(12),ATOMWT(4),FXION(3),ATOMW2(12)
+C       DIMENSION ATOMWT(4),FXION(3),ATOMW2(12)  ! FX(12)  ! KC 2025-05-31
+      DIMENSION FXION(3)
       COMMON/COMP/XENV,ZENV,ZENVM,AMUENV,FXENV(12),XNEW,ZNEW,STOTAL,
      *     SENV
       COMMON/CTLIM/ATIME(14),TCUT(5),TSCUT,TENV0,TENV1,TENV,TGCUT
@@ -36,30 +37,33 @@ C DBG 7/92 COMMON BLOCK ADDED TO COMPUTE DEBYE-HUCKEL CORRECTION.
       COMMON/DEBHU/CDH,ETADH0,ETADH1,ZDH(18),XXDY,
      1     YYDH,ZZDH,DHNUE(18),LDH
 C YCK 2/95 OPAL eos
-C LLP 2001 OPAL eos Mar 2003 
+C LLP 2001 OPAL eos Mar 2003
 C LLP 2006 OPAL eos Oct 2006
 C LLP Add Use Numerical Derivatives flag, LNumDeriv   7/07
       LOGICAL*4 LOPALE, lopale01,lopale06,lNumDeriv
       CHARACTER*256 FOPALE,fopale01,fopale06
-      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
-     x     lopale06,lNumDeriv
+C KC 2025-05-30 reordered common block elements
+C       COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
+C      x     lopale06,lNumDeriv
+      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,fopale06,
+     *     lopale01,lopale06,lNumDeriv
 C MHP 3/94 ADDED METAL DIFFUSION
       COMMON/GRAVS3/FGRY,FGRZ,LTHOUL,LDIFZ
 C MHP  5/97 ADDED COMMON BLOCK FOR SCV EOS TABLES
       COMMON/SCVEOS/TLOGX(NTS),TABLEX(NTS,NPS,12),
      *     TABLEY(NTS,NPS,12),SMIX(NTS,NPS),TABLEZ(NTS,NPS,13),
      *     TABLENV(NTS,NPS,12),NPTSX(NTS),LSCV,IDT,IDP
-      DATA NZP1/12/
-      DATA ATOMWT/0.9921D0,0.24975D0,0.08322D0,0.4995D0/
-      DATA SCALET,SCALES/0.500D0, 2.000D0/
-      DATA ATOMW2/23.0D0,26.99D0,24.32D0,55.86D0,28.1D0,12.015D0,
-     *            1.008D0,16.0D0,14.01D0,39.96D0,20.19D0,4.004D0/
+C       DATA NZP1/12/
+C       DATA ATOMWT/0.9921D0,0.24975D0,0.08322D0,0.4995D0/
+C       DATA SCALET,SCALES/0.500D0, 2.000D0/
+C       DATA ATOMW2/23.0D0,26.99D0,24.32D0,55.86D0,28.1D0,12.015D0,
+C      *            1.008D0,16.0D0,14.01D0,39.96D0,20.19D0,4.004D0/
       SAVE
 
 c  LDERIV: if true, provide derivatives needed for relaxation, else don't
 
-c  LNumDeriv - if true derivatives are calculated numerically. else get 
-c              them the old way using Yale EOS. 
+c  LNumDeriv - if true derivatives are calculated numerically. else get
+c              them the old way using Yale EOS.
 c              LNumDeriv is part of the PARMIN PHYSICS namelist.
 
       PLO = PL
@@ -71,17 +75,17 @@ c              LNumDeriv is part of the PARMIN PHYSICS namelist.
 c Get Numerical Derivatives of Current EOS    LLP  8/5/07
 c If both derivatives and numerical derivatives are requested.
 
-c A central difference approximation using values on both sides of 
-c TL and then PL is used. The error term in this approximation of 
-c the derivatives is of order h**2, where h is the interval. The 
+c A central difference approximation using values on both sides of
+c TL and then PL is used. The error term in this approximation of
+c the derivatives is of order h**2, where h is the interval. The
 c error term when one sided derivatives are used is of order h.
 
             dpl = .150d0    ! the approximate table intervals
             dtl = .030d0
-            
+
             dpl = dpl * .01d0   ! Empirically, scaling the intervals down
             dtl = dtl * .01d0   ! by 100 seemed to work best.
-	    
+
             dpl2 = 2D0 * dpl
             dtl2 = 2D0 * dtl
 
@@ -106,7 +110,7 @@ c error term when one sided derivatives are used is of order h.
             QAT1 = (DLOG10(DELA1)-DLOG10(DELA2))/dtl2
             TL = TLO
             T = 10.0D0**TLO   ! Restore original T
-            
+
             PPL = PL + dpl
             P = 10.0D0**PPL
             LDERIV2=.FALSE.
@@ -144,13 +148,13 @@ c error term when one sided derivatives are used is of order h.
      *   LDERIV2,LATMO,KSAHA)
       ELSE
          LDERIV2=.FALSE.  ! We either already have numerical derivatives
-	                  ! or do not need any derivatives.
+                        ! or do not need any derivatives.
                           ! Call eqstat2 and request no derivatives
          CALL EQSTAT2(TL,T,PL,P,DL,D,X,Z,BETA,BETAI,BETA14,FXION,RMU,
      *   AMU,EMU,ETA,QDT,QDP,QCP,DELA,QDTTx,QDTPx,QATx,QAPx,QCPTx,
      *   QCPPx,LDERIV2,LATMO,KSAHA)
-c            Note that the QDTT,QDTP,QAT,QAP,QCPT,QCPP OUTPUTS are to 
-c 	     dummy variables so they can not affect the previously 
+c            Note that the QDTT,QDTP,QAT,QAP,QCPT,QCPP OUTPUTS are to
+c            dummy variables so they can not affect the previously
 c            calculated second derivatives.
       ENDIF
 

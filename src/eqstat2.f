@@ -12,14 +12,15 @@ c  Input Arguments: TL, PL, X, Z, LDERIV, LATMO
 c
 c  Output Arguments: T, P, D, DL, BETA, BETAI, BETA14, FXION, RMU, AMU,
 c          EMU, QDT, QDP, QCP, DELA, QDTT, QDTP, QAT, QAP, QCPT, QCPP,
-c     
+c
 c  Update (Input and Output) Arguments: KSAHA
 c
 
       PARAMETER (NTS=63, NPS=76)
       IMPLICIT REAL*8 (A-H,O-Z)
       IMPLICIT LOGICAL*4(L)
-      SAVE
+C KC 2025-05-30 addressed warning messages from Makefile.legacy
+C       SAVE
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
       DIMENSION FX(12),ATOMWT(4),FXION(3),ATOMW2(12)
       COMMON/COMP/XENV,ZENV,ZENVM,AMUENV,FXENV(12),XNEW,ZNEW,STOTAL,
@@ -36,8 +37,11 @@ C LLP 2006 OPAL eos
 C LLP Add Use Numerical Derivatives flag, LNumDeriv   7/07
       LOGICAL*4 LOPALE, lopale01,lopale06,lNumDeriv
       CHARACTER*256 FOPALE,fopale01,fopale06
-      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
-     x     lopale06,lNumDeriv
+C KC 2025-05-30 reordered common block elements
+C       COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
+C      x     lopale06,lNumDeriv
+      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,fopale06,
+     *     lopale01,lopale06,lNumDeriv
 C MHP 3/94 ADDED METAL DIFFUSION
       COMMON/GRAVS3/FGRY,FGRZ,LTHOUL,LDIFZ
 C MHP  5/97 ADDED COMMON BLOCK FOR SCV EOS TABLES
@@ -54,7 +58,8 @@ C LSAHA = T IF T LOW ENOUGH TO REQUIRE CALL TO EQSAHA TO SOLVE
 C SAHA IONIZATION EQUATION. IF LSAHA = F, FULLY IONIZED GAS ASSUMED.
 C LONLYS = T IF SAHA EQUATION MUST BE SOLVED BUT RELATIVISTIC
 C EQUATION OF STATE NOT NEEDED.
- 9    LSAHA = TL.LT.TSCUT
+C  9    LSAHA = TL.LT.TSCUT
+      LSAHA = TL.LT.TSCUT
       LONLYS = TL.LE.(TSCUT - SCALET)
 
 C MHP 3/94 METAL DIFFUSION ADDED.  ASSUME ALL METALS SCALE EQUALLY.
@@ -96,28 +101,28 @@ C SET UP FRACTIONAL ABUNDANCES
       DFX12 = (Z - ZENV)
       IF(DABS(DFX1) + DABS(DFX12) .LT. 1.0D-5) THEN
 C USE ENVELOPE ABUNDANCES
-	 AMU = AMUENV
-	 IF(LSAHA) THEN
-	    DO 10 I = 1,NZP1
-	       FX(I) = FXENV(I)
+       AMU = AMUENV
+       IF(LSAHA) THEN
+          DO 10 I = 1,NZP1
+             FX(I) = FXENV(I)
  10         CONTINUE
-	 ENDIF
+       ENDIF
       ELSE
-	 DFX1 = DFX1*ATOMWT(1)
-	 DFX12 = DFX12*ATOMWT(3)
-	 DFX4 = (XENV+ZENV -X-Z)*ATOMWT(2)
+       DFX1 = DFX1*ATOMWT(1)
+       DFX12 = DFX12*ATOMWT(3)
+       DFX4 = (XENV+ZENV -X-Z)*ATOMWT(2)
 C ASSUME EXCESS Z(METALS) IS IN THE FORM OF CARBON(12)
-	 AMU = AMUENV + DFX1 + DFX4 + DFX12
-	 AMUI = 1.0D0/AMU
-	 IF(LSAHA) THEN
-	    FMU = AMUENV*AMUI
-	    DO 20 I = 1,NZP1
-	       FX(I) = FMU*FXENV(I)
+       AMU = AMUENV + DFX1 + DFX4 + DFX12
+       AMUI = 1.0D0/AMU
+       IF(LSAHA) THEN
+          FMU = AMUENV*AMUI
+          DO 20 I = 1,NZP1
+             FX(I) = FMU*FXENV(I)
  20         CONTINUE
-	    FX(6) = FX(6) + DFX12*AMUI
-	    FX(7) = FX(7) + DFX1*AMUI
-	    FX(12) = FX(12)+ DFX4*AMUI
-	 ENDIF
+          FX(6) = FX(6) + DFX12*AMUI
+          FX(7) = FX(7) + DFX1*AMUI
+          FX(12) = FX(12)+ DFX4*AMUI
+       ENDIF
       ENDIF
       ENDIF
 C COMPUTE RADIATION PRESSURE
@@ -136,14 +141,15 @@ C COMPUTE RADIATION PRESSURE
       ETA = 0.0D0
       IF(.NOT.LSAHA) THEN
 C COMPUTE VALUES FOR FULLY IONIZED GAS AND RETURN
-	 EMU = X*ATOMWT(1) + (1.0D0-X)*ATOMWT(4)
-	 RMU = CGAS*(AMU+EMU)
-	 FXION(1) = 1.0D0
-	 FXION(2) = 0.0D0
-	 FXION(3) = 1.0D0
-	 CALL EQRELV(TL,T,PL,P,DL,D,BETA,AMU,EMU,ETA,QDT,QDP,QCP,DELA,
-     *        QDTT,QDTP,QAT,QAP,QCPT,QCPP,X)
-	 GOTO 200
+       EMU = X*ATOMWT(1) + (1.0D0-X)*ATOMWT(4)
+       RMU = CGAS*(AMU+EMU)
+       FXION(1) = 1.0D0
+       FXION(2) = 0.0D0
+       FXION(3) = 1.0D0
+       CALL EQRELV(TL,T,PL,P,DL,D,BETA,AMU,EMU,ETA,QDT,QDP,QCP,DELA,
+C      *        QDTT,QDTP,QAT,QAP,QCPT,QCPP,X)  ! KC 2025-05-31
+     *        QDTT,QDTP,QAT,QAP,QCPT,QCPP)
+       GOTO 200
       ENDIF
 C CHECK IF SAUMON, CHABRIER, AND VAN HORN EQUATION OF STATE NEEDED.
 C THIS EOS REPLACES THE CALL TO EQSAHA, EXCEPT FOR DERIVATIVE PURPOSES.
@@ -151,46 +157,51 @@ C THIS EOS REPLACES THE CALL TO EQSAHA, EXCEPT FOR DERIVATIVE PURPOSES.
          CALL EQSAHA(FX,TL,T,PL,P,DL,D,BETA,BETAI,BETA14,FXION,RMU,
      1        AMU,EMU,LDERIV,LATMO,QDT,QDP,QCP,DELA,QDTT,
      2        QDTP,QAT,QAP,QCPT,QCPP,KSAHA)
-         CALL EQSCVE(TL,T,PL,P,DL,D,X,Z,BETA,BETAI,BETA14,FXION,
-     *        RMU,AMU,EMU,ETA,QDT,QDP,QCP,DELA,LCALC)
+C          CALL EQSCVE(TL,T,PL,P,DL,D,X,Z,BETA,BETAI,BETA14,FXION,
+C      *        RMU,AMU,EMU,ETA,QDT,QDP,QCP,DELA,LCALC)  ! KC 2025-05-31
+         CALL EQSCVE(TL,T,P,DL,D,X,Z,BETA,FXION,QDT,QDP,QCP,DELA,LCALC)
 
          LSCVD = .FALSE.   ! Do not do SCV derivatives
          IF(LSCVD .AND. LCALC)THEN
 c  LLP 9/6/03 To get reasonable accuracy in numerical derivatives in
-c	the 4-5 decimal place SCV tables, appropriate sizes for the
-c	stepouts in the numerical derivatives must be obtained.  The
-c	row to row and column to column spacings are .20 in PL and
-c	.08 in TL. Maximum row to row changes are of the order of 
-c	0.2000 out of 10.0000 (in density).  Maximum column to column
-c       changes changes are of the order of .0500 out of 3.5000 (in 
-c	density.  It appears that stepouts of plus and minus half a
-c	row and column are needed to get appropriate accuracy for the
-c	derivatives.
+c      the 4-5 decimal place SCV tables, appropriate sizes for the
+c      stepouts in the numerical derivatives must be obtained.  The
+c      row to row and column to column spacings are .20 in PL and
+c      .08 in TL. Maximum row to row changes are of the order of
+c      0.2000 out of 10.0000 (in density).  Maximum column to column
+c       changes changes are of the order of .0500 out of 3.5000 (in
+c      density.  It appears that stepouts of plus and minus half a
+c      row and column are needed to get appropriate accuracy for the
+c      derivatives.
 
             dpl = .010d0
             dtl = .040d0
             TTL = TL + dtl
             T = 10.0D0**TTL
-            CALL EQSCVE(TTL,T,PL,P,DL1,D1,X,Z,BETA,BETAI,BETA14,
-     *      FXION,RMU,AMU,EMU,ETA,QDT1,QDP1,QCP1,DELA1,LCALC1)
+C             CALL EQSCVE(TTL,T,PL,P,DL1,D1,X,Z,BETA,BETAI,BETA14,
+C      *      FXION,RMU,AMU,EMU,ETA,QDT1,QDP1,QCP1,DELA1,LCALC1)  ! KC 2025-05-31
+            CALL EQSCVE(TTL,T,P,DL1,D1,X,Z,BETA,FXION,QDT1,QDP1,QCP1,DELA1,LCALC1)
             TTL = TL - dtl
             T = 10.0D0**TTL
-            CALL EQSCVE(TTL,T,PL,P,DL1,D1,X,Z,BETA,BETAI,BETA14,
-     *      FXION,RMU,AMU,EMU,ETA,QDT2,QDP2,QCP2,DELA2,LCALC2)
+C             CALL EQSCVE(TTL,T,PL,P,DL1,D1,X,Z,BETA,BETAI,BETA14,
+C      *      FXION,RMU,AMU,EMU,ETA,QDT1,QDP1,QCP1,DELA1,LCALC1)  ! KC 2025-05-31
+            CALL EQSCVE(TTL,T,P,DL1,D1,X,Z,BETA,FXION,QDT1,QDP1,QCP1,DELA1,LCALC1)
             dtl2 = 2D0 * dtl
             QDTT1 = (QDT1-QDT2)/dtl2/CLN
             QCPT1 = (DLOG10(QCP1)-DLOG10(QCP2))/dtl2
             QAT1 = (DLOG10(DELA1)-DLOG10(DELA2))/dtl2
-            
+
             T = 10.0D0**TL
             PPL = PL + dpl
             P = 10.0D0**PPL
-            CALL EQSCVE(TL,T,PPL,P,DL1,D1,X,Z,BETA,BETAI,BETA14,
-     *      FXION,RMU,AMU,EMU,ETA,QDT1,QDP1,QCP1,DELA1,LCALC1)
+C             CALL EQSCVE(TL,T,PPL,P,DL1,D1,X,Z,BETA,BETAI,BETA14,
+C      *      FXION,RMU,AMU,EMU,ETA,QDT1,QDP1,QCP1,DELA1,LCALC1)  ! KC 2025-05-31
+            CALL EQSCVE(TL,T,P,DL1,D1,X,Z,BETA,FXION,QDT1,QDP1,QCP1,DELA1,LCALC1)
             PPL = PL - dpl
             P = 10.0D0**PPL
-            CALL EQSCVE(TL,T,PPL,P,DL1,D1,X,Z,BETA,BETAI,BETA14,
-     *      FXION,RMU,AMU,EMU,ETA,QDT2,QDP2,QCP2,DELA2,LCALC2)
+C             CALL EQSCVE(TL,T,PPL,P,DL1,D1,X,Z,BETA,BETAI,BETA14,
+C      *      FXION,RMU,AMU,EMU,ETA,QDT2,QDP2,QCP2,DELA2,LCALC2)  ! KC 2025-05-31
+            CALL EQSCVE(TL,T,P,DL1,D1,X,Z,BETA,FXION,QDT2,QDP2,QCP2,DELA2,LCALC2)
             P = 10.0D0**PL
             dpl2 = 2D0 * dpl
             QDTP1 = (QDT1-QDT2)/dpl2/CLN
@@ -216,8 +227,8 @@ C STORE EQSAHA VALUES FOR INTERPOLATION WITH EQRELV VALUES
       QCP0 = QCP
       DELA0 = DELA
       IF(LDERIV) THEN
-	 QDTT0 = QDTT
-	 QDTP0 = QDTP
+       QDTT0 = QDTT
+       QDTP0 = QDTP
          QCPT0 = QCPT
          QCPP0 = QCPP
          QAT0 = QAT
@@ -231,7 +242,8 @@ C COMPUTE VALUES FOR FULLY IONIZED GAS
       FXION(2) = 0.0D0
       FXION(3) = 1.0D0
       CALL EQRELV(TL,T,PL,P,DL,D,BETA,AMU,EMU,ETA,QDT,QDP,QCP,DELA,
-     *     QDTT,QDTP,QAT,QAP,QCPT,QCPP,X)
+C      *     QDTT,QDTP,QAT,QAP,QCPT,QCPP,X)  ! KC 2025-05-31
+     *     QDTT,QDTP,QAT,QAP,QCPT,QCPP)
 C INTERPOLATE VALUES
       WTS = SCALES*(TSCUT - TL)
       WTS2 = WTS*WTS
@@ -274,12 +286,13 @@ C 1995 OPAL eqos
          CALL OEQOS(TL,T,PL,P,D10o,Doo,X,Z,BETAo,BETAIo,
      1   BETA14o,RMUo,AMUo,EMUo,QDTo,QDPo,QCPo,DELAo,*998)
 
-         CALL EQBOUND(T,D10o,DL0,FAC,LTAB,LRAMP)
+C          CALL EQBOUND(T,D10o,DL0,FAC,LTAB,LRAMP)  ! KC 2025-05-31
+         CALL EQBOUND(T,D10o,FAC,LTAB,LRAMP)
 
          IF(.NOT.LTAB)GOTO 998  ! Point is not in OPAL 1995 EOS table, so exit.
 
          IF(.NOT.LRAMP)THEN
-C  No ramping needed between OPAL 1995 EOS and Yale/SCV. Result is 
+C  No ramping needed between OPAL 1995 EOS and Yale/SCV. Result is
 C  fully in the OPAL 1995 table
             DL=D10o
             D=10.0D0**DL
@@ -294,7 +307,7 @@ C  fully in the OPAL 1995 table
             QCP=QCPo
             DELA=DELAo
          ELSE
-C  Ramping required. Result is on border between OPAL 1995 EOS and Yale/SCV. 
+C  Ramping required. Result is on border between OPAL 1995 EOS and Yale/SCV.
             DL=DL+FAC*(D10o-DL)
             D=10.0D0**DL
             BETA=BETA+FAC*(BETAo-BETA)
@@ -317,14 +330,15 @@ C 2001 OPAL eqos  LLP 6/17/03
          CALL OEQOS01(TL,T,PL,P,D10o,Doo,X,Z,BETAo,BETAIo,
      1   BETA14o,RMUo,AMUo,EMUo,QDTo,QDPo,QCPo,DELAo,*998)
 
-         CALL EQBOUND01(T,D10o,DL0,FAC,LTAB,LRAMP)
+C          CALL EQBOUND01(T,D10o,DL0,FAC,LTAB,LRAMP)  ! KC 2025-05-31
+         CALL EQBOUND01(T,D10o,FAC,LTAB,LRAMP)
 C eqbound01 determines whether or not the point is in the OPAL 2001 EOS table
 
-         IF(.NOT.LTAB)GOTO 998  ! Point is not in OPAL 2001 tabel, so exit. 
+         IF(.NOT.LTAB)GOTO 998  ! Point is not in OPAL 2001 tabel, so exit.
 C USE OPAL RESULTS IF NOT IN (RHO,T) REGIME WHERE RAMP
 C NEEDED
          IF(.NOT.LRAMP)THEN
-C  No ramping needed between OPAL 2001 EOS and Yale/SCV. Result is 
+C  No ramping needed between OPAL 2001 EOS and Yale/SCV. Result is
 C  fully in the OPAL 2001 table
             DL=D10o
             D=10.0D0**DL
@@ -339,7 +353,7 @@ C  fully in the OPAL 2001 table
             QCP=QCPo
             DELA=DELAo
          ELSE
-C  Ramping required. Result is on border between OPAL 2001 EOS and Yale/SCV. 
+C  Ramping required. Result is on border between OPAL 2001 EOS and Yale/SCV.
             DL=DL+FAC*(D10o-DL)
             D=10.0D0**DL
             BETA=BETA+FAC*(BETAo-BETA)
@@ -354,7 +368,7 @@ C  Ramping required. Result is on border between OPAL 2001 EOS and Yale/SCV.
             DELA=DELA+FAC*(DELAo-DELA)
          ENDIF
       ENDIF
-      ENDIF 
+      ENDIF
 
 C 2006 OPAL eqos  LLP 10/13/2996
       IF(LOPALE06)THEN
@@ -362,18 +376,19 @@ C 2006 OPAL eqos  LLP 10/13/2996
          CALL OEQOS06(TL,T,PL,P,D10o,Doo,X,Z,BETAo,BETAIo,
      1   BETA14o,RMUo,AMUo,EMUo,QDTo,QDPo,QCPo,DELAo,*998)
 
-         CALL EQBOUND06(T,D10o,DL0,FAC,LTAB,LRAMP)
+C          CALL EQBOUND06(T,D10o,DL0,FAC,LTAB,LRAMP)  ! KC 2025-05-31
+         CALL EQBOUND06(T,D10o,FAC,LTAB,LRAMP)
 C EQBOUND01 determines whether or not the point is in the OPAL 2006 EOS table
 C    If LTAB is true, point is in Opal 2006 table
-C    If LRAMP is true, point is in ramp area, and ramping is required. The ramp 
-C       factor FAC is the weight of the point for ramping purposes. 
+C    If LRAMP is true, point is in ramp area, and ramping is required. The ramp
+C       factor FAC is the weight of the point for ramping purposes.
 C    Also, to eliminate a point, one can set LRAMP to true and FAC to zero.
 
          IF(.NOT. LTAB) goto 998  ! Point is not in OPAL 2006 EOS table, so exit.
 
 C USE OPAL 2006 RESULTS ONLY IF NOT IN (RHO,T) REGIME WHERE RAMPING is NEEDED
          IF(.NOT.LRAMP)THEN
-C  No ramping needed between OPAL 2006 EOS and Yale/SCV. Result is 
+C  No ramping needed between OPAL 2006 EOS and Yale/SCV. Result is
 C  fully in the OPAL 2006 table
             DL=D10o
             D=10.0D0**DL
@@ -388,7 +403,7 @@ C  fully in the OPAL 2006 table
             QCP=QCPo
             DELA=DELAo
          ELSE
-C  Ramping required. Result is on border between OPAL 2006 EOS and Yale/SCV. 
+C  Ramping required. Result is on border between OPAL 2006 EOS and Yale/SCV.
             DL=DL+FAC*(D10o-DL)
             D=10.0D0**DL
             BETA=BETA+FAC*(BETAo-BETA)
@@ -403,7 +418,7 @@ C  Ramping required. Result is on border between OPAL 2006 EOS and Yale/SCV.
             DELA=DELA+FAC*(DELAo-DELA)
          ENDIF
       ENDIF
-      ENDIF 
+      ENDIF
 
 
  998  CONTINUE

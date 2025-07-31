@@ -24,7 +24,7 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
       IMPLICIT REAL*8 (A-H,O-Z)
       IMPLICIT LOGICAL*4(L)
-      DIMENSION ATOMWT(4)
+C       DIMENSION ATOMWT(4)
       COMMON/COMP/XENV,ZENV,ZENVM,AMUENV,FXENV(12),XNEW,ZNEW,STOTAL,
      *     SENV
       COMMON/CTLIM/ATIME(14),TCUT(5),TSCUT,TENV0,TENV1,TENV,TGCUT
@@ -39,8 +39,8 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
       COMMON/E/ ESACT,EOS(10)
 
-      DATA NZP1/12/
-      DATA ATOMWT/0.9921D0,0.24975D0,0.08322D0,0.4995D0/
+C       DATA NZP1/12/
+C       DATA ATOMWT/0.9921D0,0.24975D0,0.08322D0,0.4995D0/
       SAVE
 C
 C      CA3=2.5214D-15
@@ -56,14 +56,16 @@ C
       IRAD=1
       IORDER=10
 
-      R=RHOOFP(X,ZTAB,T6,P12,IRAD)
+C       R=RHOOFP(X,ZTAB,T6,P12,IRAD)  ! KC 2025-05-31
+      R=RHOOFP(X,T6,P12,IRAD)
       IF(R.LE.-998.0D0)THEN
          RETURN 1
       ENDIF
-      D=R 
+      D=R
       D10=DLOG10(D)
 
-      CALL ESAC(X,ZTAB,T6,R,IORDER,IRAD,*999)
+C       CALL ESAC(X,ZTAB,T6,R,IORDER,IRAD,*999)  ! KC 2025-05-31
+      CALL ESAC(X,T6,R,IORDER,IRAD,*999)
 
       IF(ABS((P12-EOS(1))/P12).GT.0.5D-6)THEN
          WRITE(ISHORT,*)P12,EOS(1)
@@ -71,7 +73,7 @@ C
       ENDIF
       QDP=1.0D0/EOS(6)
       QDT= -EOS(7)/ EOS(6)
-     
+
       QCP=1.0D6*EOS(5)*EOS(8)/EOS(6)
       DELA=1.0D0/EOS(9)
 

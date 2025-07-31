@@ -3,9 +3,11 @@ C
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 C WRTMOD
 C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
-      SUBROUTINE WRTMOD(M,LSHELL,JXBEG,JXEND,JCORE,JENV,HCOMP,HS1,HD,
-     *HL,HP,HR,HT,LC,MODEL,BL,TEFFL,OMEGA,FP,FT,ETA2,R0,HJM,HI,HS,
-     * DAGE)
+C       SUBROUTINE WRTMOD(M,LSHELL,JXBEG,JXEND,JCORE,JENV,HCOMP,HS1,HD,
+C      *HL,HP,HR,HT,LC,MODEL,BL,TEFFL,OMEGA,FP,FT,ETA2,R0,HJM,HI,HS,
+C      * DAGE)  ! KC 2025-05-31
+      SUBROUTINE WRTMOD(M,JENV,HCOMP,HS1,HD,
+     *HL,HP,HR,HT,MODEL,BL,TEFFL,FP,FT,HS,DAGE)
       PARAMETER (JSON=5000)
       IMPLICIT LOGICAL*4(L)
       IMPLICIT REAL*8(A-H,O-Z)
@@ -50,10 +52,14 @@ C DBG 7/95 To store variables for pulse output
      *             VALFMLT(JSON),VPHMLT(JSON),VCMXMLT(JSON)
       COMMON/ROTEN/DEROT(JSON)
       DIMENSION HCOMP(15,JSON),DUM1(4),DUM2(3),DUM3(3),DUM4(3),
-     *HS1(JSON),HD(JSON),HL(JSON),HP(JSON),HR(JSON),HT(JSON),LC(JSON)
-      DIMENSION OMEGA(JSON),FP(JSON),FT(JSON),ETA2(JSON),ID(JSON)
-      DIMENSION R0(JSON),HJM(JSON),HI(JSON),HS(JSON)
-      DATA IHEADR/4H****/
+C      *HS1(JSON),HD(JSON),HL(JSON),HP(JSON),HR(JSON),HT(JSON),LC(JSON)
+C       DIMENSION OMEGA(JSON),FP(JSON),FT(JSON),ETA2(JSON),ID(JSON)
+C       DIMENSION R0(JSON),HJM(JSON),HI(JSON),HS(JSON)  ! KC 2025-05-31
+      DIMENSION OMEGA(JSON),R0(JSON),HJM(JSON),HI(JSON),HS(JSON)
+     *HS1(JSON),HD(JSON),HL(JSON),HP(JSON),HR(JSON),HT(JSON)
+      DIMENSION FP(JSON),FT(JSON),ID(JSON),HS(JSON)
+C KC 2025-05-30 addressed warning messages from Makefile.legacy
+C      DATA IHEADR/4H****/
 
 C G Somers 10/14, Add spot common block, and store common block.
       COMMON/SPOTS/SPOTF,SPOTX,LSDEPTH
@@ -67,7 +73,7 @@ C G Somers END
          print*,'wrtmod LSOUND 1: ',LSOUND
 
       IF(LSOUND)THEN
-         
+
          print*,'wrtmod LSOUND 2: ',LSOUND
 
 CFD 10/09 Add an extra output to plot the sound speed profile easyly
@@ -119,35 +125,35 @@ C G Somers 11/14 CHANGE TO NEW I/O FLAGS.
 C  INTEGRATE AN ENVELOPE FROM THE SURFACE TO THE CONVERGED MODEL,
 C  PRINTING OUT THE RESULTS.
 C  SET UP FLAGS AND COUNTERS.
-	 LSBC0 = .FALSE.
-	 IF(LSTORE)LPRT = .TRUE.
-	 KATM = 0
-	 KENV = 0
-	 KSAHA = 0
+       LSBC0 = .FALSE.
+       IF(LSTORE)LPRT = .TRUE.
+       KATM = 0
+       KENV = 0
+       KSAHA = 0
 C  SAVE THE INTEGRATION STEP PARAMETERS AND ENFORCE THE SPACING
 C  REQUESTED FOR PRINTOUT PURPOSES.
-	 ABEG0 = ATMBEG
-	 AMIN0 = ATMMIN
-	 AMAX0 = ATMMAX
-	 EBEG0 = ENVBEG
-	 EMIN0 = ENVMIN
-	 EMAX0 = ENVMAX
-	 ATMBEG = ATMSTP
-	 ATMMIN = ATMSTP
-	 ATMMAX = ATMSTP
-	 ENVBEG = ENVSTP
-	 ENVMIN = ENVSTP
-	 ENVMAX = ENVSTP
-	 B = DEXP(CLN*BL)
-	 RL = 0.5D0*(BL + CLSUNL - 4.0D0*TEFFL - C4PIL - CSIGL)
-	 GL = CGL + STOTAL - RL - RL
-	 X = HCOMP(1,M)
-	 Z = HCOMP(3,M)
-	 FPL = FP(M)
-	 FTL = FT(M)
-	 IXX=0
-	 HSTOT = STOTAL
-	 PLIM = HP(M)
+       ABEG0 = ATMBEG
+       AMIN0 = ATMMIN
+       AMAX0 = ATMMAX
+       EBEG0 = ENVBEG
+       EMIN0 = ENVMIN
+       EMAX0 = ENVMAX
+       ATMBEG = ATMSTP
+       ATMMIN = ATMSTP
+       ATMMAX = ATMSTP
+       ENVBEG = ENVSTP
+       ENVMIN = ENVSTP
+       ENVMAX = ENVSTP
+       B = DEXP(CLN*BL)
+       RL = 0.5D0*(BL + CLSUNL - 4.0D0*TEFFL - C4PIL - CSIGL)
+       GL = CGL + STOTAL - RL - RL
+       X = HCOMP(1,M)
+       Z = HCOMP(3,M)
+       FPL = FP(M)
+       FTL = FT(M)
+       IXX=0
+       HSTOT = STOTAL
+       PLIM = HP(M)
 C DBG PULSE: ADDED ARGUEMENT TO ENVINT TO TURN ON/OFF PULSE OUTPUT
          LPULPT = LPULSE
             IF (LDH) THEN
@@ -164,19 +170,19 @@ C G Somers 10/14, FOR SPOTTED RUNS, FIND THE
 C PRESSURE AT THE AMBIENT TEMPERATURE ATEFFL
         IF(JENV.EQ.M.AND.SPOTF.NE.0.0.AND.SPOTX.NE.1.0)THEN
             ATEFFL = TEFFL - 0.25*LOG10(SPOTF * SPOTX**4.0 + 1.0 - SPOTF)
-	 ELSE
-	    ATEFFL = TEFFL
-	 ENDIF
-	 CALL ENVINT(B,FPL,FTL,GL,HSTOT,IXX,LPRT,LSBC0,PLIM,RL,
+       ELSE
+          ATEFFL = TEFFL
+       ENDIF
+       CALL ENVINT(B,FPL,FTL,GL,HSTOT,IXX,LPRT,LSBC0,PLIM,RL,
      *               ATEFFL,X,Z,DUM1,IDUM,KATM,KENV,KSAHA,DUM2,
      *               DUM3,DUM4,LPULPT)
 C G Somers END
-	 ATMBEG = ABEG0
-	 ATMMIN = AMIN0
-	 ATMMAX = AMAX0
-	 ENVBEG = EBEG0
-	 ENVMIN = EMIN0
-	 ENVMAX = EMAX0
+       ATMBEG = ABEG0
+       ATMMIN = AMIN0
+       ATMMAX = AMAX0
+       ENVBEG = EBEG0
+       ENVMIN = EMIN0
+       ENVMAX = EMAX0
       ENDIF
 C
 C G Somers 11/14 LCONZO (convection zone info) block deleted.
@@ -200,32 +206,32 @@ C DBG PULSE: WRITE HEADER INFORMATION FOR PULSE MODEL
      *          ' ZAMS (X,Z)=', 2F18.10)
       END IF
       DO 220 J = 1,IDM
-	 I = ID(J)
-	 FS = FSI*HS1(I)
+       I = ID(J)
+       FS = FSI*HS1(I)
 C
 C G Somers 11/14 FINAL LSCRIB BLOCK DELETED
 C
 C DBG WRITE PULSE MODEL
-C	 PRINT*, 'LPULSE=',LPULSE
+C       PRINT*, 'LPULSE=',LPULSE
          IF (LPULSE.AND.LSTORE) THEN
 C MHP 10/02 uncommented pelpf statement, used later in i/o
-C	   PELPF = CGAS * DEXP(CLN*(HT(I) + HD(I)))* PEMU(I)
+C         PELPF = CGAS * DEXP(CLN*(HT(I) + HD(I)))* PEMU(I)
 C          ADDED X AND Z TO OUTPUT
-	   IF ((J.EQ.2).AND.(I.EQ.1)) GOTO 5003
-	   IF(IPVER.EQ.1) THEN
-	   PELPF = CGAS * DEXP(CLN*(HT(I) + HD(I)))* PEMU(I)
-	   WRITE(IOPMOD, 5052)HR(I),FS,HL(I),HT(I),HD(I),
+         IF ((J.EQ.2).AND.(I.EQ.1)) GOTO 5003
+         IF(IPVER.EQ.1) THEN
+         PELPF = CGAS * DEXP(CLN*(HT(I) + HD(I)))* PEMU(I)
+         WRITE(IOPMOD, 5052)HR(I),FS,HL(I),HT(I),HD(I),
      *          HP(I), SESUM(I),SO(I), PQDP(I), PQED(I),
      *          PQET(I), PQOD(I), PQOT(I), SDEL(2,I),SDEL(3,I),
      *          PQCP(I), PRMU(I), PQDT(I), PELPF
          ELSE IF (IPVER.EQ.2) THEN
-	   WRITE(IOPMOD, 6052)HR(I),FS,HL(I),HT(I),HD(I),
+         WRITE(IOPMOD, 6052)HR(I),FS,HL(I),HT(I),HD(I),
      *      HP(I), SESUM(I),SO(I), PQDP(I), PQED(I),
      *      PQET(I), PQOD(I), PQOT(I), SDEL(2,I),SDEL(3,I),
      *      PQCP(I), PRMU(I), PQDT(I), HCOMP(1,I),HCOMP(3,I)
          ELSE IF (IPVER.EQ.3) THEN
 C DBG 7/95 Modifed to include mixing length variables
-	   WRITE(IOPMOD, 6053)HR(I),FS,HL(I),HT(I),HD(I),VALFMLT(I),
+         WRITE(IOPMOD, 6053)HR(I),FS,HL(I),HT(I),HD(I),VALFMLT(I),
      *      HP(I), SESUM(I),SO(I), PQDP(I), PQED(I),VPHMLT(I),
      *      PQET(I), PQOD(I), PQOT(I), SDEL(2,I),SDEL(3,I),VCMXMLT(I),
      *      PQCP(I), PRMU(I), PQDT(I), HCOMP(1,I),HCOMP(3,I)

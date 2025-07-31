@@ -36,8 +36,9 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
       RL = Y(3)
       IF(LMHD)THEN
          CALL MEQOS(TL,T,PL,P,DL,D,X,Z,BETA,BETA1,BETA14,FXION,RMU,
-     *   AMU,EMU,ETA,QDT,QDP,QCP,DELA,QDTT,QDTP,QAT,QAP,QCPT,QCPP,
-     *   LDERIV,LATMO,KSAHA)
+C      *   AMU,EMU,ETA,QDT,QDP,QCP,DELA,QDTT,QDTP,QAT,QAP,QCPT,QCPP,
+C      *   LDERIV,LATMO,KSAHA)  ! KC 2025-05-31
+     *   AMU,EMU,ETA,QDT,QDP,QCP,DELA,QDTT,QDTP,QAT,QAP,QCPT,QCPP)
       ELSE
          CALL EQSTAT(TL,T,PL,P,DL,D,X,Z,BETA,BETA1,BETA14,FXION,RMU,
      *   AMU,EMU,ETA,QDT,QDP,QCP,DELA,QDTT,QDTP,QAT,QAP,QCPT,QCPP,
@@ -60,46 +61,49 @@ C 07/02 ALWAYS STORE THE BASIC STRUCTURE VARIABLES.
       ED = DL
       EVEL = VEL
 C JVS 08/13 ALWAYS STORE GRADIENTS (FOR TRACKING CZ)
-	 EDEL(1) = DELR
-	 EDEL(2) = DELA
-	 EDEL(3) = DEL
-	 EBETA = BETA ! added 03/14
+       EDEL(1) = DELR
+       EDEL(2) = DELA
+       EDEL(3) = DEL
+       EBETA = BETA ! added 03/14
 
       IF(LSAVE .OR. LPUMOD) THEN
-C	 EP = PL
-C	 ET = TL
-C	 ES = SL - STOTAL
-C	 ER = RL
-C	 ED = DL
-	 EO = O
-C	 EBETA = BETA
-C	 EDEL(1) = DELR
-C	 EDEL(2) = DELA
-C	 EDEL(3) = DEL
-	 EFXION(1) = FXION(1)
-	 EFXION(2) = FXION(2)
-	 EFXION(3) = FXION(3)
-C	 EVEL = VEL
-	 QTL = TL
-	 QT = DEXP(CLN*TL)
-	 QPL = PL
-	 QP = DEXP(CLN*PL)
-	 QDL = DL
-	 QD = DEXP(CLN*DL)
-	 QO = O
-	 QOL = OL
-	 QFS = DEXP(CLN*(SL-STOTAL))
-	 QQDP = QDP
-	 QQED = 0.0D0
-	 QQOD = QOD
-	 QQOT = QOT
-	 QDEL = DEL
-	 QQDT = QDT
-	 QDELA = DELA
-	 QQCP = QCP
-	 QRMU = RMU
-	 QEMU = EMU
+C       EP = PL
+C       ET = TL
+C       ES = SL - STOTAL
+C       ER = RL
+C       ED = DL
+       EO = O
+C       EBETA = BETA
+C       EDEL(1) = DELR
+C       EDEL(2) = DELA
+C       EDEL(3) = DEL
+       EFXION(1) = FXION(1)
+       EFXION(2) = FXION(2)
+       EFXION(3) = FXION(3)
+C       EVEL = VEL
+       QTL = TL
+       QT = DEXP(CLN*TL)
+       QPL = PL
+       QP = DEXP(CLN*PL)
+       QDL = DL
+       QD = DEXP(CLN*DL)
+       QO = O
+       QOL = OL
+       QFS = DEXP(CLN*(SL-STOTAL))
+       QQDP = QDP
+       QQED = 0.0D0
+       QQOD = QOD
+       QQOT = QOT
+       QDEL = DEL
+       QQDT = QDT
+       QDELA = DELA
+       QQCP = QCP
+       QRMU = RMU
+       QEMU = EMU
       ENDIF
+
+C KC 2025-05-31 THESE MUST BE RETAINED FOR EXTERNAL PROCEDURE COMPATIBILITY.
+      IF (.FALSE.) PRINT *, GL, LOCOND
 
       RETURN
       END

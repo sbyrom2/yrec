@@ -13,12 +13,12 @@ CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC
       DIMENSION TOP2(4),XX(4)
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
       COMMON/NWLAOL/OLAOL(12,104,52), OXA(12), OT(52), ORHO(104),
-     *  TOLLAOL,IOLAOL, NUMOFXYZ, NUMRHO, NUMT, LLAOL, LPUREZ, 
+     *  TOLLAOL,IOLAOL, NUMOFXYZ, NUMRHO, NUMT, LLAOL, LPUREZ,
      *  IOPUREZ, FLAOL, FPUREZ
       COMMON/SLAOL/SLAOLL(12,104,52),SRHOL(12,104,52),
      *  SDORL(12,104,52), NUMRS(12,52)
       SAVE
-C    
+C
 C     1. CUBIC SPLINE INTERPOLATE IN DENSITY
 C     2. CUBIC SPLINE INTERPOLATE IN TEMPERATURE
 C     3. LINEAR INTERPOLATE IN COMPOSITION
@@ -60,7 +60,7 @@ C        GET RANGE OF FOUR TT SURROUNDING T
                   TOP1(NUMTS) = ROL
                   TT(NUMTS) = OT(IT)
                   DODR(NUMTS)=(TOP(KHI)-TOP(KLO))/(TR(KHI)-TR(KLO))
-               ELSE IF (RDL.GT.TR(1)-TOLL .AND. RDL.LE.TR(1)) THEN 
+               ELSE IF (RDL.GT.TR(1)-TOLL .AND. RDL.LE.TR(1)) THEN
 C                 PUT LINEAR EXTRAPOLATION ROUTINES HERE
                   SLOPE = (TOP(2)-TOP(1))/(TR(2)-TR(1))
                   ROL = TOP(1)+SLOPE*(RDL-TR(1))
@@ -69,8 +69,8 @@ C                 CALL SPLINT(TR,TOP,NUMS,TDOR,RDL, ROL1, KLO, KHI)
                   TOP1(NUMTS) = ROL
                   TT(NUMTS) = OT(IT)
                   DODR(NUMTS) = SLOPE
-               ELSE IF (RDL.GE.TR(NUMS) .AND. 
-     *                  RDL.LT.TR(NUMS)+TOLL) THEN 
+               ELSE IF (RDL.GE.TR(NUMS) .AND.
+     *                  RDL.LT.TR(NUMS)+TOLL) THEN
 C                 PUT LINEAR EXTRAPOLATION ROUTINES HERE
                   SLOPE = (TOP(NUMS-1)-TOP(NUMS))/
      *                    (TR(NUMS-1)-TR(NUMS))
@@ -81,9 +81,9 @@ C                 CALL SPLINT(TR,TOP,NUMS,TDOR,RDL, ROL1, KLO, KHI)
                   TT(NUMTS) = OT(IT)
                   DODR(NUMTS) = SLOPE
                END IF
-            ELSE 
+            ELSE
                WRITE(ISHORT,120)DL,TL
-  120          FORMAT(' OUTSIDE OPACITY TABLE, IN DENSITY.  ', 
+  120          FORMAT(' OUTSIDE OPACITY TABLE, IN DENSITY.  ',
      *        'LOG(RHO)=',1PE12.3, ' LOG(T)=', 1PE12.3)
                STOP
             END IF
@@ -96,10 +96,10 @@ C                 CALL SPLINT(TR,TOP,NUMS,TDOR,RDL, ROL1, KLO, KHI)
             SLOPE=(DODR(KHI)-DODR(KLO))/(TT(KHI)-TT(KLO))
             DODRX(NUMXS)=DODR(KLO)+SLOPE*(RTL-TT(KLO))
             DODTX(NUMXS) = (TOP1(KHI)-TOP1(KLO))/(TT(KHI)-TT(KLO))
-            XX(NUMXS) = OXA(IX) 
-         ELSE 
+            XX(NUMXS) = OXA(IX)
+         ELSE
             WRITE(ISHORT,121)DL,TL
-  121       FORMAT(' OUTSIDE OPACITY TABLE, IN TEMPERATURE.  ', 
+  121       FORMAT(' OUTSIDE OPACITY TABLE, IN TEMPERATURE.  ',
      *     'LOG(RHO)=',1PE12.3, ' LOG(T)=', 1PE12.3)
             STOP
          END IF
@@ -115,15 +115,15 @@ C        SLOPE = (QOT2-QOT1)/(XX(2)-XX(1))
          IF(ROL .GT. 35) THEN
             O = 1.0D35
             OL = 35.0D0
-         ELSE 
+         ELSE
             O = 10.0D0**ROL
             OL = ROL
          END IF
       ELSE
          WRITE(ISHORT,122)DL,TL
-  122    FORMAT(' OUTSIDE OPACITY TABLE.  ', 
+  122    FORMAT(' OUTSIDE OPACITY TABLE.  ',
      *  'LOG(RHO)=',1PE12.3, ' LOG(T)=', 1PE12.3)
           STOP
       END IF
       RETURN
-      END        
+      END

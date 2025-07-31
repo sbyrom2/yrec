@@ -8,7 +8,7 @@ C*******
 C initialize all variables, set up common blocks
 C*******
 
-C the array size, i.e. max # of shells is specified in the 
+C the array size, i.e. max # of shells is specified in the
 C parameter statement.  it defines JSON.  to change the array
 C size do a global change on "JSON=2000" or whatever.
       PARAMETER (JSON=5000)
@@ -26,7 +26,7 @@ C DBGLAOL - to save space make tables single precision
       CHARACTER*256 FLAST, FFIRST, FRUN, FSTAND, FFERMI,
      1    FDEBUG, FTRACK, FSHORT, FMILNE, FMODPT,
      2    FSTOR, FPMOD, FPENV, FPATM, FDYN,
-     3    FLLDAT, FSNU, FSCOMP, FKUR, 
+     3    FLLDAT, FSNU, FSCOMP, FKUR,
      4    FMHD1, FMHD2, FMHD3, FMHD4, FMHD5, FMHD6, FMHD7, FMHD8
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
       COMMON/LUNUM/IFIRST, IRUN, ISTAND, IFERMI,
@@ -35,7 +35,7 @@ C DBGLAOL - to save space make tables single precision
       COMMON/LUFNM/ FLAST, FFIRST, FRUN, FSTAND, FFERMI,
      1    FDEBUG, FTRACK, FSHORT, FMILNE, FMODPT,
      2    FSTOR, FPMOD, FPENV, FPATM, FDYN,
-     3    FLLDAT, FSNU, FSCOMP, FKUR, 
+     3    FLLDAT, FSNU, FSCOMP, FKUR,
      4    FMHD1, FMHD2, FMHD3, FMHD4, FMHD5, FMHD6, FMHD7, FMHD8
 C DBGLAOL
       COMMON/NWLAOL/OLAOL(12,104,52),OXA(12),OT(52),ORHO(104),TOLLAOL,
@@ -104,7 +104,7 @@ C DBG 4/26/94 Tired of not have access to current age of model so...
 C     MHP 10/24 FLAG FOR END OF RUN
       LOGICAL*4 LEND_KIND
 C JVS 02/12
-	COMMON/STCH/HCOMPF(15,JSON),HRF(JSON),HPF(JSON),HDF(JSON),
+      COMMON/STCH/HCOMPF(15,JSON),HRF(JSON),HPF(JSON),HDF(JSON),
      * HSF(JSON),HTF(JSON)
 
 C DBG PULSE OUT 7/92
@@ -120,7 +120,7 @@ C MHP 6/13 ADD OPTION TO CALIBRATE SOLAR Z/X, SOLAR Z/X, SOLAR AGE
 C      COMMON/CALS2/TOLL,TOLR,LCALS
       COMMON/GRAVS3/FGRY,FGRZ,LTHOUL,LDIFZ
 C DBG 12/94 added calibrate stellar model
-      COMMON/CALSTAR/XLS, XLSTOL,  STEFF, SR, 
+      COMMON/CALSTAR/XLS, XLSTOL,  STEFF, SR,
      1      BLI, ALRI, AGER, BLR, BLRP, AGEI,
      2      LSTAR, LTEFF, LPASSR,LCALST
 C MHP 7/96 common block added for sound speed
@@ -162,23 +162,26 @@ C LLP 8/07 Make LPTIME available for calibration
 C MHP 2/04 ADDED FOR NEUTRINO FLUX TABLE
       COMMON/BE7/BE7MASSFRACTION
 C JVS 02/11
-	COMMON/ACDPTH/TAUCZN,DELADJ(JSON),TAUHE, TNORM, TCZ, WHE, ICLCD,
+C KC 2025-05-30 reordered common block elements
+C       COMMON/ACDPTH/TAUCZN,DELADJ(JSON),TAUHE, TNORM, TCZ, WHE, ICLCD,
+      COMMON/ACDPTH/TAUCZN,DELADJ(JSON),TAUHE, TNORM, TCZ, WHE,
      *ACATMR(JSON), ACATMD(JSON), ACATMP(JSON), ACATMT(JSON),TATMOS,
-     *LCLCD, AGEOUT(5), IACAT, IJLAST, LJLAST, LJWRT, LADON, LAOLY, IJVS,
-     *IJENT, IJDEL, LACOUT		 
-	INTEGER NAO
-	DATA NAO/1/
+C      *LCLCD, AGEOUT(5), IACAT, IJLAST, LJLAST, LJWRT, LADON,LAOLY, IJVS,
+     *AGEOUT(5), LCLCD, ICLCD, IACAT, IJLAST, LJLAST, LJWRT, LADON, LAOLY, IJVS,
+     *IJENT, IJDEL, LACOUT
+      INTEGER NAO
+      DATA NAO/1/
 C 10/11 He3+He3 luminosity info
-	COMMON/GRAB/ENGHE3,HE3ALL,UMHE33(JSON),UMHEAL(JSON)
+      COMMON/GRAB/ENGHE3,HE3ALL,UMHE33(JSON),UMHEAL(JSON)
 C JVS 08/13 IF THE CZ IS BEYOND THE FITTING POINT, STORE ITS LOCATION
-	COMMON/ENVCZ/ENVRCZ,RINT
+      COMMON/ENVCZ/ENVRCZ,RINT
 C JVS 04/14 Common block for additional timestep governors
-	COMMON/GOVS/LTRIST
+      COMMON/GOVS/LTRIST
 C G Somers 3/17, ADDING NEW TAUCZ COMMON BLOCK
       COMMON/OVRTRN/LNEWTCZ,LCALCENV,TAUCZ,TAUCZ0,PPHOT,PPHOT0,FRACSTEP
 C     MHP 10/24 NEW VARIABLES FOR STOP CONDITIONS ON CENTRAL ABUNDANCE
-      REAL*8 XCEN(2,15),DTPREV
-      LOGICAL*4 L_LASTSTEP
+C       REAL*8 XCEN(2,15),DTPREV
+C       LOGICAL*4 L_LASTSTEP
 C
       DIMENSION BE7M(JSON),FLUXI0(10,JSON)
       DIMENSION HR1(JSON),HR2(JSON),HR3(JSON),HR4(JSON),HR5(JSON),
@@ -192,11 +195,12 @@ C subroutine PARMIN
       DATA SBP/0.9558,0.9690,0.9712,1.0,1.0,0.992,1.0,1.0,1.0,1.0,1.0,
      $  1.0,1.0,1.0,1.0,0.92088,0.1625/
 C MHP 3/96 added data for base solar age, L
-      DATA SUNAGE,SUNL/4.57D09,3.844D33/
+C       DATA SUNAGE,SUNL/4.57D09,3.844D33/  ! KC 2025-05-31
+      DATA SUNL/3.844D33/
       SAVE
 
 C*******
-C START 
+C START
 C*******
 
       IOWR = 9
@@ -245,13 +249,13 @@ C scaled for a solar age of 4.57 Gyr
       ELSE
          FACAGE = 1.0D0
       ENDIF
-C DBG PULSE: save LPULSE flag, set LPULSE to F except on last model of 
+C DBG PULSE: save LPULSE flag, set LPULSE to F except on last model of
 C last run, then set LPULSE to saved value of LPULSE.
       LSAVPU = LPULSE
 C 02/11 JVS uncommented LPULSE=.FALSE.
 C      LPULSE = .FALSE.
 C MHP 1/93 add option to automatically calibrate solar model.
-C MHP 3/96 added counter for # of iterations per converged model and 
+C MHP 3/96 added counter for # of iterations per converged model and
 C starting estimate of ALPHA and X
       IF(LCALS)THEN
          CALL SETCAL(FACAGE)
@@ -267,7 +271,7 @@ C DBG 12/94 add option to automatically calculate a stellar model
 C of specified Teff and L
       IF (LCALST) THEN
          CALL SETSCAL
-      ENDIF	
+      ENDIF
 
 C**********
 C     RUN THROUGH THE KIND CARDS IN ORDER
@@ -277,19 +281,21 @@ C**********
 C         LPULSE=.FALSE.
          XENV0 = XENV0A(NK)
          ZENV0 = ZENV0A(NK)
-         CMIXL = CMIXLA(NK) 
-	 LSENV0 = LSENV0A(NK)
-	 SENV0 = SENV0A(NK)
-	 LRESET = .FALSE.
-	 LARGE = .FALSE.
+         CMIXL = CMIXLA(NK)
+       LSENV0 = LSENV0A(NK)
+       SENV0 = SENV0A(NK)
+       LRESET = .FALSE.
+       LARGE = .FALSE.
 C MHP 10/02 ZERO OUT INITIAL ANGULAR MOMENTUM
          SJTOT = 0.0D0
          SKEROT = 0.0D0
 C read in the initial model here
 C STARIN also calls RSCALE to perform rescaling if requested
-	 CALL STARIN(BL,CFENV,DAGE,DDAGE,DELTS,DELTSH,DELTS0,ETA2,
+C        CALL STARIN(BL,CFENV,DAGE,DDAGE,DELTS,DELTSH,DELTS0,ETA2,  ! KC 2025-05-31
+       CALL STARIN(BL,CFENV,DAGE,DDAGE,DELTS,DELTSH,ETA2,
      *    FP,FT,FTRI,HCOMP,HD,HI,HJM,HKEROT,HL,HP,HR,HS,HS1,HS2,
-     *    HSTOT,HT,IKUT,ISTORE,JCORE,JENV,LARGE,LC,LNEW,M,MODEL,
+C      *    HSTOT,HT,IKUT,ISTORE,JCORE,JENV,LARGE,LC,LNEW,M,MODEL,  ! KC 2025-05-31
+     *    HSTOT,HT,IKUT,ISTORE,JENV,LARGE,LC,LNEW,M,MODEL,
      *    NK,OMEGA,PS,QDP,QDT,QIW,R0,RS,SJTOT,SKEROT,SMASS,TEFFL,
      *    TLUMX,TRIL,TRIT,TS,VEL,HG,V)
 c     MHP 10/24 CHECK STOP CONDITIONS AND DISABLE THEM IF THE STARTING VALUES ARE BELOW THE TARGET THRESHOLD
@@ -363,8 +369,10 @@ C SKIP CALCULATIONS FOR LOW TEMPERATURES.
          XO17 = HCOMP(10,I)
          XO18 = HCOMP(11,I)
          CALL ENGEB(EPP1,EPP2,EPP3,ECN,E3AL,PEP,PET,SUM1,DL,
-     *TL,PDT,PDP,X,Y,Z,XHE3,XC12,XC13,XN14,XN15,XO16,XO17,
-     *XO18,XH2,XLI6,XLI7,XBE9,I,HR1,HR2,HR3,HR4,HR5,HR6,HR7,
+C      *TL,PDT,PDP,X,Y,Z,XHE3,XC12,XC13,XN14,XN15,XO16,XO17,
+C      *XO18,XH2,XLI6,XLI7,XBE9,I,HR1,HR2,HR3,HR4,HR5,HR6,HR7,  ! KC 2025-05-31
+     *TL,X,Y,XHE3,XC12,XC13,XN14,XO16,
+     *XO18,XH2,IU,HR1,HR2,HR3,HR4,HR5,HR6,HR7,
      *HR8,HR9,HR10,HR11,HR12,HR13,HF1,HF2)
 C BE7 MASS FRACTION.
          BE7M(I) = BE7MASSFRACTION
@@ -411,26 +419,26 @@ C save mass in solar units
          XMSOL=SMASS
 C MHP 08/02 STORE STARTING CZ PROPERTIES
          JCZ = JENV
-         TAUCZ = 0.0D0	
+         TAUCZ = 0.0D0
 C write out headers of the appropriate output files
-	CALL WRTHEAD(SMASS)
+      CALL WRTHEAD(SMASS)
 C DBG PULSE OUT 7/92
 C initialize variables for calculating when to dump pulse output
          POL1 = BL
          POT1 = TEFFL
-         POA1 = DAGE 
+         POA1 = DAGE
          POLEN = 0.0D0
 
-	 IF(LKUTHE) THEN
+       IF(LKUTHE) THEN
 C timestep cutting requires a model stored in logical unit ILAST
 C or it will crash - so copy initial model to unit ILAST
-	    IF(LPUNCH) THEN
-	       IWRITE = ILAST
-	       CALL WRTLST(IWRITE,HCOMP,HD,HL,HP,HR,HS,HT,LC,TRIT,TRIL,
+          IF(LPUNCH) THEN
+             IWRITE = ILAST
+             CALL WRTLST(IWRITE,HCOMP,HD,HL,HP,HR,HS,HT,LC,TRIT,TRIL,
      *         PS,TS,RS,CFENV,FTRI,TLUMX,JCORE,JENV,MODEL,M,
      *         SMASS,TEFFL,BL,HSTOT,DAGE,DDAGE,OMEGA)
-	    ENDIF
-	 ENDIF
+          ENDIF
+       ENDIF
 
 C locate the hydrogen-burning shell and the boundaries of the central
 C and surface convection zones (if applicable).
@@ -438,11 +446,13 @@ C and surface convection zones (if applicable).
      *               LSHELL)
 C determine timestep for model
 C JVS 04/14 Added Teffl to passed variables
-	 CALL HTIMER(DELTS,DELTSH,M,HD,HL,HS1,HS2,HT,LC,HCOMP,JCORE,
-     *               JXMID,TLUMX,DAGE,DDAGE,QDT,QDP,NK,HP,HR,OMEGA,
+C        CALL HTIMER(DELTS,DELTSH,M,HD,HL,HS1,HS2,HT,LC,HCOMP,JCORE,
+C      *               JXMID,TLUMX,DAGE,DDAGE,QDT,QDP,NK,HP,HR,OMEGA,  ! KC 2025-05-31
+       CALL HTIMER(DELTS,DELTSH,M,HD,HL,HS1,HS2,HT,HCOMP,JCORE,
+     *               JXMID,TLUMX,DAGE,DDAGE,NK,HP,HR,OMEGA,
      *               DWMAX,JXBEG,TEFFL)
 
-	 DELTS0 = DELTS
+       DELTS0 = DELTS
 C zero out entropy terms.
          DO 99 I = 1,M
             HTT0(I) = 0.0D0
@@ -461,56 +471,56 @@ C zero out light element burning rates in the surface CZ.
 C for a given kind card, evolve NMODLS(NK) times
 C if rescaling is being performed, NMODLS(NK) is the number of times
 C the new model is being relaxed
-	 DO 100 MODELN = 1,NMODLS(NK)
+       DO 100 MODELN = 1,NMODLS(NK)
 C rewind ISHORT if LRWSH is true (keeps ISHORT small)
-	    IF (LRWSH) THEN
-	       REWIND(ISHORT)
-	    ENDIF
+          IF (LRWSH) THEN
+             REWIND(ISHORT)
+          ENDIF
 C DBG PULSE:  if last model of last run then set LPULSE to LSAVPU
             IF (MODELN.EQ.NMODLS(NK) .AND. NK .EQ. NUMRUN) THEN
                  LPULSE = LSAVPU
             END IF
 
 C JVS 02/11: Also allow pulse output at particular ages along the way
-C 
-C  If the step is bracketing an age of interest, turn on output. This will 
-C for the step before and step after the age in AGEOUT. Once the info has 
+C
+C  If the step is bracketing an age of interest, turn on output. This will
+C for the step before and step after the age in AGEOUT. Once the info has
 C been printed out, AGEOUT is set to the next age.
-C 
+C
 C Turn on calcad:
-	IF (LACOUT) THEN
-		LADON=.TRUE.
-	ELSE
-		LADON = .FALSE.
-	ENDIF
+      IF (LACOUT) THEN
+            LADON=.TRUE.
+      ELSE
+            LADON = .FALSE.
+      ENDIF
 C If output has been turned on for a previous step, keep it on for the next
-C step, but then turn it off.	
-	IF (LACOUT) THEN	
-		IF (LJWRT) THEN
-			PRINT*, 'LJWRT on'
-			LPULSE = LSAVPU
-			NAO=NAO+1
-			LCLCD =.TRUE.
-			LJLAST =.FALSE.
-			LJWRT=.FALSE.
-		ELSE IF (.NOT.LJWRT) THEN 
-			LCLCD=.FALSE.
-		ENDIF			
+C step, but then turn it off.
+      IF (LACOUT) THEN
+            IF (LJWRT) THEN
+                  PRINT*, 'LJWRT on'
+                  LPULSE = LSAVPU
+                  NAO=NAO+1
+                  LCLCD =.TRUE.
+                  LJLAST =.FALSE.
+                  LJWRT=.FALSE.
+            ELSE IF (.NOT.LJWRT) THEN
+                  LCLCD=.FALSE.
+            ENDIF
 C If this is the step before one of the ages of interest, print everything out.
 C Also, save model structure.
             IF(NAO.LT.6) THEN
-            	IF(DAGE+DDAGE/1.0D9-AGEOUT(NAO) .LE. 0.0D0 .AND. 
-     *		DAGE+2.0D0*DDAGE/1.0D9-AGEOUT(NAO) .GE. 0.0D0 .AND. .NOT. LJWRT) THEN
-				PRINT*, 'AGEOUT reached'
-				LPULSE = LSAVPU
-				LCLCD = .TRUE.
-				LJLAST = .TRUE.
-				LJWRT=.TRUE.
-			ENDIF
-		ENDIF
-	 ENDIF
+                  IF(DAGE+DDAGE/1.0D9-AGEOUT(NAO) .LE. 0.0D0 .AND.
+     *            DAGE+2.0D0*DDAGE/1.0D9-AGEOUT(NAO) .GE. 0.0D0 .AND. .NOT. LJWRT) THEN
+                        PRINT*, 'AGEOUT reached'
+                        LPULSE = LSAVPU
+                        LCLCD = .TRUE.
+                        LJLAST = .TRUE.
+                        LJWRT=.TRUE.
+                  ENDIF
+            ENDIF
+       ENDIF
 
-		
+
 C JVS end
 C
 C DBG PULSE:  if endage reached then set LPULSE to LSAVPU
@@ -520,29 +530,31 @@ C MHP 10/24 GENERALIZE CHECK
                  LPULSE = LSAVPU
 C MHP 7/96 compute sound speed for solar model
                  LSOUND = .TRUE.
-            END IF 
+            END IF
 
 
 CFD echo LSOUND
 C        print*,'MAIN LSOUND = ',LSOUND
 CFD end
             IF (LPOUT) THEN
-	       CALL PDIST(POL1,POT1,POA1,POLEN,BL,TEFFL,MODELN)
-	    ENDIF
+             CALL PDIST(POL1,POT1,POA1,POLEN,BL,TEFFL,MODELN)
+          ENDIF
 
 C STARIN called here for timestep cutting
    15       IF(LARGE) THEN
-	       CALL STARIN(BL,CFENV,DAGE,DDAGE,DELTS,DELTSH,DELTS0,ETA2,
+C              CALL STARIN(BL,CFENV,DAGE,DDAGE,DELTS,DELTSH,DELTS0,ETA2,  ! KC 2025-05-31
+             CALL STARIN(BL,CFENV,DAGE,DDAGE,DELTS,DELTSH,ETA2,
      *          FP,FT,FTRI,HCOMP,HD,HI,HJM,HKEROT,HL,HP,HR,HS,HS1,HS2,
-     *          HSTOT,HT,IKUT,ISTORE,JCORE,JENV,LARGE,LC,LNEW,M,MODEL,
+C      *          HSTOT,HT,IKUT,ISTORE,JCORE,JENV,LARGE,LC,LNEW,M,MODEL,  ! KC 2025-05-31
+     *          HSTOT,HT,IKUT,ISTORE,JENV,LARGE,LC,LNEW,M,MODEL,
      *          NK,OMEGA,PS,QDP,QDT,QIW,R0,RS,SJTOT,SKEROT,SMASS,TEFFL,
      *          TLUMX,TRIL,TRIT,TS,VEL,HG,V)
-	    ENDIF
-	    LPUNCH = .TRUE.
+          ENDIF
+          LPUNCH = .TRUE.
 
 C skip this section if model not to be aged
 C MHP 7/98
-C need to add logic to permit resacling + time evolution for 
+C need to add logic to permit resacling + time evolution for
 C pre-main sequence models
             IF(IRESCA(NK).NE.2 .AND. MODEL.GE.0) THEN
                LAGE = .TRUE.
@@ -567,10 +579,11 @@ C STORE COMPOSITION MATRIX AT THE BEGINNING OF THE TIMESTEP.
    33          CONTINUE
                ITLVL=1
                CALL MIX(DELTS,HCOMP,HD,HL,HP,HR,HS,HS1,HS2,HSTOT,
-     *                     HT,ITLVL,LC,M,QDT,QDP,DDAGE,JCORE,JENV,
+C      *                     HT,ITLVL,LC,M,QDT,QDP,DDAGE,JCORE,JENV,  ! KC 2025-05-31
+     *                     HT,ITLVL,LC,M,DDAGE,JCORE,JENV,
      *                     MXZONE,MXZON0,TEFFL)
-	       DDAGE = DELTS/CSECYR
-	       DAGE = DAGE + 1.0D-9*DDAGE
+             DDAGE = DELTS/CSECYR
+             DAGE = DAGE + 1.0D-9*DDAGE
             ENDIF
 C***MHP 1/04 OPACITY TEST
 C      IDT = 15
@@ -593,16 +606,17 @@ C 1554    format(4f11.6,3e20.10)
 C      END DO
 C*** END TEST
 C rezone new model, except rezoning not performed for He flash calculations
-	    IF(.NOT.LKUTHE) THEN
-	       CALL HPOINT(M,HSTOT,HS,HS1,HS2,HT,HP,HR,LC,HL,HD,
+          IF(.NOT.LKUTHE) THEN
+             CALL HPOINT(M,HSTOT,HS,HS1,HS2,HT,HP,HR,LC,HL,HD,
      *              HCOMP,PS,RS,ESTORE,ISTORE,LRESET,JXBEG,
      *              MODEL,LSHELL,JCORE,JENV,OMEGA,ETA2,R0,HI,
-     *              HJM,HKEROT,SJTOT,SKEROT,BL,DELTS,FP,FT,
-     *              HG,QIW,SMASS,TEFFL)
+C      *              HJM,HKEROT,SJTOT,SKEROT,BL,DELTS,FP,FT,
+C      *              HG,QIW,SMASS,TEFFL)  ! KC 2025-05-31
+     *              HJM,HKEROT,SJTOT,SKEROT,FP,FT,HG,QIW,TEFFL)
 C STORE NEW CZ BASE
                JCZ = JENV
             ELSE
-C save old model for PTIME 
+C save old model for PTIME
                DO I=1, M
                   HPO(I) = HP(I)
                   HTO(I) = HT(I)
@@ -611,11 +625,11 @@ C save old model for PTIME
                   HDO(I) = HD(I)
                END DO
 C JVS 04/14 Save Teff as well
-		   TEFFLO = TEFFL
+               TEFFLO = TEFFL
 C  JVS 05/25 Added model number to list of saved values
-           MO = M 
+           MO = M
 
-	    ENDIF
+          ENDIF
 C store starting distribution of rotational kinetic energy.
             IF(LROT)THEN
                DO I = 1,M
@@ -643,7 +657,7 @@ C if LNEW0 = T, new envelope triangle calculated the 1st iteration
 C (i.e. old triangle ignored)
 C LFINI = T if model has converged
 C LARGE = T if model has diverged
-	    IF(LNEW0) LNEW = .TRUE.
+          IF(LNEW0) LNEW = .TRUE.
             IF(.NOT.LAGE) DELTS = -DABS(DELTS)
             FCORR = DABS(FCORR0) - FCORRI
             ITDONE = 0
@@ -691,9 +705,10 @@ C CALL TO CRRECT - ADDED ITERATION LEVEL
      *           TRIT,TRIL,CFENV,PS,TS,RS,FTRI,ISTORE,ESTORE,HSTOT,
      *           BL,TEFFL,HD,HHA,HHB,HHC,HL,HMAX,HP,HPP,HR,HS,HS1,
      *           HS2,HSRF,HT,HTT,HCOMP,LC,NHMAX,TLUMX,LATMO,LDERIV,
-     *           LMIX,LOCOND,QDT,QDP,MODEL,FP,FT,ETA2,OMEGA,R0,ITDONE,
-     *           HG,HI,HJM, ITLVL,LCZ,MRZONE,MXZONE,NRZONE,NZONE,
-     *           QIW,HKEROT,HKEROTO)
+C      *           LMIX,LOCOND,QDT,QDP,MODEL,FP,FT,ETA2,OMEGA,R0,ITDONE,
+C      *           HG,HI,HJM, ITLVL,LCZ,MRZONE,MXZONE,NRZONE,NZONE,  ! KC 2025-05-31
+     *           LMIX,LOCOND,QDT,QDP,FP,FT,ETA2,OMEGA,R0,ITDONE,
+     *           HG,HI,HJM, ITLVL,LCZ,MXZONE,QIW,HKEROT,HKEROTO)
 C SECOND LEVEL OF ITERATIONS
 C CHECK ENVELOPE TRIANGLE BEFORE ITERATING FOR SOLUTION
             IF(LARGE) GOTO 15
@@ -704,9 +719,10 @@ C CHECK ENVELOPE TRIANGLE BEFORE ITERATING FOR SOLUTION
      *           TRIT,TRIL,CFENV,PS,TS,RS,FTRI,ISTORE,ESTORE,HSTOT,
      *           BL,TEFFL,HD,HHA,HHB,HHC,HL,HMAX,HP,HPP,HR,HS,HS1,
      *           HS2,HSRF,HT,HTT,HCOMP,LC,NHMAX,TLUMX,LATMO,LDERIV,
-     *           LMIX,LOCOND,QDT,QDP,MODEL,FP,FT,ETA2,OMEGA,R0,ITDONE,
-     *           HG,HI,HJM, ITLVL,LCZ,MRZONE,MXZONE,NRZONE,NZONE,
-     *           QIW,HKEROT,HKEROTO)
+C      *           LMIX,LOCOND,QDT,QDP,MODEL,FP,FT,ETA2,OMEGA,R0,ITDONE,
+C      *           HG,HI,HJM, ITLVL,LCZ,MRZONE,MXZONE,NRZONE,NZONE,  ! KC 2025-05-31
+     *           LMIX,LOCOND,QDT,QDP,FP,FT,ETA2,OMEGA,R0,ITDONE,
+     *           HG,HI,HJM, ITLVL,LCZ,MXZONE,QIW,HKEROT,HKEROTO)
             IF(LARGE)GOTO 15
 C 7/91 STORE CHANGES IN THE STRUCTURE. THESE CHANGES ARE USED TO GET AN
 C IMPROVED FIRST GUESS AT THE STRUCTURE FOR THE NEXT MODEL IF LNEWS=T.
@@ -726,9 +742,10 @@ C THIRD LEVEL OF ITERATIONS
      *           TRIT,TRIL,CFENV,PS,TS,RS,FTRI,ISTORE,ESTORE,HSTOT,
      *           BL,TEFFL,HD,HHA,HHB,HHC,HL,HMAX,HP,HPP,HR,HS,HS1,
      *           HS2,HSRF,HT,HTT,HCOMP,LC,NHMAX,TLUMX,LATMO,LDERIV,
-     *           LMIX,LOCOND,QDT,QDP,MODEL,FP,FT,ETA2,OMEGA,R0,ITDONE,
-     *           HG,HI,HJM, ITLVL,LCZ,MRZONE,MXZONE,NRZONE,NZONE,
-     *           QIW,HKEROT,HKEROTO)
+C      *           LMIX,LOCOND,QDT,QDP,MODEL,FP,FT,ETA2,OMEGA,R0,ITDONE,
+C      *           HG,HI,HJM, ITLVL,LCZ,MRZONE,MXZONE,NRZONE,NZONE,  ! KC 2025-05-31
+     *           LMIX,LOCOND,QDT,QDP,FP,FT,ETA2,OMEGA,R0,ITDONE,
+     *           HG,HI,HJM, ITLVL,LCZ,MXZONE,QIW,HKEROT,HKEROTO)
             IF(LARGE)GOTO 15
             IF(.NOT.LROT)THEN
                ITDIF1 = 1
@@ -761,7 +778,7 @@ C MIXING AND THE STRUCTURE VARIABLES.  IT SHOULD NOT BE USED FOR MODELS
 C WHERE SEMI-CONVECTION IS IMPORTANT (ITERATING BETWEEN THE BURNING AND
 C STRUCTURE GENERATES OSCILLATIONS). IT SHOULD BE USED FOR HIGH-PRECISION
 C WORK (E.G. SOLAR MODELS).
-C Surface boundary conditions checked again since we've changed the 
+C Surface boundary conditions checked again since we've changed the
 C composition (and hence the structure) of the model in ITLVL=3
 C (to be implemented when I know the rest of it works!)
             NITER = NITER4
@@ -771,10 +788,11 @@ C (to be implemented when I know the rest of it works!)
      *           TRIT,TRIL,CFENV,PS,TS,RS,FTRI,ISTORE,ESTORE,HSTOT,
      *           BL,TEFFL,HD,HHA,HHB,HHC,HL,HMAX,HP,HPP,HR,HS,HS1,
      *           HS2,HSRF,HT,HTT,HCOMP,LC,NHMAX,TLUMX,LATMO,LDERIV,
-     *           LMIX,LOCOND,QDT,QDP,MODEL,FP,FT,ETA2,OMEGA,R0,ITDONE,
-     *           HG,HI,HJM,ITLVL,LCZ,MRZONE,MXZONE,NRZONE,NZONE,
-     *           QIW,HKEROT,HKEROTO)
- 25         CONTINUE
+C      *           LMIX,LOCOND,QDT,QDP,MODEL,FP,FT,ETA2,OMEGA,R0,ITDONE,
+C      *           HG,HI,HJM,ITLVL,LCZ,MRZONE,MXZONE,NRZONE,NZONE,  ! KC 2025-05-31
+     *           LMIX,LOCOND,QDT,QDP,FP,FT,ETA2,OMEGA,R0,ITDONE,
+     *           HG,HI,HJM,ITLVL,LCZ,MXZONE,QIW,HKEROT,HKEROTO)
+C  25         CONTINUE
             IF(.NOT.LFINI) THEN
 C MODEL FAILED TO CONVERGE WITHIN(NITER1+NITER2+NITER3+NITER4)ITERATIONS
                LARGE = .TRUE.
@@ -785,15 +803,21 @@ C MODEL HAS CONVERGED
 C ENSURE CONVECTION ZONES ARE FULLY MIXED.
 C MHP 02/12 INFER CONVECTIVE OVERTURN TIMESCALE (USED IN MDOT)
 C JVS 02/12 CALL MIXCZ(HCOMP,HS2,LC,M)
-C G Somers 6/14, SET IMIX = .TRUE. SO THE CORRECT GRADS ARE USED.
-      IMIX = .TRUE.
-      CALL MIXCZ(HCOMP,HS2,HS1,LC,HR,HP,HD,HG,M,IMIX)
+C KC 2025-05-30 addressed warning messages from Makefile.legacy
+C C G Somers 6/14, SET IMIX = .TRUE. SO THE CORRECT GRADS ARE USED.
+C       IMIX = .TRUE.
+C       CALL MIXCZ(HCOMP,HS2,HS1,LC,HR,HP,HD,HG,M,IMIX)
+C G Somers 6/14, SET LIMIX = .TRUE. SO THE CORRECT GRADS ARE USED.
+      LIMIX = .TRUE.
+C       CALL MIXCZ(HCOMP,HS2,HS1,LC,HR,HP,HD,HG,M,LIMIX)  ! KC 2025-05-31
+      CALL MIXCZ(HCOMP,HS2,LC,M)
 C G Somers END
-		
+
 C MHP 9/94 STORE TOTAL AGE IN SAGE
             SAGE = DAGE
 C JVS 02/12 STITCH TOGETHER CONVERGED INTERIOR, ENVELOPE, AND ATMOSPHERE
-C		CALL STITCH(HCOMP,HR,HP,HD,HG,HS,HT,FP,FT,TEFFL,HSTOT,BL,M,
+C C            CALL STITCH(HCOMP,HR,HP,HD,HG,HS,HT,FP,FT,TEFFL,HSTOT,BL,M,  ! KC 2025-05-31
+C            CALL STITCH(HCOMP,HR,HP,HD,HS,HT,FP,FT,TEFFL,HSTOT,BL,M,
 C     *HCOMPF,HRF,HPF,HDF,HSF,HTF,MM,LC)
             IF(LROT) THEN
 C RESTORE ORIGINAL START OF TIMESTEP VALUES
@@ -815,9 +839,10 @@ C               IF(LENDAG(NK).AND.ENDAGE(NK)-DAGE*1.0D9.LE.1.0D0)THEN
                ENDIF
 C FIND THE NEW RUN OF OMEGA
 C JENV0 ADDED TO SR CALL.
-               LJDOT = LJDOT0 
+               LJDOT = LJDOT0
                CALL GETW(BL,DELTS,DWMAX,FP,FT,HCOMP,HD,HJM,HL,HP,HR,
-     *              HS,HS1,HS2,HSTOT,HT,LC,LJDOT,M,MODEL,SJTOT,SMASS,
+C      *              HS,HS1,HS2,HSTOT,HT,LC,LJDOT,M,MODEL,SJTOT,SMASS,  ! KC 2025-05-31
+     *              HS,HS1,HS2,HSTOT,HT,LC,LJDOT,M,SMASS,
      *              TEFFL,ETA2,HG,HI,OMEGA,QIW,R0,JENV0)
 C CALCULATE FP AND FT GIVEN OMEGA FOR THE NEW POINT DISTRIBUTION
                CALL FPFT(HD,HR,HS,M,OMEGA,ETA2,FP,FT,HG,R0)
@@ -825,7 +850,7 @@ C CALCULATE FP AND FT GIVEN OMEGA FOR THE NEW POINT DISTRIBUTION
             END DO
 C LOCATE THE HYDROGEN-BURNING SHELL AND THE BOUNDARIES OF THE CENTRAL
 C AND SURFACE CONVECTION ZONES (IF APPLICABLE).
-	 CALL FINDSH(HCOMP,HL,LC,M,JCORE,JENV,JXBEG,JXEND,JXMID,
+       CALL FINDSH(HCOMP,HL,LC,M,JCORE,JENV,JXBEG,JXEND,JXMID,
      *               LSHELL)
 C PERFORM LIGHT ELEMENT BURNING
          IF(LEXCOM .AND. MODEL.GE.0 .AND. DELTS.GT.0.0D0)THEN
@@ -844,14 +869,16 @@ C CHANGED FOR LITHIUM BURNING WITH OVERSHOOT.
                ENDIF
 C FIND BURNING RATES AT THE END OF THE TIME STEP.
                CALL LIRATE88(HCOMP,HD,HT,M,2)
-               CALL LIBURN(DELTS,HCOMP,HD,HR,HS1,HS2,HT,JENV1,JENV0,M)
+C                CALL LIBURN(DELTS,HCOMP,HD,HR,HS1,HS2,HT,JENV1,JENV0,M)  ! KC 2025-05-31
+               CALL LIBURN(DELTS,HCOMP,HR,HS1,HS2,HT,JENV1,JENV0,M)
             ENDIF
          ENDIF
 C MHP 07/02 RESTORE PRIOR FITTING POINT IF MASS ACCRETION IS BEING
 C INCLUDED
          IF(LNEWFIT)THEN
             CALL GETNEWENV(SENVOLD,HCOMP,HD,HL,HP,HR,HS,HS1,HS2,
-     *                     HSTOT,HT,LC,ETA2,HG,HI,HJM,QIW,R0,
+C     *                     HSTOT,HT,LC,ETA2,HG,HI,HJM,QIW,R0,  ! KC 2025-05-31
+     *                     HSTOT,HT,LC,ETA2,HI,HJM,QIW,R0,
      *                     HKEROT,BL,SJTOT,SKEROT,TEFFL,M,LNEW)
 C CALCULATE FP AND FT GIVEN OMEGA FOR THE NEW POINT DISTRIBUTION
             CALL FPFT(HD,HR,HS,M,OMEGA,ETA2,FP,FT,HG,R0)
@@ -860,36 +887,39 @@ C CALCULATE FP AND FT GIVEN OMEGA FOR THE NEW POINT DISTRIBUTION
 C DETERMINE TIMESTEP FOR NEXT MODEL
 C HTIMER ALSO LOCATES THE H-BURNING SHELL
 C JVS 04/14 added teffl to passed htimer variables
-	 DELTS = DABS(DELTS)
-	 DELTS0 = DELTS
-	 CALL HTIMER(DELTS,DELTSH,M,HD,HL,HS1,HS2,HT,LC,HCOMP,JCORE,
-     *        JXMID,TLUMX,DAGE,DDAGE,QDT,QDP,NK,HP,HR,OMEGA,
+       DELTS = DABS(DELTS)
+       DELTS0 = DELTS
+C        CALL HTIMER(DELTS,DELTSH,M,HD,HL,HS1,HS2,HT,LC,HCOMP,JCORE,
+C      *        JXMID,TLUMX,DAGE,DDAGE,QDT,QDP,NK,HP,HR,OMEGA,  ! KC 2025-05-31
+       CALL HTIMER(DELTS,DELTSH,M,HD,HL,HS1,HS2,HT,HCOMP,JCORE,
+     *        JXMID,TLUMX,DAGE,DDAGE,NK,HP,HR,OMEGA,
      *        DWMAX,JXBEG,TEFFL)
 C  IF EVOLVING TO A GIVEN AGE AND KIND CARD IS DONE, AVOID ZEROING OUT
 C  TIMESTEP WRITTEN TO MODEL (AS THIS MAKES CONTINUING A SEQUENCE AWKWARD.)
 C     INSTEAD WRITE THE PREVIOUS MODEL TIMESTEP TO MODEL.
 C ONLY IF A FIXED END AGE IS USED, NOT FOR OTHER STOPS
-	 IF(LENDAG(NK) .AND. ENDAGE(NK).GT.0.0D0)THEN
-	    IF(ENDAGE(NK)-DAGE*1.0D9.LE.1.0D0)THEN
-	       DELTS = MAX(DELTS0,1.0D-3*DAGE*CSECYR)
-	       DDAGE = DELTS/CSECYR
-	    ELSE
-	       DELTS0 = DELTS
-	    ENDIF
-	 ELSE
-	    DELTS0 = DELTS
-	 ENDIF
-	 IF(IRESCA(NK).NE.2) MODEL = MODEL+1
+       IF(LENDAG(NK) .AND. ENDAGE(NK).GT.0.0D0)THEN
+          IF(ENDAGE(NK)-DAGE*1.0D9.LE.1.0D0)THEN
+             DELTS = MAX(DELTS0,1.0D-3*DAGE*CSECYR)
+             DDAGE = DELTS/CSECYR
+          ELSE
+             DELTS0 = DELTS
+          ENDIF
+       ELSE
+          DELTS0 = DELTS
+       ENDIF
+       IF(IRESCA(NK).NE.2) MODEL = MODEL+1
 C WRTOUT IS THE OUTPUT DRIVER ROUTINE
-	 CALL WRTOUT(HCOMP,HD,HL,HP,HR,HS,HS1,HT,LC,M,MODEL,DAGE,
+       CALL WRTOUT(HCOMP,HD,HL,HP,HR,HS,HS1,HT,LC,M,MODEL,DAGE,
      *        DDAGE,SMASS,TEFFL,BL,GL,LSHELL,JXBEG,JXMID,JXEND,JCORE,
      *        JENV,TLUMX,TRIT,TRIL,PS,TS,RS,CFENV,FTRI,HSTOT,OMEGA,
-     *        LPUNCH,FP,FT,ETA2,R0,HJM,HI,SJTOT,SKEROT,HS2,NK)
+C      *        LPUNCH,FP,FT,ETA2,R0,HJM,HI,SJTOT,SKEROT,HS2,NK)  ! KC 2025-05-31
+     *        LPUNCH,FP,FT,ETA2,R0,HJM,HI,SJTOT,SKEROT,HS2)
 
 C MHP 10/24 GENERALIZED STOP CONDITIONS
 C     IF EVOLVING TO A GIVEN AGE AND AGE IS REACHED, KIND CARD IS DONE
-C	 IF(LENDAG(NK).AND.ENDAGE(NK)-DAGE*1.0D9.LE.1.0D0)GOTO 110
-	 IF(LENDAG(NK).AND.ENDAGE(NK).GT.0.0D0 .AND.
+C       IF(LENDAG(NK).AND.ENDAGE(NK)-DAGE*1.0D9.LE.1.0D0)GOTO 110
+       IF(LENDAG(NK).AND.ENDAGE(NK).GT.0.0D0 .AND.
      *   (ENDAGE(NK)-DAGE*1.0D9).LE.1.0D0)GOTO 110
 C MHP 10/24 CHECK ALL STOP CONDITIONS, EXIT IF ANY SATISFIED
          LEND_KIND = .FALSE.
@@ -921,14 +951,14 @@ C IF EXITING, SET I/O FLAGS PROPERLY AND EXIT LOOP
 C TEST IF MODEL IS NEAR DESIRED Teff AND L. IF NOT RESCALE AND TRY AGAIN.
          IF (LCALST .AND. .NOT. LSTAR) THEN
             IF(MOD(NK,2).EQ.0)THEN
-	       IF(MODELN.EQ.1) THEN
-	          TEFFI = 10.0D0**TEFFL
-	       ELSE 
-	          CALL CHKSCAL(BL, TEFFL, DAGE, NK)
-	          IF(LPASSR) GOTO 200
-	       END IF
-	    ENDIF
-	 ENDIF
+             IF(MODELN.EQ.1) THEN
+                TEFFI = 10.0D0**TEFFL
+             ELSE
+                CALL CHKSCAL(BL, TEFFL, DAGE, NK)
+                IF(LPASSR) GOTO 200
+             END IF
+          ENDIF
+       ENDIF
 
 C END OF RUN
   100    CONTINUE
@@ -936,19 +966,19 @@ C END OF RUN
 C G Somers 11/14, CHANGE CALL TO PUTSTORE INSTEAD OF WRTLST.
 C STORE LAST MODEL IN ISTOR IF LSTORE, LSTPCH, AND LPUNCH ARE .TRUE.
   110    IF(LSTORE.AND.LSTPCH.AND.LPUNCH) THEN
-	    CALL PUTSTORE(HCOMP,HD,HL,HP,HR,HS,HT,LC,TRIT,TRIL,PS,TS,RS,
+          CALL PUTSTORE(HCOMP,HD,HL,HP,HR,HS,HT,LC,TRIT,TRIL,PS,TS,RS,
      *           CFENV,FTRI,TLUMX,JCORE,JENV,MODEL,M,SMASS,TEFFL,BL,HSTOT,
      *           DAGE,DDAGE,OMEGA,HS1,ETA2,R0,FP,FT,HJM,HI)
             LPUNCH = .FALSE.
-	 ENDIF
+       ENDIF
 C 110  CONTINUE
 C G Somers END
-      
+
 C MHP 1/93 CHECK AUTOMATIC CALIBRATATION OF SOLAR MODEL.
 c MHP 5/96 changed solar calibration to perform solar models in 3 kind cards
          IF(LCALS)THEN
 C JVS Turn off calcad - speeds things up
-		LADON=.FALSE.
+            LADON=.FALSE.
             IF(MOD(NK,3).EQ.0)THEN
                RLL = 0.5D0*(BL+CLSUNL-C4PIL-CSIGL-4.0D0*TEFFL)-CRSUNL
 C MHP 06/13 Add solar Z/X to observables
@@ -1016,9 +1046,13 @@ C SUMMARY OF STRUCTURE : TC, RHOC, PC
      *        HCOMP(1,1),HCOMP(3,1)
 C NEUTRINO FLUXES (SEE ENGEB FOR DETAILS)
          WRITE(ISNU, 1516) CLSNU,GASNU,(FLUXTOT(I),I=1,8)
-         CALL WRTMONTE(HCOMP,HD,HL,HP,HR,HS,HT,LC,M,MODEL,DAGE,
-     *        DDAGE,SMASS,TEFFL,BL,GL,LSHELL,JXBEG,JXMID,
-     *        JXEND,JCORE,JENV,TLUMX,TRIT,TRIL,PS,TS,RS,
+C          CALL WRTMONTE(HCOMP,HD,HL,HP,HR,HS,HT,LC,M,MODEL,DAGE,
+C      *        DDAGE,SMASS,TEFFL,BL,GL,LSHELL,JXBEG,JXMID,
+C      *        JXEND,JCORE,JENV,TLUMX,TRIT,TRIL,PS,TS,RS,
+C      *        CFENV,FTRI,HSTOT,OMEGA,RLL,ICONV,NK,NN)  ! KC 2025-05-31
+         CALL WRTMONTE(HCOMP,HD,HL,HP,HR,HS,HT,LC,M,DAGE,
+     *        DDAGE,SMASS,TEFFL,BL,
+     *        JCORE,JENV,TLUMX,TRIT,TRIL,PS,TS,RS,
      *        CFENV,FTRI,HSTOT,OMEGA,RLL,ICONV,NK,NN)
       ELSE IF(LCALS .AND. LSNU .AND. LSOL)THEN
          REWIND(ILAST)
@@ -1053,7 +1087,7 @@ C INITIAL ALPHA,Y,Z,ALPHA; FINAL R, L
          YINI = 1.0D0 - RESCAL(2,NK-2) - RESCAL(3,NK-2)
          ZINI = RESCAL(3,NK-2)
          WRITE(ISNU,1521)CMIXLA(NK),YINI,ZINI,BL,RLL
- 1521    FORMAT(F7.4,2F8.5,1P2E10.3)  
+ 1521    FORMAT(F7.4,2F8.5,1P2E10.3)
 C CZ DEPTH (R,M), SURFACE Y, Z, Z/X (ADD T CZ BASE, RHO CZ BASE)
          WRITE(ISNU,1522)ENVR,ENVLM,HCOMP(2,M),HCOMP(3,M),ZTOX
  1522    FORMAT(F8.5,F9.6,2F8.5,F9.6)
@@ -1061,9 +1095,13 @@ C ENERGY GENERATION FRACTIONS PP I,II,III,CNO,EGRAV
          WRITE(ISNU,1523)(TLUMX(J),J=1,4),TLUMX(7)
  1523    FORMAT(1P5E10.3)
          IF(LMONTE)THEN
-            CALL WRTMONTE(HCOMP,HD,HL,HP,HR,HS,HT,LC,M,MODEL,DAGE,
-     *           DDAGE,SMASS,TEFFL,BL,GL,LSHELL,JXBEG,JXMID,
-     *           JXEND,JCORE,JENV,TLUMX,TRIT,TRIL,PS,TS,RS,
+C             CALL WRTMONTE(HCOMP,HD,HL,HP,HR,HS,HT,LC,M,MODEL,DAGE,
+C      *           DDAGE,SMASS,TEFFL,BL,GL,LSHELL,JXBEG,JXMID,
+C      *           JXEND,JCORE,JENV,TLUMX,TRIT,TRIL,PS,TS,RS,
+C      *           CFENV,FTRI,HSTOT,OMEGA,RLL,ICONV,NK,NN)  ! KC 2025-05-31
+            CALL WRTMONTE(HCOMP,HD,HL,HP,HR,HS,HT,LC,M,DAGE,
+     *           DDAGE,SMASS,TEFFL,BL,
+     *           JCORE,JENV,TLUMX,TRIT,TRIL,PS,TS,RS,
      *           CFENV,FTRI,HSTOT,OMEGA,RLL,ICONV,NK,NN)
          ENDIF
       ENDIF

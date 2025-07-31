@@ -22,7 +22,9 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
       COMMON/ROT/WNEW,WALPCZ,ACFPFT,ITFP1,ITFP2,LROT,LINSTB,LWNEW
       COMMON/MASSCHG2/SACC,SCEN,SMASS0,DLOGP,DLOGT
 C mhp 8/10 added option to scale mass loss rate by rotation; requires rotating model
-      COMMON/MASSCHG3/LSOLWIND,DMSUN,DMWSUN,DMWMAX
+C KC 2025-05-30 reordered common block elements
+C       COMMON/MASSCHG3/LSOLWIND,DMSUN,DMWSUN,DMWMAX
+      COMMON/MASSCHG3/DMSUN,DMWSUN,DMWMAX,LSOLWIND
       DIMENSION HCOMP(15,JSON),HS(JSON),HS1(JSON),HS2(JSON),
      *          HT(JSON),HJM(JSON),OMEGA(JSON),HR(JSON),
      *          HP(JSON),HD(JSON)
@@ -95,7 +97,7 @@ C OVERALL SCALE FACTOR IN R
          T = 10.0D0**HT(JENV)
          P = 10.0D0**HP(JENV)
          D = 10.0D0**HD(JENV)
-         BETA = 1.0D0- (CA3*T**4/P) 
+         BETA = 1.0D0- (CA3*T**4/P)
          RMU = P*BETA/(D*T)
 C         DLOGEN = (DELM/DMCZ)*(SACC-SCEN)/RMU
          DLOGEN = (DELM/DMCZ)*SCEN/RMU
@@ -181,7 +183,7 @@ C LOG OF TOTAL MASS IN GRAMS (HSTOT,STOTAL)
       STOTAL = HSTOT
 C CORRECT MASS CONTENTS OF INDIVIDUAL SHELLS (HS2, IN GM)
       DO I = JENV,M-1
-	 HS2(I) = 0.5D0*(HS1(I+1)-HS1(I-1))
+       HS2(I) = 0.5D0*(HS1(I+1)-HS1(I-1))
       END DO
       HS2(M) = HSTOT2 - 0.5D0*(HS1(M)+HS1(M-1))
 C 07/02RESET SENV
@@ -201,7 +203,7 @@ C 911  FORMAT(1P6E12.3)
          END DO
          FMASSACC = DELM
       ENDIF
- 9999 CONTINUE
+C  9999 CONTINUE
       IF(LDONE)LMDOT = .FALSE.
 C      WRITE(*,*)M,HS(M),HSTOT
       RETURN
