@@ -16,8 +16,8 @@ import subprocess as sp
 import configparser as cfp
 
 config = cfp.ConfigParser()
-config.read("tests.conf")
-yrec_exe = config['paths']['yrec']
+config.read("pytest.ini")
+yrec_exe = os.path.abspath( config['paths']['yrec'] )
 tests = [x for x in config['paths']['tests'].split('\n') if len(x) > 0 ]
 float_abs_tol = float(config['tolerances']['float_abs_tol'])
 int_abs_tol = int(config['tolerances']['int_abs_tol'])
