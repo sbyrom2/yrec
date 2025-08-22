@@ -8,12 +8,13 @@ C..... THE PURPOSE OF THIS SUBROUTINE IS TO READ THE DATA TABLES
 C YCK >>>  2/95 OPAL EOS
       LOGICAL*4 LOPALE,lopale01,lopale06,LNumDeriv
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
-      CHARACTER*256 FOPALE,fopale01,fopale06
+C MHP 8/25 Remove unused variables
+C      CHARACTER*256 FOPALE,fopale01,fopale06
 C KC 2025-05-30 reordered common block elements
 C       COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
 C      x     lopale06,LNumDeriv
-      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,fopale06,
-     *     lopale01,lopale06,lNumDeriv
+C MHP 8/25 Remove file names from common blocks
+      COMMON/OPALEOS/LOPALE,IOPALE,lopale01,lopale06,lNumDeriv
 C <<< YCK
       REAL*8 MOLES
       CHARACTER*1 BLANK
@@ -47,11 +48,7 @@ C <<< YCK
         ENDIF
 
 C..... READ  TABLES
-C YCK >>>
-       OPEN(IOPALE, FILE=FOPALE,STATUS='OLD')
-C <<< YCK
-
-
+C MHP 8/25 Moved opening of file to parmin
       DO 3 M=1,MX
 
       READ (IOPALE,'(3X,F6.4,3X,F6.4,11X,F10.7,17X,F10.7)')

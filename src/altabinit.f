@@ -25,8 +25,6 @@ C    (b) Ensure that every row has at least 4 valid entries and that there are a
       IMPLICIT LOGICAL*4(L)
       IMPLICIT INTEGER*4(I,J,K,M,N)
       LOGICAL*4 LALTPTau100
-      CHARACTER*256 FALLARD
-
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
       COMMON /ALATM01/ TEFFLs(NTA),GLs(NGA),FeHs(NGA),      ! Shared: ALFILEIN, ALTABINIT and ALSURFP
      x   ALPHAs(NGA),PLs(NTA,NGA),P100Ls(NTA,NGA),T100Ls(NTA,NGA),
@@ -35,7 +33,8 @@ C    (b) Ensure that every row has at least 4 valid entries and that there are a
      x   IGLmax(NTA),TEFFLmin,TEFFLmax,GLXmin,GLXmax
       COMMON /ALATM03/ ALATM_FeH,ALATM_Alpha,LALTPTau100,  ! Shared: ALFILEIN,
      x       IOATMA                                         ! ALSURFP and PARMIN
-      COMMON /ALATM04/ DUMMY1,DUMMY2,FALLARD,DUMMY3,DUMMY4
+C MHP 8/25 Removed character file names from common block
+      COMMON /ALATM04/ DUMMY1,DUMMY2,DUMMY3,DUMMY4
       COMMON /ALATM05/ AL_TEFFLmin,AL_TEFFLmax
 
 C 1. Find the minimum (TEFFLmin) and maximum (TEFFLmax) permissable values of TEFFL. These are

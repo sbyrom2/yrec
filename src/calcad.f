@@ -105,8 +105,8 @@ C      COMMON/SETT/ENDAGE(50),SETDT(50),LENDAG(50),LSETDT(50)
 C KC 2025-05-30 reordered common block elements
 C       COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
 C      *     lopale06,lNumDeriv
-      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,fopale06,
-     *     lopale01,lopale06,lNumDeriv
+C MHP 8/25 Remove file names from common blocks
+      COMMON/OPALEOS/LOPALE,IOPALE,lopale01,lopale06,lNumDeriv
 C Added for experimantal mass loss section
       COMMON/MASSCHG/DMDT0,FCZDMDT,FTOTDMDT,COMPACC(15),CREIM,
      *               LREIMER,LMDOT

@@ -12,7 +12,8 @@ c..... The purpose of this subroutine is to read the OPAL 2006 EOS data tables
       IMPLICIT REAL*8 (A-H,O-Z)
       real*8 moles
       LOGICAL*4 LOPALE, lopale01,lopale06,LNumDeriv
-      CHARACTER*256 FOPALE,fopale01,fopale06
+C MHP 8/25 Remove unused variables
+C      CHARACTER*256 FOPALE,fopale01,fopale06
       character*1 blank
       common/aaeos06/ q(4),h(4),xxh
       common/aeos06/  xz(mx,mv,nt,nr),
@@ -37,8 +38,8 @@ C      x    alogr(nr,nt)
 C KC 2025-05-30 reordered common block elements
 C       COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
 C      x     lopale06,LNumDeriv
-      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,fopale06,
-     *     lopale01,lopale06,lNumDeriv
+C MHP 8/25 Remove file names from common blocks
+      COMMON/OPALEOS/LOPALE,IOPALE,lopale01,lopale06,lNumDeriv
 
       save
       blank=' '
@@ -61,10 +62,8 @@ C      x     lopale06,LNumDeriv
         endif
 
       close (2)
-c..... read  tables
-       open(IOPALE, FILE=FOPALE06,STATUS='OLD')
-
-
+c.....read  tables
+C MHP 8/25 Moved opening of file to parmin
       do 3 m=1,mx
       read (IOPALE,'(3x,f6.4,3x,f12.9,11x,f10.7,17x,f10.7)')
      x  xin(m),zz(m),moles(m),tmass(m)

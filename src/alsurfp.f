@@ -85,8 +85,6 @@ C       If LPRT  is .TRUE. print Log(P) at the associated Log(Teff) to ISHORT an
       IMPLICIT LOGICAL*4(L)
       IMPLICIT INTEGER*4(I,J,K,M,N)
        LOGICAL*4 LALTPTau100
-      CHARACTER*256 FALLARD
-
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
       COMMON/ATMPRT/TAU,AP,AT,AD,AO,AFXION(3)
       COMMON /ALATM01/ TEFFLs(NTA),GLs(NGA),FeHs(NGA),      ! Shared: ALFILEIN, ALTABINIT and ALSURFP
@@ -96,7 +94,8 @@ C       If LPRT  is .TRUE. print Log(P) at the associated Log(Teff) to ISHORT an
      x   IGLmax(NTA),TEFFLmin,TEFFLmax,GLXmin,GLXmax
       COMMON /ALATM03/ ALATM_FeH,ALATM_Alpha,LALTPTau100,  ! Shared: ALFILEIN,
      x       IOATMA                                         ! ALSURFP and PARMIN
-      COMMON /ALATM04/ DUMMY1,DUMMY2,FALLARD,DUMMY3,DUMMY4
+C MHP 8/25 Removed character file names from common block
+      COMMON /ALATM04/ DUMMY1,DUMMY2,DUMMY3,DUMMY4
 
       Dimension iGL(4),PL1(4),P100L1(4),
      x    T100L1(4),PL2(4),P100L2(4),T100L2(4)

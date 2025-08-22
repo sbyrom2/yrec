@@ -14,7 +14,8 @@ c..... The purpose of this subroutine is to read the data tables
 
       real*8 moles
       LOGICAL*4 LOPALE, lopale01,lopale06,LNumDeriv
-      CHARACTER*256 FOPALE,fopale01,fopale06
+C MHP 8/25 Remove unused variables
+C      CHARACTER*256 FOPALE,fopale01,fopale06
       character*1 blank
       common/aaeos/ q(4),h(4),xxh
       common/aeos/  xz(mx,mv,nt,nr),
@@ -34,8 +35,8 @@ C      x    rhogr(mx,nr),frac(mx,6),alogr(nr,nt)
 C KC 2025-05-30 reordered common block elements
 C       COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
 C      x     lopale06,LNumDeriv
-      COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,fopale06,
-     *     lopale01,lopale06,lNumDeriv
+C MHP 8/25 Remove file names from common blocks
+      COMMON/OPALEOS/LOPALE,IOPALE,lopale01,lopale06,lNumDeriv
 C mhp 7/2003
       COMMON/RMPOPEOS01/RMX(NT),KRA(NT),KT
       DATA (KRA(I),I=1,NT)/16*169,168,167,166,165,2*164,163,2*162,
@@ -64,9 +65,7 @@ C mhp 7/2003
 
       close (2)
 c..... read  tables
-       open(IOPALE, FILE=FOPALE01,STATUS='OLD')
-
-
+C MHP 8/25 Moved opening of file to parmin
       do 3 m=1,mx
 
       read (IOPALE,'(3x,f6.4,3x,f12.9,11x,f10.7,17x,f10.7)')

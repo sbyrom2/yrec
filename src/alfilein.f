@@ -29,7 +29,7 @@ C created.
 
 
 
-       SUBROUTINE ALFILEIN
+       SUBROUTINE ALFILEIN(FALLARD)
 C
 C Parameters NTA and NGA are respectively the maximum expected numbers
 C of Teff's and GL's we expect to encounter, even in future tables
@@ -52,7 +52,8 @@ C associated max number of GL's is nGL.
      x   LOldNextGen,nTEFF,nGL,nFeH,nALPHA
       COMMON /ALATM03/ ALATM_FeH,ALATM_Alpha,LALTPTau100,  ! Shared: ALFILEIN,
      x       IOATMA                                         ! ALSURFP and PARMIN
-      COMMON /ALATM04/ DUMMY1,DUMMY2,FALLARD,DUMMY3,DUMMY4
+C MHP 8/25 Removed character file names from common block
+      COMMON /ALATM04/ DUMMY1,DUMMY2,DUMMY3,DUMMY4
 
      EXTERNAL sort_shell
 

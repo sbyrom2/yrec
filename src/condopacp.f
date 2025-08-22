@@ -33,12 +33,16 @@ C     e-mail: palex@astro.ioffe.rssi.ru
 
 C The following three lines provide and interface to PARMIN in order to
 C locate the Potekhin files.
-      COMMON /MISCOPAC/IKUR2,FKUR2,IcondOpacP,FcondOpacp,LcondOpacP
+C MHP 8/25 Removed character file names from common block
+      COMMON /MISCOPAC/IKUR2,IcondOpacP,LcondOpacP
       LOGICAL*4 LcondOpacP
-      CHARACTER*256 FKUR2,FcondOpacP
-      if (KRUN.ne.12345) then ! Reading
+C removed unused variables
+C     CHARACTER*256 FKUR2,FcondOpacP
+C 
+      if (KRUN.ne.12345) then   ! Reading
          IP = IcondOpacP
-         open(IP,file=FcondOpacP,status='OLD')
+C MHP 8/25 file opening moved to parmin 
+C         open(IP,file=FcondOpacP,status='OLD')
 c         print*,'Reading thermal conductivity data...'
          read(IP,'(A)') ! skip the first line
         do IZ=1,MAXZ

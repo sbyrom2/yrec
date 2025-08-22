@@ -21,26 +21,24 @@ C size do a global change on "JSON=2000" or whatever.
       IMPLICIT LOGICAL*4(L)
 C DBGLAOL - to save space make tables single precision
       REAL*8 OLAOL,OXA,OT,ORHO,TOLLAOL
-      CHARACTER*256 FISO, FLAOL, FPUREZ
-      CHARACTER*256 FLAOL2, FOPAL2
-      CHARACTER*256 FLAST, FFIRST, FRUN, FSTAND, FFERMI,
-     1    FDEBUG, FTRACK, FSHORT, FMILNE, FMODPT,
-     2    FSTOR, FPMOD, FPENV, FPATM, FDYN,
-     3    FLLDAT, FSNU, FSCOMP, FKUR,
-     4    FMHD1, FMHD2, FMHD3, FMHD4, FMHD5, FMHD6, FMHD7, FMHD8
+C MHP 8/25 Removed unused variables and added pass-through variables 
+      CHARACTER*256 FALEX06,FALLARD,FATM,FFERMI,FKUR,FKUR2,FLAOL,
+     * FLAOL2,FLIV95,FLLDAT,FMHD1,FMHD2,FMHD3,FMHD4,FMHD5,
+     * FMHD6,FMHD7,FMHD8,FOPAL2,FPATM,FPENV,FPMOD,FPUREZ,FSCVH,FSCVHE,FSCVZ
+      CHARACTER*256 OPECALEX(7)
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
       COMMON/LUNUM/IFIRST, IRUN, ISTAND, IFERMI,
      1    IOPMOD, IOPENV, IOPATM, IDYN,
      2    ILLDAT, ISNU, ISCOMP, IKUR
-      COMMON/LUFNM/ FLAST, FFIRST, FRUN, FSTAND, FFERMI,
-     1    FDEBUG, FTRACK, FSHORT, FMILNE, FMODPT,
-     2    FSTOR, FPMOD, FPENV, FPATM, FDYN,
-     3    FLLDAT, FSNU, FSCOMP, FKUR,
-     4    FMHD1, FMHD2, FMHD3, FMHD4, FMHD5, FMHD6, FMHD7, FMHD8
+C      COMMON/LUFNM/ FLAST, FFIRST, FRUN, FSTAND, FFERMI,
+C     1    FDEBUG, FTRACK, FSHORT, FMILNE, FMODPT,
+C     2    FSTOR, FPMOD, FPENV, FPATM, FDYN,
+C     3    FLLDAT, FSNU, FSCOMP, FKUR,
+C     4    FMHD1, FMHD2, FMHD3, FMHD4, FMHD5, FMHD6, FMHD7, FMHD8
 C DBGLAOL
+C MHP 8/25 Removed character file names from common block
       COMMON/NWLAOL/OLAOL(12,104,52),OXA(12),OT(52),ORHO(104),TOLLAOL,
-     *  IOLAOL, NUMOFXYZ, NUMRHO, NUMT, LLAOL, LPUREZ, IOPUREZ,
-     *   FLAOL, FPUREZ
+     *  IOLAOL, NUMOFXYZ, NUMRHO, NUMT, LLAOL, LPUREZ, IOPUREZ
       COMMON/TRACK/ITRVER
       COMMON/LABEL/XENV0,ZENV0
       COMMON/CCOUT/LSTORE,LSTATM,LSTENV,LSTMOD,LSTPHYS,LSTROT,LSCRIB
@@ -85,13 +83,15 @@ C IS ENFORCED, AND PERIOD AT WHICH LOCKING IS SET ARE OPTIONS.
       COMMON/DISK/SAGE,TDISK,PDISK,LDISK
       COMMON/PULSE/XMSOL,LPULSE,IPVER
       COMMON/ATMOS/HRAS,KTTAU,KTTAU0,LTTAU
-      COMMON/CHRONE/LRWSH, LISO, IISO, FISO
+C MHP 8/25 Removed character file names from common block
+      COMMON/CHRONE/LRWSH, LISO, IISO
 C DBG 1/92 let XENV0, ZENV0, and CMIXL be arrays so can change during
 C a set of runs.
       COMMON /NEWXYM/XENV0A(50),ZENV0A(50),CMIXLA(50),LSENV0A(50),
      * SENV0A(50)
+C MHP 8/25 Removed character file names from common block
       COMMON/ZRAMP/RSCLZC(50), RSCLZM1(50), RSCLZM2(50),
-     *     IOLAOL2, IOOPAL2, NK, LZRAMP, FLAOL2, FOPAL2
+     *     IOLAOL2, IOOPAL2, NK, LZRAMP
 C DBG 4/26/94 Tired of not have access to current age of model so...
       COMMON/THEAGE/DAGE
       DIMENSION TLUMX(8),TRIL(3),TRIT(3),PS(3),TS(3),RS(3),CFENV(9),
@@ -207,12 +207,18 @@ C*******
 C LPUNCH is TRUE once first model is calculated
       LPUNCH=.FALSE.
 C read in user parameters
-      CALL PARMIN
+      CALL PARMIN(FALEX06,FALLARD,FATM,FFERMI,FKUR,FKUR2,FLAOL,
+     * FLAOL2,FLIV95,FLLDAT,FMHD1,FMHD2,FMHD3,FMHD4,FMHD5,FMHD6,FMHD7,
+     * FMHD8,FOPAL2,FPATM,FPENV,FPMOD,FPUREZ,FSCVH,FSCVHE,FSCVZ,OPECALEX)
 C set up constants and read in tabular data
-      CALL SETUPS(V)
+C MHP 8/25 directly pass file names instead of using common blocks
+      CALL SETUPS(V,FALEX06,FALLARD,FATM,FFERMI,FKUR,FKUR2,FLAOL,
+     * FLAOL2,FLIV95,FLLDAT,FMHD1,FMHD2,FMHD3,FMHD4,FMHD5,FMHD6,FMHD7,
+     * FMHD8,FOPAL2,FPUREZ,FSCVH,FSCVHE,FSCVZ,OPECALEX)
 C MHP 3/96 changed I/O to read in only up to max run needed.
       IF(LMONTE)THEN
-         OPEN(UNIT=IDYN,FILE=FDYN,FORM='FORMATTED',STATUS='OLD')
+c MHP 8/25 moved file open to parmin
+C     OPEN(UNIT=IDYN,FILE=FDYN,FORM='FORMATTED',STATUS='OLD')
          I0 = IMBEG
          IMEND = MIN(IMEND,1000)
          I1 = IMEND
@@ -537,7 +543,9 @@ CFD echo LSOUND
 C        print*,'MAIN LSOUND = ',LSOUND
 CFD end
             IF (LPOUT) THEN
-             CALL PDIST(POL1,POT1,POA1,POLEN,BL,TEFFL,MODELN)
+C MHP 8/25 changed to add file names as declared variables 
+             CALL PDIST(POL1,POT1,POA1,POLEN,BL,TEFFL,MODELN,FPATM,
+     *       FPENV,FPMOD)
           ENDIF
 
 C STARIN called here for timestep cutting
@@ -998,15 +1006,19 @@ c                  IF(ICONV.GE.11) GOTO 250
                   IF (LPULSE) THEN
 C DBG 6/93 Need to delete pulse output because have not got ultimate
 C model yet.
-                     CLOSE(IOPMOD, STATUS='DELETE')
-                     CLOSE(IOPENV, STATUS='DELETE')
-                     CLOSE(IOPATM, STATUS='DELETE')
-                     OPEN(IOPMOD, FILE=FPMOD,STATUS='UNKNOWN',
-     *                    FORM='FORMATTED')
-                     OPEN(IOPENV, FILE=FPENV,STATUS='UNKNOWN',
-     *                    FORM='FORMATTED')
-                     OPEN(IOPATM, FILE=FPATM,STATUS='UNKNOWN',
-     *                    FORM='FORMATTED')
+C MHP 8/25 Replaced delete file with rewind file. This is functionally the same and avoids the need to pass the character string for the file name from parmin.
+                     REWIND(IOPMOD)
+                     REWIND(IOPENV)
+                     REWIND(IOPATM)
+C                     CLOSE(IOPMOD, STATUS='DELETE')
+C                     CLOSE(IOPENV, STATUS='DELETE')
+C                     CLOSE(IOPATM, STATUS='DELETE')
+C                     OPEN(IOPMOD, FILE=FPMOD,STATUS='UNKNOWN',
+C     *                    FORM='FORMATTED')
+C                     OPEN(IOPENV, FILE=FPENV,STATUS='UNKNOWN',
+C     *                    FORM='FORMATTED')
+C                     OPEN(IOPATM, FILE=FPATM,STATUS='UNKNOWN',
+C     *                    FORM='FORMATTED')
                   END IF
                END IF
             ENDIF

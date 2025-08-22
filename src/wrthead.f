@@ -8,13 +8,15 @@ C write the headers for all the appropriate output files
 
       IMPLICIT REAL*8 (A-H,O-Z)
       IMPLICIT LOGICAL*4(L)
+C MHP 8/25 Removed character file names from common block
 C MHP 10/02 added proper dimensions for flaol2, fopal2
-      CHARACTER*256 FISO,FLAOL2, FOPAL2
+C      CHARACTER*256 FISO,FLAOL2, FOPAL2
       COMMON/CKIND/RESCAL(4,50),NMODLS(50),IRESCA(50),LFIRST(50),
      1       NUMRUN
+C MHP 8/25 Removed character file names from common block
       COMMON/ZRAMP/RSCLZC(50), RSCLZM1(50), RSCLZM2(50),
      *             IOLAOL2, IOOPAL2, NK,
-     *             LZRAMP, FLAOL2, FOPAL2
+     *             LZRAMP
       COMMON/TRACK/ITRVER
       COMMON/LABEL/XENV0,ZENV0
       COMMON/CONST/CLSUN,CLSUNL,CLNSUN,CMSUN,CMSUNL,CRSUN,CRSUNL,CMBOL
@@ -23,7 +25,8 @@ C MHP 10/02 added proper dimensions for flaol2, fopal2
       COMMON/LUNUM/IFIRST, IRUN, ISTAND, IFERMI,
      1    IOPMOD, IOPENV, IOPATM, IDYN,
      2    ILLDAT, ISNU, ISCOMP, IKUR
-      COMMON/CHRONE/LRWSH, LISO, IISO, FISO
+C MHP 8/25 Removed character file names from common block
+      COMMON/CHRONE/LRWSH, LISO, IISO
       COMMON/CCOUT2/LDEBUG,LCORR,LMILNE,LTRACK,LSTPCH
       SAVE
 
@@ -76,21 +79,39 @@ c     7'base, midpoint, top, Pphot, mass (msun)')
 C G Somers 11/14; Added option to create .track file header. Uncomment the following
 C block if desired.
             WRITE(ITRACK, 1504)
+C 1504       FORMAT(
+C     1'# ',/,
+C     2'#    Step    Shls     Age (Gyr)      log(L/Lsun)    log(R/Rsun)        log(g)        log(Teff)',
+C     2'       Mconv.core      Mconv.env     Rcore     Tcore      Rho_core     P_core     kappa_env   ',
+C     2' log(T)_cen     log(Rho)_cen     log(P)_cen        BETA             ETA            X_cen      ',
+C     2'     Y_cen           Z_cen          ppI_lum         ppII_lum       ppIII_lum        CNO_lum   ',
+C     2'    3-alpha_lum       He-C_lum        gravity       OLD NUTRINOS   Cl SNU    Ga SNU    **pp** ',
+C     2'   **pep**   **hep**   **Be7**   **B8**    **N13**   **O15**   **F17**  **diag1** **diag2**   ',
+C     2'   He3_cen        C12_cen         C13_cen         N14_cen         B10_cen         O16_cen     ',
+C     2'    B11_cen         O18_cen         He3_surf        C12_surf        C13_surf        N14_surf  ',
+C     2'      B10_surf        O16_surf        B11_surf        O18_surf        H2_surf         Li6_surf',
+C     2'        Li7_surf        Be9_surf         X_surf          Y_surf          Z_surf         Z/X_su',
+C     2'rf          Jtot         KE_rot_tot       total I           CZ I         Omega_surf      Omega',
+C     2'_cen       Prot (days)     Vrot (km/s)     TauCZ (s)       Mfrac_base      Mfrac_midp      Mfr',
+C     2'ac_top       Rfrac_base      Rfrac_midp      Rfrac_top         P_phot           Mass     ',/,
+C     2'# ')
  1504       FORMAT(
      1'# ',/,
-     2'#    Step    Shls     Age (Gyr)      log(L/Lsun)    log(R/Rsun)        log(g)        log(Teff)',
-     2'       Mconv.core      Mconv.env     Rcore     Tcore      Rho_core     P_core     kappa_env   ',
-     2' log(T)_cen     log(Rho)_cen     log(P)_cen        BETA             ETA            X_cen      ',
-     2'     Y_cen           Z_cen          ppI_lum         ppII_lum       ppIII_lum        CNO_lum   ',
-     2'    3-alpha_lum       He-C_lum        gravity       OLD NUTRINOS   Cl SNU    Ga SNU    **pp** ',
-     2'   **pep**   **hep**   **Be7**   **B8**    **N13**   **O15**   **F17**  **diag1** **diag2**   ',
-     2'   He3_cen        C12_cen         C13_cen         N14_cen         B10_cen         O16_cen     ',
-     2'    B11_cen         O18_cen         He3_surf        C12_surf        C13_surf        N14_surf  ',
-     2'      B10_surf        O16_surf        B11_surf        O18_surf        H2_surf         Li6_surf',
-     2'        Li7_surf        Be9_surf         X_surf          Y_surf          Z_surf         Z/X_su',
-     2'rf          Jtot         KE_rot_tot       total I           CZ I         Omega_surf      Omega',
-     2'_cen       Prot (days)     Vrot (km/s)     TauCZ (s)       Mfrac_base      Mfrac_midp      Mfr',
-     2'ac_top       Rfrac_base      Rfrac_midp      Rfrac_top         P_phot           Mass     ',/,
+     2'#    Step    Shls         Age_gyr       LogL_lsun       LogR_rsun           Log_g',
+     2'        log_Teff        Mco_core         Mco_env Rco_env     Tco_env     Dco_env',
+     2'     Pco_env     Oco_env        LogT_cen        LogD_cen        logP_cen        Beta_cen',
+     2'         Eta_cen           X_cen           Y_cen           Z_cen        ppI_lsun',
+     2'       ppII_lsun      ppIII_lsun        CNO_lsun         3a_lsun        HeC_lsun',
+     2'      Egrav_lsun       Neut_lsun    Cl_snu    Ga_snu   pp_neut  pep_neut  hep_neut',
+     2'  Be7_neut   B8_neut  N13_neut  O15_neut  F17_neut     diag1     diag2         He3_cen',
+     2'         C12_cen         C13_cen         N14_cen         N15_cen         O16_cen',
+     2'         O17_cen         O18_cen         He3_sur         C12_sur         C13_sur',
+     2'         N14_sur         N15_sur         O16_sur         O17_sur         O18_sur',
+     2'          H2_sur         Li6_sur         Li7_sur         Be9_sur           X_sur',
+     2'           Y_sur           Z_sur         Z_X_sur            Jtot      KE_rot_tot',
+     2'           I_tot            I_cz       Omega_sur       Omega_cen      Prot_sur_d',
+     2'        Vrot_kms         TauCZ_s    MHshell_base     MHshell_mid     MHshell_top',
+     2'    RHshell_base     RHShell_mid     RHshell_top       logP_phot       Mass_msun',/,
      2'# ')
 C G Somers END.
          ELSE IF(ITRVER .EQ. 1) THEN

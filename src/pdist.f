@@ -5,35 +5,32 @@ C$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
 
 C calculates the distance the star has travelled in the HR diagram
 C if far enough, output pulsation model
-
-      SUBROUTINE PDIST(POL1,POT1,POA1,POLEN,BL,TEFFL,MODELN)
-
+C MHP 8/25 passed file names directly and removed common block with file names
+      SUBROUTINE PDIST(POL1,POT1,POA1,POLEN,BL,TEFFL,MODELN,FPATM,FPENV,
+     * FPMOD)
       IMPLICIT REAL*8 (A-H,O-Z)
       IMPLICIT LOGICAL*4(L)
 
       CHARACTER*256 COUT,CTEMP
-      CHARACTER*256 FLAST, FFIRST, FRUN, FSTAND, FFERMI,
-     1    FDEBUG, FTRACK, FSHORT, FMILNE, FMODPT,
-     2    FSTOR, FPMOD, FPENV, FPATM, FDYN,
-     3    FLLDAT, FSNU, FSCOMP, FKUR,
-     4    FMHD1, FMHD2, FMHD3, FMHD4, FMHD5, FMHD6, FMHD7, FMHD8,
-     5    FLAOL2, FOPAL2
+C Removed variables not used in the routine
+      CHARACTER*256 FPMOD, FPENV, FPATM
 C MHP 10/02 added proper dimensions to last 2 variables
       COMMON/THEAGE/DAGE
       COMMON /PO/POA,POB,POC,POMAX,LPOUT
       COMMON/PULSE/XMSOL,LPULSE,IPVER
-
+C MHP 8/25 Removed character file names from common block
       COMMON/ZRAMP/RSCLZC(50), RSCLZM1(50), RSCLZM2(50),
      *             IOLAOL2, IOOPAL2, NK,
-     *             LZRAMP, FLAOL2, FOPAL2
+     *             LZRAMP
       COMMON/LUNUM/IFIRST, IRUN, ISTAND, IFERMI,
      1    IOPMOD, IOPENV, IOPATM, IDYN,
      2    ILLDAT, ISNU, ISCOMP, IKUR
-      COMMON/LUFNM/ FLAST, FFIRST, FRUN, FSTAND, FFERMI,
-     1    FDEBUG, FTRACK, FSHORT, FMILNE, FMODPT,
-     2    FSTOR, FPMOD, FPENV, FPATM, FDYN,
-     3    FLLDAT, FSNU, FSCOMP, FKUR,
-     4    FMHD1, FMHD2, FMHD3, FMHD4, FMHD5, FMHD6, FMHD7, FMHD8
+C MHP 8/25 Removed common block with file names
+C      COMMON/LUFNM/ FLAST, FFIRST, FRUN, FSTAND, FFERMI,
+C     1    FDEBUG, FTRACK, FSHORT, FMILNE, FMODPT,
+C     2    FSTOR, FPMOD, FPENV, FPATM, FDYN,
+C     3    FLLDAT, FSNU, FSCOMP, FKUR,
+C     4    FMHD1, FMHD2, FMHD3, FMHD4, FMHD5, FMHD6, FMHD7, FMHD8
       COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
       SAVE
 
