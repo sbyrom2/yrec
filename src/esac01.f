@@ -195,7 +195,7 @@ c    array eos is an output array containing the values of the thermodynamic
 c      variables obtained by interpolation.  These interplated values
 c      are for the specified x, t6 and density.
 c
-      COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
+      COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR,ISTCH
 
       dimension frac(7)
 

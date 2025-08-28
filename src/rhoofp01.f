@@ -18,7 +18,7 @@ C KC 2025-05-30 reordered common block elements
 C       common/beos/ iri(10),index(10),nta(nr),zz(mx)
       common/beos/ zz(mx),iri(10),index(10),nta(nr)
       common/eeos/esact,eos(mv)
-      COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
+      COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR,ISTCH
 
       dimension nra(nt)
       data sigmacc/1.8914785e-3/

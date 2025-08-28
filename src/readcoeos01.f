@@ -31,7 +31,7 @@ C       common/eeeeos/moles(mx),xin(mx),tmass(mx),icycuse(mx,nr),
 C      x    rhogr(mx,nr),frac(mx,6),alogr(nr,nt)
       common/eeeeos/moles(mx),xin(mx),tmass(mx),
      x    rhogr(mx,nr),frac(mx,6),alogr(nr,nt),icycuse(mx,nr)
-      COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
+      COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR,ISTCH
 C KC 2025-05-30 reordered common block elements
 C       COMMON/OPALEOS/FOPALE,LOPALE,IOPALE,fopale01,lopale01,fopale06,
 C      x     lopale06,LNumDeriv
