@@ -196,7 +196,7 @@ c      variables obtained by interpolation.  These interplated values
 c      are for the specified x, t6 and density.
 c***************************************************************************
 
-      COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR,ISTCH
+      COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
             dimension frac(7)
       data aprop/83.14511/
       data ID/"OPALEOS/ESAC06:"/

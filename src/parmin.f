@@ -48,7 +48,7 @@ C       CHARACTER*256 FCLCD, YREC1, YREC2, FACAT, FJLAST,FJVS, FJENT, FJDEL
       INTEGER ICLCD, MRK, IACAT, IJLAST, IJVS, IJENT, IJDEL
 C JVS END
       COMMON/VNEWCB/VNEW(12)
-      COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR,ISTCH
+      COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
       COMMON/LUNUM/IFIRST, IRUN, ISTAND, IFERMI,
      1    IOPMOD, IOPENV, IOPATM, IDYN,
      2    ILLDAT, ISNU, ISCOMP, IKUR
@@ -805,9 +805,6 @@ C same conventions
             WRITE(ICLCD,*) 'age (Gyr),radius(cm),1/sound speed(s/cm),radius (CZ), 1/cs (CZ)
      *       delad,gamma1,P, T, X'
 
-C JvS 08/25 PROFILE WITH STICTHED INTERIOR AND ENVELOPE
-      ISTCH = 92
-
 
 C      IACAT = 92
 C      FACAT=FSHORT(1:MRK-1)//'acatm'
@@ -888,7 +885,13 @@ C 3/09 Disable older Alexander opacities if a newer one is specified
       REWIND(ISTOR)
 C G Somers 11/14 write the new header for the .store file, if LSTORE = TRUE.
       IF(LSTORE)THEN
-         WRITE(ISTOR,1012)
+C JvS 08/25 Added stitched interior and envelope option      
+         IF(LSTCH)THEN
+            !WRITE(ISTOR,1013)
+            !WRITE(ISTOR,1014)
+         ELSE
+            WRITE(ISTOR,1012)
+         ENDIF   
       ENDIF
  1012 FORMAT('# Header Key',/,'# ModType    ModNum    #Shells    ',
      1 'M/Msun    log(Teff)    log(L/Lsun)    log(M/gram)    Age/Gyr',
@@ -901,7 +904,19 @@ C G Somers 11/14 write the new header for the .store file, if LSTORE = TRUE.
      1 'OldNeu_lum    Grav_lum',/,'# ENV1-3   log(Teff)',
      1 '    log(L/Lsun)    P_base    T_base    R_base    MatrixElements'
      1 ,/)
+C 1013 FORMAT('# JCORE  JENV  CMIXL  EOS  ATM  ALOK HIK  LPUREZ  COMPMIX',
+C     1 '  LEXCOM  LDIFY  LDIFZ  LSEMIC  LOVSTC  LOVSTE  LOVSTM',
+C     1 '  LROT  LINSTB  LJDOT0  LDISK  TDISK  PDISK  WMAX  LSTORE',
+C     1 '  LSTATM  LSTENV  LSTMOD  LSTPHYS  LSTROT'
+C     1 ,/)
+C 1014     FORMAT(
+C     1'MODEL SHELL MASS RADIUS LUMINOSITY PRESSURE TEMPERATURE DENSITY OMEGA ',
+C     1'CONVECTIVE INTERIOR_PT H1 He4 METALS He3 C12 C13 N14 N15 O16 O17 O18 H2 Li6 Li7 ',
+C     1'Be9 OPACITY GRAV DELR DEL DELAD V_CONV GAM1 HII HEII HEIII BETA ',
+C     1'ETA PPI PPII PPIII CNO TRIPLE_ALPHA E_NUC E_NEU E_GRAV CP DLNRHODLNT A RP/RE FP ',
+C     1'FT J/M MOMENT DEL_KE V_ES V_GSF V_SS VTOT ')
 C G Somers END
+
       OPEN(ISHORT,FILE=FSHORT,FORM='FORMATTED',STATUS='UNKNOWN')
       REWIND(ISHORT)
       IF (LTRACK) THEN
@@ -909,21 +924,7 @@ C G Somers END
      *        STATUS='UNKNOWN')
           REWIND(ITRACK)
       ENDIF
-C JvS 08/25 Added stitched interior and envelope option
-      IF (LSTCH) THEN
-          OPEN(UNIT=ISTCH,FILE=FSTCH, FORM='FORMATTED',
-     *        STATUS='UNKNOWN')
-          REWIND(ISTCH)
-          WRITE(ISTCH,1013)
- 1013     FORMAT(
-     1'MODEL SHELL MASS RADIUS LUMINOSITY PRESSURE TEMPERATURE DENSITY OMEGA ',
-     1'CONVECTIVE INTERIOR_PT H1 He4 METALS He3 C12 C13 N14 N15 O16 O17 O18 H2 Li6 Li7 ',
-     1'Be9 OPAC GRAV DELR DEL DELAD V_CONV GAM1 HII HEII HEIII BETA ',
-     1'ETA PPI PPII PPIII CNO 3HE E_NUC E_NEU E_GRAV A RP/RE FP ',
-     1'FT J/M MOMENT DEL_KE V_ES V_GSF V_SS VTOT ')
 
-      ENDIF
-C JvS end      
 C SNU OUTPUT
       IF(LSNU) THEN
           OPEN(UNIT=ISNU,FILE=FSNU, FORM='FORMATTED',

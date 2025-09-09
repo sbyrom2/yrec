@@ -18,7 +18,7 @@ c     T6 and rho
      . ,dfs(nt),dfsr(nr),m,mf,xa(mx)
       common/bbeos06/l1,l2,l3,l4,k1,k2,k3,k4,ip,iq
       common/eeos06/esact,eos(mv)
-      COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR,ISTCH
+      COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
 c
       save
       iu=0

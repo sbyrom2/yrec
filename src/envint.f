@@ -21,7 +21,7 @@ C MHP 8/97 ADDED NTA AND NGA FOR ALLARD ATMOSPHERE TABLES
       REAL*8 OLAOL(12,104,52),OXA(12),OT(52),ORHO(104),TOLLAOL
       REAL*8 ENVS1(JSON),ENVS2(JSON),ENVG(JSON),EDEL1(JSON),
      * EDEL2(JSON)
-      COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR,ISTCH
+      COMMON/LUOUT/ILAST,IDEBUG,ITRACK,ISHORT,IMILNE,IMODPT,ISTOR,IOWR
       COMMON/LUNUM/IFIRST, IRUN, ISTAND, IFERMI,
      1    IOPMOD, IOPENV, IOPATM, IDYN,
      2    ILLDAT, ISNU, ISCOMP, IKUR
@@ -83,8 +83,13 @@ C JvS 08/25 Updated with new elements
       COMMON/ENVSTRUCT/ENVP(JSON),ENVT(JSON),ENVS(JSON),ENVD(JSON),
      *     ENVR(JSON),ENVX(JSON),ENVZ(JSON),LCENV(JSON),
      *     EDELS(3,JSON),EVELS(JSON),EBETAS(JSON),
-     *     EGAM1(JSON),EQQDP(JSON),EFXIONS(3,JSON),
-     *     ENVO(JSON), ENVL(JSON), NUMENV     
+     *     EGAM1(JSON),EQCP(JSON),EFXIONS(3,JSON),
+     *     ENVO(JSON), ENVL(JSON),EQDT(JSON),NUMENV  
+C JvS SAVE ATMOSPHERE STRUCTURE TO MAKE PROFILE OUTPUT EASIER
+      COMMON/ATMSTRUCT/ATMOP(JSON),ATMOT(JSON),ATMOD(JSON),
+     *     ATMOR(JSON),ADELS(3,JSON),ABETAS(JSON),
+     *     AGAM1(JSON),AQDT(JSON),AFXIONS(3,JSON),
+     *     ATMOO(JSON),ATMOCP(JSON)
 C JVS 08/13 IF THE CZ IS BEYOND THE FITTING POINT, STORE ITS LOCATION
       COMMON/ENVCZ/ENVRCZ,RINT
 
@@ -104,7 +109,7 @@ C      *LCLCD, AGEOUT(5), IACAT, IJLAST, LJLAST, LJWRT, LADON,LAOLY, IJVS,
      *IJENT, IJDEL, LACOUT
 
 C G Somers 11/14, ADD I/O COMMON BLOCK
-      COMMON/CCOUT/LSTORE,LSTATM,LSTENV,LSTMOD,LSTPHYS,LSTROT,LSCRIB,LSTCH
+      COMMON/CCOUT/LSTORE,LSTATM,LSTENV,LSTMOD,LSTPHYS,LSTROT,LSCRIB,LSTCH,LPHHD
 C G Somers END
 
 C G Somers 3/17, ADDING NEW TAUCZ COMMON BLOCK
@@ -133,7 +138,9 @@ C JVS 10/07/13 Always calculate derivatives
 
 C G Somers 11/14 WRITE ATMOSHPHERE HEADER TO .STORE FILE, AND ADDED
 C I/O FLAGS TO THE ATMOSPHERE CALLS
-      IF(LPRT.AND.LSTATM) WRITE(ISTOR,60)
+      IF(LPRT.AND.LSTATM)THEN 
+         IF(.NOT.LSTCH)WRITE(ISTOR,60)
+      ENDIF   
  60   FORMAT(/,'******** ATMOSPHERE BEGIN ********')
 
 C GET PRESSURE AT T=Teff BY INTERPOLATION IN TABLE ATMPL.
@@ -211,14 +218,16 @@ C DBG 12/95 GET OPACITY
       DYDX(1) = DEXP(CLN*(GL+X0-OL-PL))
 c G Somers 11/14 ADDED I/O FLAG AND CHANGED WRITE OUTS TO .STORE.
       IF(LPRT.AND.LSTATM) THEN
-       WRITE(ISTOR,10)
+       IF(.NOT.LSTCH) WRITE(ISTOR,10)
          BETA = 1.0D0 - CA3*(T**2)**2/P
          CHRH = 1.0D0/QDP
          CHT = -CHRH*QDT
          CV = QCPP - EXP(CLN*(PL-DL-TL))*CHT**2/CHRH
          GAM1 = CHRH*QCPP/CV
-       WRITE(ISTOR,20)X0,PL,TL,DL,O,(FXION(I),I=1,3),KSAHA,KATM,
+           IF(.NOT.LSTCH)THEN
+             WRITE(ISTOR,20)X0,PL,TL,DL,O,(FXION(I),I=1,3),KSAHA,KATM,
      *                   GAM1,QDP,QDT,BETA,QCPP,CV
+           ENDIF
    10    FORMAT(6X,'TAU',9X,'P',10X,'T',10X,'D',11X,'O',9X,
      *         'HII  HEII HEIII   SAHA   KATM')
    20    FORMAT(1X,4F11.7,1PE14.7,0P3F6.3,2I7,4F12.8,1P2E12.5)
@@ -318,8 +327,22 @@ c G Somers 11/14 ADDED I/O FLAG AND CHANGED WRITE OUTS TO .STORE.
             CHT = -CHRH*QQDT
             CV = QQCP - EXP(CLN*(AP-AD-AT))*CHT**2/CHRH
             GAM1 = CHRH*QQCP/CV
-          WRITE(ISTOR,20)TAU,AP,AT,AD,AO,(AFXION(I),I=1,3),
+          IF(.NOT.LSTCH)THEN  
+            WRITE(ISTOR,20)TAU,AP,AT,AD,AO,(AFXION(I),I=1,3),
      *               KSAHA,KATM,GAM1,QQDP,QQDT,BETA,QQCP,CV
+          ENDIF
+C JvS: SAVE STRUCTURE TO COMMON BLOCK
+          ATMOP(I) = AP
+          ATMOT(I) = AT
+          ATMOD(I) = AD
+          ABETAS(I) = BETA
+          AGAM1(I) = GAM1
+          AQDT(I) = QQDT
+          AFXIONS(1,I) = AFXION(1)
+          AFXIONS(2,I) = AFXION(2)
+          AFXIONS(3,I) = AFXION(3)        
+          ATMOO(I) = AO
+          ATMOCP(I) = QQCP
        ENDIF
        IF(HDID.EQ.H) THEN
           NOK = NOK + 1
@@ -328,7 +351,7 @@ c G Somers 11/14 ADDED I/O FLAG AND CHANGED WRITE OUTS TO .STORE.
        ENDIF
 C DBG PULSE ATMOSPHERE VALUES FOR PULSATION
 C JVS 02/11 - Added LCLCD option to IF statement
-       IF (LPULPT.AND.LPRT .OR. LCLCD) THEN
+       IF ((LPULPT.AND.LPRT) .OR. LCLCD .OR. LSTCH) THEN
           QQED = 0.0D0
           QESUM = 0.0D0
           QQET = 0.0D0
@@ -361,8 +384,12 @@ CFROM FIRST LINES OF TPGRAD
      *                     QQCP,QRMU,QQDT,PELPF
                        END IF
             END IF
-
-
+C JvS SAVE TO COMMON ATMSTRUCT COMMON BLOCK
+          ATMOR(I) = DELTR
+          ADELS(1,I) = DELR
+          ADELS(2,I) = DEL
+          ADELS(3,I) = QDELA
+         
           TAUP = TAUN
           DP = DN
        END IF
@@ -401,7 +428,9 @@ C G Somers 3/17, IF INTERESTED ONLY IN PPHOT, BREAK HERE.
       IF(.NOT.LCALCENV) GOTO 555
 
 C G Somers 11/14 WRITE ENVELOPE HEADER
-      IF(LPRT.AND.LSTENV) WRITE(ISTOR,61)
+      IF(LPRT.AND.LSTENV)THEN
+         IF(.NOT.LSTCH) WRITE(ISTOR,61)
+      ENDIF   
  61   FORMAT(/,'******** ENVELOPE BEGIN ********')
 
 C DBG PULSE WRITE END OF DATA INDICATOR
@@ -423,7 +452,9 @@ C DBG 2/92 CHANGED FROM 1.0D-10 to 1.0D-12
           PS(IE) = AP
           RS(IE) = RL
           TS(IE) = AT
-          IF(LPRT)WRITE(ISTOR,230)PS(IE),TS(IE),RS(IE),SENV
+          IF(LPRT)THEN
+            IF(.NOT.LSTCH)WRITE(ISTOR,230)PS(IE),TS(IE),RS(IE),SENV
+          ENDIF  
        ENDIF
  230     FORMAT(4X,3F16.12,8X,F16.12)
        GOTO 300
@@ -486,7 +517,7 @@ C DBG 7/95 Appended mixing length info at end of first three lines
 C DBG
 c G Somers 11/14 ADDED I/O FLAG AND CHANGED WRITE OUTS TO .STORE.
       IF(LPRT.AND.LSTENV) THEN
-       WRITE(ISTOR,240) 'GRAV  ','P   ','T   ','DEPTH    ','M      ',
+       IF(.NOT.LSTCH) WRITE(ISTOR,240) 'GRAV  ','P   ','T   ','DEPTH    ','M      ',
      *       'D    ','O   ','BETA','DELR  ','DELA','DEL ','HII ',
      *       'HEII','HEIII','V   ','GAM1   ','QQDP   '
  240     FORMAT(1X,3A10,2A14,2A10,A7,A9,5A6,A9,2A12)
@@ -507,7 +538,7 @@ c     *           0P2F12.8)
          CHT = -CHRH*QQDT
          CV = QQCP - EXP(CLN*(EP-ED-ET))*CHT**2/CHRH
          GAM1 = CHRH*QQCP/CV
-       WRITE(ISTOR,260)EG,EP,ET,DE,ES,ED,EO,EBETA,
+       IF(.NOT.LSTCH) WRITE(ISTOR,260)EG,EP,ET,DE,ES,ED,EO,EBETA,
      *        (EDEL(K),K=1,3),(EFXION(K),K=1,3),EVEL,
      *        GAM1,QQDP
       ENDIF
@@ -536,12 +567,13 @@ C Always save these
       CHT = -CHRH*QQDT
       CV = QQCP - EXP(CLN*(EP-ED-ET))*CHT**2/CHRH
       EGAM1(1) = CHRH*QQCP/CV
-      EQQDP(1) = QQDP
+      EQCP(1) = QQCP
       EFXIONS(1,1) = EFXION(1) 
       EFXIONS(2,1) = EFXION(2) 
       EFXIONS(3,1) = EFXION(3)   
       ENVO(1) = EO   
       ENVL(1) = B
+      EQDT(1) = QQDT
 C JVS 10/10
       CHDELJ = EDEL(2)
       CHDELD = QDELA
@@ -626,7 +658,7 @@ c G Somers 11/14 ADDED I/O FLAG AND CHANGED WRITE OUTS TO .STORE.
             CHT = -CHRH*QQDT
             CV = QQCP - EXP(CLN*(EP-ED-ET))*CHT**2/CHRH
             GAM1 = CHRH*QQCP/CV
-          WRITE(ISTOR,260)EG,EP,ET,DE,ES,ED,EO,EBETA,
+          IF(.NOT.LSTCH) WRITE(ISTOR,260)EG,EP,ET,DE,ES,ED,EO,EBETA,
      *           (EDEL(K),K=1,3),(EFXION(K),K=1,3),EVEL,
      *           GAM1,QQDP
  260        FORMAT(1X,1PE10.3,0P2F10.7,1P2E14.7,0P1F10.7,
@@ -664,12 +696,13 @@ C Always save these
             CHT = -CHRH*QQDT
             CV = QQCP - EXP(CLN*(EP-ED-ET))*CHT**2/CHRH
             EGAM1(NUMENV) = CHRH*QQCP/CV
-            EQQDP(NUMENV) = QQDP
+            EQCP(NUMENV) = QQCP
             EFXIONS(1,NUMENV) = EFXION(1) 
             EFXIONS(2,NUMENV) = EFXION(2) 
             EFXIONS(3,NUMENV) = EFXION(3)      
             ENVO(NUMENV) = EO   
             ENVL(NUMENV) = B
+            EQDT(NUMENV) = QQDT
 
             IF(.NOT.LSURCZ)THEN
                IF(LCENV(NUMENV))THEN
@@ -748,7 +781,11 @@ C  08/25 JVS
             ENVO(I2) = DUM1
             DUM1 = ENVL(I1)
             ENVL(I1) = ENVL(I2)
-            ENVL(I2) = DUM1          
+            EQDT(I2) = DUM1    
+            DUM1 = EQDT(I1)
+            EQDT(I1) = EQDT(I2)
+            EQDT(I2) = DUM1    
+                  
 C 08/13 JVS ADDED DEL VECTORS
             DUM1 = EDELS(1,I1)
             EDELS(1,I1) = EDELS(1,I2)
@@ -769,16 +806,16 @@ C  08/25 JVS
             DUM1 = EGAM1(I1)
             EGAM1(I1) = EGAM1(I2)
             EGAM1(I2) = DUM1
-            DUM1 = EQQDP(I1)
-            EQQDP(I1) = EQQDP(I2)
-            EQQDP(I2) = DUM1
+            DUM1 = EQCP(I1)
+            EQCP(I1) = EQCP(I2)
+            EQCP(I2) = DUM1
             DUM1 = EFXIONS(1,I1)
             EFXIONS(1,I1) = EFXIONS(1,I2)
             EFXIONS(1,I2) = DUM1
             DUM1 = EFXIONS(2,I1)
             EFXIONS(2,I1) = EFXIONS(2,I2)
             EFXIONS(2,I2) = DUM1
-            DUM1 = EFXIONS(1,I1)
+            DUM1 = EFXIONS(3,I1)
             EFXIONS(3,I1) = EFXIONS(3,I2)
             EFXIONS(3,I2) = DUM1
                        
