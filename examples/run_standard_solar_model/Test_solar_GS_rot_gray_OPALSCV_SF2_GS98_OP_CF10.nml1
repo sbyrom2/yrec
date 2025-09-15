@@ -15,7 +15,7 @@
  RSCLM(1) = 1.00
  RSCLCM(1) = -0.8D0        
  RSCLX(1) = 0.713208
- RSCLZ(1) = 0.017968
+ CALSOLAGE = 4.568D9 ! Solar age in the calibration routines. 
  NMODLS(1) = 2	        
  XENV0A(1) = 0.713208
  ZENV0A(1) = 0.017968
