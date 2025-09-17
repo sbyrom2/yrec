@@ -23,7 +23,7 @@
       COMMON/ATMSTRUCT/ATMOP(JSON),ATMOT(JSON),ATMOD(JSON),
      *     ATMOR(JSON),ADELS(3,JSON),ABETAS(JSON),
      *     AGAM1(JSON),AQDT(JSON),AFXIONS(3,JSON),
-     *     ATMOO(JSON),ATMOCP(JSON)
+     *     ATMOO(JSON),ATMOCP(JSON),NUMATM
       COMMON/SCRTCH/SESUM(JSON),SEG(7,JSON),SBETA(JSON),SETA(JSON),
      *LOCONS(JSON),SO(JSON),SDEL(3,JSON),SFXION(3,JSON),SVEL(JSON),SCP(JSON)
       DIMENSION HS(JSON),HL(JSON),HR(JSON),HP(JSON),HT(JSON),HD(JSON),
@@ -46,32 +46,15 @@ C G Somers 3/17, ADDING NEW TAUCZ COMMON BLOCK
       SAVE
 C
 C
-C STITCH: Pieces together the interior and envelope portions of the stellar
-C model. 
+C STITCH: and alternate file format for .store that provides profiles for each 
+C desired model. Stitches the envelope and atmosphere solutions onto the interior 
+C when LSTENV and LSTATM are true. Will not provide atmosphere information when 
+C atmosphere tables are used. 
 C
-C INPUTS:
-C	HCOMP: array of compositions
-C	HR: radius, interior only, logged
-C	HP: pressure (interior, logged)
-C	HD: density (interior, logged)
-C	HG: gravity (interior, logged)
-C	HS: mass (interior, logged)
-C	HT: temperature (interior,logged)
-C	FP: rotational distortion (pressure)
-C	FT: rotational distortion (temp)
-C	TEFFL: logged effective temperature
-C	HSTOT: total mass, logged, in grams
-C	BL: logged surface luminosity
-C	M: number of shells in the interior
-C
-C
-C First write out the values for the interior
-C
-C columns are: 
-
-C     1' MODEL     SHELL       MASS             RADIUS             LUMINOSITY            ',
+C The output columns in the new .store format are:
+C 1 MODEL, 2 SHELL, 3 log(mass[g]), 4 log(r[cm]), 5 LUMINOSITY, 6 PRESSURE, 7 TEMPERATURE            ',
 C     1'PRESSURE         TEMPERATURE         DENSITY               OMEGA      ',
-C     1'    CONVECTIVE?   INTERIOR_POINT   H1          He4        METALS         He3             C12   ',
+C     1'    CONVECTIVE?   INTERIOR_POINT ENVLELOPE_PT ATMOP H1          He4        METALS         He3             C12   ',
 C     1'          C13             N14             N15             O16         ',
 C     1'    O17             O18             H2              Li6             Li7',
 C     1'             Be9           OPAC       GRAV        DELR        DEL      ',
@@ -85,24 +68,15 @@ C ****************************  WRITE OUT INTERIOR INFORMATION   ***************
 
       CG=DEXP(CLN*CGL)
       DO I = 1,M
-C Compute Brunt Vaisala frequency
             SG = DEXP(CLN*(CGL - 2.0D0*HR(I)))*HS1(I)
-C            DELMU = (LOG10(HAMU(I))-LOG10(HAMU(I-1)))/
-C     *              (HP(I)-HP(I-1))
-C            BRUNT = SG**2 *DEXP(CLN*(HD(I)-HP(I))) * QPT*QDP * (SDEL(3,I)-SDEL(2,I)+DELMU)
 C write out the basic info           
             WRITE(ISTOR,62,ADVANCE='no') MODEL,I,HS(I),HR(I),HL(I),HP(I),
-     *         HT(I),HD(I),OMEGA(I),LC(I),.TRUE.,(HCOMP(J,I),J=1,15)
+     *         HT(I),HD(I),OMEGA(I),LC(I),.TRUE.,.FALSE.,.FALSE.,(HCOMP(J,I),J=1,15)
 C write out additional physics if desired
-C            IF(LSTPHYS)THEN
-               WRITE(ISTOR,63,ADVANCE='no') SO(I),SG,SDEL(1,I),SDEL(2,I),
+            WRITE(ISTOR,63,ADVANCE='no') SO(I),SG,SDEL(1,I),SDEL(2,I),
      *           SDEL(3,I),SVEL(I),GAM1(I),SFXION(1,I),SFXION(2,I),SFXION(3,I),
      *           EBETAS(I),SETA(I),(SEG(K,I),K=1,5),SESUM(I),SEG(6,I),SEG(7,I),
      *           SCP(I),PQDT(I)
-C            ELSE
-C               WRITE(ISTOR,63,ADVANCE='no') 0.0,0.0,0.0,0.0,0.0,0.0,0.0,
-C     *           0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-C            ENDIF
 C write out additional rotation info if rotation is on
             IF(LROT)THEN
               FM = DEXP(CLN*HS(I))
@@ -119,7 +93,7 @@ C write out additional rotation info if rotation is on
  
 
 C **************************   WRITE OUT ENVELOPE INFORMATION   **********************
-
+      
       IF(LSTENV)THEN ! only provide an envelope if asked to do so
 C Begin by "dropping a sinkline" with the envelope integrator
       ABEG0 = ATMBEG
@@ -141,8 +115,6 @@ C Begin by "dropping a sinkline" with the envelope integrator
       KATM = 0
       KENV = 0
       KSAHA = 0
-C MHP 2/12 OMITTED OVERWRITE OF GLOBAL FLAG
-C		LPULPT=.TRUE.
       IXX=0
       LPRT=.TRUE.
       LSBC0 = .FALSE.
@@ -166,47 +138,45 @@ C DEFINE SOME ARRAYS WE NEED
       DO I=1,NUMENV
           ENVS1(I) = DEXP(CLN*(ENVS(I)+HSTOT))  
       ENDDO
-      
-         DO I=M+1,M+NUMENV   
-             
+         DO I=M+1,M+NUMENV                
 C write out the basic info. Omega and abundances take value of last interior point.           
             WRITE(ISTOR,62,ADVANCE='no') MODEL,I,ENVS(I-M)+HSTOT,ENVR(I-M),ENVL(I-M),
-     *      ENVP(I-M),ENVT(I-M),ENVD(I-M),OMEGA(M),LCENV(I-M),.FALSE.,(HCOMP(J,M),J=1,15)
-C write out additional physics if desired
-C            IF(LSTPHYS)THEN
+     *      ENVP(I-M),ENVT(I-M),ENVD(I-M),OMEGA(M),LCENV(I-M),.FALSE.,.TRUE.,.FALSE.,
+     *      (HCOMP(J,M),J=1,15)
+C write out additional physics
                WRITE(ISTOR,63,ADVANCE='no') ENVO(I-M),SG,EDELS(1,I-M),EDELS(2,I-M),
      *           EDELS(3,I-M),EVELS(I-M),EGAM1(I-M),EFXIONS(1,I-M),EFXIONS(2,I-M),
      *           EFXIONS(3,I-M),EBETAS(I-M),0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
      *           EQCP(I-M),EQDT(I-M)
-C            ELSE
-C               WRITE(ISTOR,63,ADVANCE='no') 0.0,0.0,0.0,0.0,0.0,0.0,0.0,
-C     *           0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-C            ENDIF
-C Rotation output set to zero placeholders for now
-C            IF(LSTROT.AND.LROT)THEN
-C	       FM = DEXP(CLN*HS(I))
-C	       DUMA = CC13*OMEGA(I)**2/(CG*FM)*5.D0/(2.D0+ETA2(I))
-C	       A = DUMA * R0(I)**3
-C	       RPOLEQ = (1.0D0 - A)/(1.0D0 + 0.5D0*A)
-C               VTOT = VES(I)+VGSF(I)+VSS(I)
-C               WRITE(ISTCH,64) A,RPOLEQ,FP(I),FT(I),HJM(I),HI(I),DEROT(I),
-C     *            VES(I),VGSF(I),VSS(I),VTOT
-C            ELSE
+C             zero out rotation columns for envelope
                WRITE(ISTOR,64) 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
-C            ENDIF
          ENDDO
        ENDIF        
+C *************************** WRITE OUT ATMOSPHERE INFORMATION  ************************       
 C Finish with the atmosphere, if the atmosphere was computed
-       IF(LSTATM)THEN
-       ENDIF
-
-
+       IF(LSTATM)THEN            
+            DO I=NUMATM,1,-1   
+C write out the basic info. Omega and abundances take value of last interior point. 
+            RAD = DLOG10(DEXP(CLN*ENVR(NUMENV)) + ATMOR(I))
+            WRITE(ISTOR,62,ADVANCE='no') MODEL,NUMATM-I+M+NUMENV,0.0,RAD,B,
+     *      ATMOP(I),ATMOT(I),ATMOD(I),OMEGA(M),
+     *      .FALSE.,.FALSE.,.FALSE.,.TRUE.,(HCOMP(J,M),J=1,15)
+C write out additional physics
+            WRITE(ISTOR,63,ADVANCE='no') ATMOO(I),SG,ADELS(1,I),
+     *           ADELS(2,I),ADELS(3,I),0.0,AGAM1(I),
+     *           AFXIONS(1,I),AFXIONS(2,I),
+     *           AFXIONS(3,I),ABETAS(I),0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,
+     *           ATMOCP(I),AQDT(I)
+C  zero placeholders for rotation output
+            WRITE(ISTOR,64) 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
+         ENDDO
+       ENDIF        
 
 
          
-C Output format codes **********************************************************         
+C **************************    Output format codes   ******************************         
          
- 62   FORMAT(I6,1X,I6,0P2F18.14,1PE24.16,0P3F18.14,1PE24.16,1x,L1,1X,L1,
+ 62   FORMAT(I6,1X,I6,0P2F18.14,1PE24.16,0P3F18.14,1PE24.16,1X,L1,1X,L1,1X,L1,1X,L1,
      &     3(0PF12.9),12(0PE16.8),2X)
 
  63   FORMAT(1PE10.4,1PE11.3,E12.4,E12.4,E12.4,1PE12.4,0PF9.5,F9.5,F9.5,F9.5,
@@ -217,8 +187,7 @@ C     &     F9.5,F9.5,E12.4,E12.4,E12.4,E12.4,E12.4,E13.5,E13.5,E13.5,E13.5)
  64   FORMAT(E14.6,E14.6,E14.6,E14.6,E14.6,E14.6,E14.6,E11.3,E11.3,E11.3,E11.3)
      
           
-
-   
+ 
       RETURN
       END
 
