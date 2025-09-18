@@ -97,8 +97,8 @@ C     2'ac_top       Rfrac_base      Rfrac_midp      Rfrac_top         P_phot   
 C     2'# ')
  1504       FORMAT(
      1'# ',/,
-     2'#    Step    Shls         Age_gyr       LogL_lsun       LogR_rsun           Log_g',
-     2'        log_Teff        Mco_core         Mco_env Rco_env     Tco_env     Dco_env',
+     2'     Step    Shls         Age_gyr       LogL_lsun       LogR_rsun           Log_g',
+     2'        log_Teff        Mco_core         Mco_env     Rco_env     Tco_env     Dco_env',
      2'     Pco_env     Oco_env        LogT_cen        LogD_cen        logP_cen        Beta_cen',
      2'         Eta_cen           X_cen           Y_cen           Z_cen        ppI_lsun',
      2'       ppII_lsun      ppIII_lsun        CNO_lsun         3a_lsun        HeC_lsun',
