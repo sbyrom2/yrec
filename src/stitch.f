@@ -52,17 +52,17 @@ C when LSTENV and LSTATM are true. Will not provide atmosphere information when
 C atmosphere tables are used. 
 C
 C The output columns in the new .store format are:
-C 1 MODEL, 2 SHELL, 3 log(mass[g]), 4 log(r[cm]), 5 LUMINOSITY, 6 PRESSURE, 7 TEMPERATURE            ',
-C     1'PRESSURE         TEMPERATURE         DENSITY               OMEGA      ',
-C     1'    CONVECTIVE?   INTERIOR_POINT ENVLELOPE_PT ATMOP H1          He4        METALS         He3             C12   ',
-C     1'          C13             N14             N15             O16         ',
-C     1'    O17             O18             H2              Li6             Li7',
-C     1'             Be9           OPAC       GRAV        DELR        DEL      ',
-C     1'   DELA       V_CONV     GAM1      HII     HEII     HEIII    BETA      ',
-C     1'ETA       PPI         PPII       PPIII        CNO         3HE         ',
-C     1'E_NUC        E_NEU       E_GRAV     N^2_BRUNT      A           RP/RE       FP',
-C     1'            FT           J/M          MOMENT        DEL_KE       V_ES ',
-C     1'      V_GSF      V_SS       VTOT   ',/)
+C 1 MODEL, 2 SHELL, 3 log(mass[g]), 4 log(r[cm]), 5 L/Lsun, 6 log(P[cgs]), 7 log(T[K])',
+C 8 log(DENSITY[cgs]),9 OMEGA(rad/s),10 CONVECTIVE?, 11 INTERIOR_POINT?, 12 ENVLELOPE_PT?
+C 13 ATMOSPHERE_POINT?, 14 H1(mass frac), 15 He4(mass frac),16 METALS(mass frac),
+C 17 He3(mass frac), 18 C12(mass frac), 19 C13(mass frac), 20 N14(mass frac), 
+C 21 N15(mass frac), 22 O16(mass frac), 23 O17(mass frac), 24 O18(mass frac),
+C 25 H2(mass frac), 26 Li6(mass frac),27 Li7(mass frac),28 Be9(mass frac),29 OPACITY[cgs]
+C 30 GRAVITY(cgs), 31 DELR(Rad. temp. grad), 32 DEL(actual temp grad), 
+C 33 DELA(adiabatic temp grad), 34 CONVECTIVE _VELOCITY[cm/s],35 GAM1(adiabatic exponent),
+C 36 HII, 37 HEII, 38 HEIII, 39 BETA, 40 ETA, 41 PPI, 42 PPII, 43 PPIII, 44, CNO, 45 3HE    
+C 46 E_NUC,47 E_NEU,48 E_GRAV,49 Cp,50 dlnrho/dlnT,51 A, 52 RP/RE, 53 FP, 54 FT, 55 J/M, 
+C 56 MOMENT, 57 DEL_KE, 58 V_ES, 59 V_GSF, 60 V_SS, 61 VTOT   '
 C
 C ****************************  WRITE OUT INTERIOR INFORMATION   **********************
 
@@ -138,7 +138,8 @@ C DEFINE SOME ARRAYS WE NEED
       DO I=1,NUMENV
           ENVS1(I) = DEXP(CLN*(ENVS(I)+HSTOT))  
       ENDDO
-         DO I=M+1,M+NUMENV                
+         DO I=M+1,M+NUMENV      
+            SG = DEXP(CLN*(CGL - 2.0D0*ENVR(I-M)))*ENVS1(I-M)          
 C write out the basic info. Omega and abundances take value of last interior point.           
             WRITE(ISTOR,62,ADVANCE='no') MODEL,I,ENVS(I-M)+HSTOT,ENVR(I-M),ENVL(I-M),
      *      ENVP(I-M),ENVT(I-M),ENVD(I-M),OMEGA(M),LCENV(I-M),.FALSE.,.TRUE.,.FALSE.,
@@ -151,14 +152,17 @@ C write out additional physics
 C             zero out rotation columns for envelope
                WRITE(ISTOR,64) 0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0
          ENDDO
-       ENDIF        
+       ENDIF   
+       
+       
+            
 C *************************** WRITE OUT ATMOSPHERE INFORMATION  ************************       
 C Finish with the atmosphere, if the atmosphere was computed
        IF(LSTATM)THEN            
             DO I=NUMATM,1,-1   
 C write out the basic info. Omega and abundances take value of last interior point. 
             RAD = DLOG10(DEXP(CLN*ENVR(NUMENV)) + ATMOR(I))
-            WRITE(ISTOR,62,ADVANCE='no') MODEL,NUMATM-I+M+NUMENV,0.0,RAD,B,
+            WRITE(ISTOR,62,ADVANCE='no') MODEL,NUMATM-I+M+NUMENV,HSTOT,RAD,B,
      *      ATMOP(I),ATMOT(I),ATMOD(I),OMEGA(M),
      *      .FALSE.,.FALSE.,.FALSE.,.TRUE.,(HCOMP(J,M),J=1,15)
 C write out additional physics
