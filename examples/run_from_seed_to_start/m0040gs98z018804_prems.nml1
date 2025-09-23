@@ -42,7 +42,7 @@
  
  ! The starting and last models include only abundances and structure variables. These options allow snapshots to be generated with more information. 
  LSTORE = .TRUE. ! If T, store model structures at specified points to the .store file. 
- LSTATM = .FALSE. ! If T, ppend an atmosphere to the stored model file.
+ LSTATM = .FALSE. ! If T, append an atmosphere to the stored model file.
  LSTENV = .FALSE. ! If T, append an envelope to the stored model file. If LSTENV and LSTATM = F, no information is output beyond the fitting point.
  LSTMOD = .TRUE. ! Set the same as LSTORE. May be redundant.
  LSTPHYS = .TRUE. ! If T, output microphysics (e.g. epsilon, kappa) to store file.
