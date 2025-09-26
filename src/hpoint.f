@@ -699,6 +699,13 @@ C  FIRST GUESS AT MOMENT OF INERTIA(HI)
 C   CALCULATE OVERSHOOT
        CALL OVROT(HCOMP,HD,HP,HR,HS,HT,LC,M,LCZ,MRZONE,MXZONE,
      &        NRZONE,NZONE)
+C JNT 2025/09/03 duplicating 2015/04/06 recompute moment of interia
+C before recomputing the rotation I am less confident that this is 
+C necessary since WALPCZ does run in this version but I don't think
+C it can hurt.
+       CALL MOMI(ETA2,HR,HS,HS2,1,M,OMEGA,R0,HI,QIW)
+C END JNT
+     
 C   FIND THE ANGULAR VELOCITY OMEGA THAT CORRESPONDS TO THE GIVEN
 C   SPECIFIC ANGULAR MOMENTUM HJM.
        CALL GETROT(HD,HJM,HR,HS,HS2,LCZ,M,ETA2,HI,OMEGA,QIW,R0)
