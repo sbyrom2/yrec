@@ -103,7 +103,13 @@ def filevals_differ(ref_file, out_file, float_tol, int_tol):
         # Compare all values on line
         for i, val in enumerate(ref_vals):
             if isinstance(val, numbers.Number):
-                diff = abs(out_vals[i] - val)
+                # An IndexError indicates the number of tokens on the line
+                # differs between files.
+                try:
+                    diff = abs(out_vals[i] - val)
+                except IndexError as ex:
+                    difference = True
+                    break
                 if type(val) == float and diff > float_tol:
                     locs.append(i)
                     difference = True
@@ -111,9 +117,15 @@ def filevals_differ(ref_file, out_file, float_tol, int_tol):
                     locs.append(i)
                     difference = True
             else:
-                if val != out_vals[i]:
+                # An IndexError indicates the number of tokens on the line
+                # differs between files.
+                try:
+                    if val != out_vals[i]:
+                        difference = True
+                        locs.append(i)
+                except IndexError as ex:
                     difference = True
-                    locs.append(i)
+                    break
 
         if difference:
             diff_found = True

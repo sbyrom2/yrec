@@ -9,9 +9,9 @@ C       SUBROUTINE SETUPV(HD,HG,HL,HP,HR,HS1,HT,IMIN,IMAX,LCZ,M,HRU,  ! KC 2025-
       COMMON/CONST/CLSUN,CLSUNL,CLNSUN,CMSUN,CMSUNL,CRSUN,CRSUNL,CMBOL
       COMMON/CONST1/CLN,CLNI,C4PI,C4PIL,C4PI3L,CC13,CC23,CPI
       COMMON/CONST2/CGAS,CA3,CA3L,CSIG,CSIGL,CGL,CMKH,CMKHN
-      COMMON/MDPHY/HAMU(JSON),CP(JSON),DELM(JSON),DELAM(JSON),
-     *             DELRM(JSON),SESUM(JSON),OM(JSON),SQDT(JSON),
-     *             THDIF(JSON),SVEL(JSON),VISC(JSON),EPSM(JSON)
+      COMMON/MDPHY/AMUM(JSON),CPM(JSON),DELM(JSON),DELAM(JSON),
+     *             DELRM(JSON),ESUMM(JSON),OM(JSON),QDTM(JSON),
+     *             THDIFM(JSON),VELM(JSON),VISCM(JSON),EPSM(JSON)
 C MHP 06/02 ADDED FACT7 AND FACT8 FOR DIF/AD TREATMENT
       COMMON/VFACT/FACT1(JSON),FACT2(JSON),FACT3(JSON),FACT4(JSON),
      *     FACT5(JSON),FACT7(JSON),FACT8(JSON)
@@ -21,7 +21,7 @@ C MHP 3/92 COMMON BLOCK ADDED FOR SHEAR VELOCITY
      *             FGSFK(JSON),FES3(JSON)
       COMMON/INTVAR/ALM(JSON),DELAMI(JSON),DELMI(JSON),DM(JSON),
      *              EPSILM(JSON),HGM(JSON),HS3(JSON),PM(JSON),
-     *              QDTM(JSON),RM(JSON),TM(JSON)
+     *              QDTMI(JSON),RM(JSON),TM(JSON)
 C MHP 06/02
 C Time change of theta
       COMMON/OLDROT2/THO(JSON),THN(JSON),THM(JSON),
@@ -42,10 +42,11 @@ C HIGHER ORDER TERMS IN M.C. VELOCITY
      *              EV0(JSON),EV1A(JSON),EV1B(JSON),EV2A(JSON),
      *              EV2B(JSON),DSS(JSON),DGSF(JSON),ESS(JSON),EGSF(JSON)
       COMMON/VARFC/VFC(JSON),LVFC,LDIFAD
+C JvS 09/25 CHANGED CPM --> CPMI TO AVOID CONFLICT IN MDPHY      
       DIMENSION HD(JSON),HG(JSON),HL(JSON),HP(JSON),HR(JSON),HS1(JSON),
 C      *          HT(JSON),LCZ(JSON),HRU(JSON),QWRMAX(JSON),  ! KC 2025-05-31
      *          HT(JSON),HRU(JSON),QWRMAX(JSON),
-     *          CPM(JSON),OPM(JSON)
+     *          CPMI(JSON),OPM(JSON)
       SAVE
 C   THE PROCEDURE FOR CALCULATING STABILITY AGAINST ROTATIONALLY INDUCED
 C   MIXING IS AS FOLLOWS:
@@ -101,12 +102,12 @@ C  TREATMENT OF FIRST INTERFACE.
      *            DELRM(3)*FACI(3,2)+DELRM(4)*FACI(4,2)
          DELAMI(2)=DELAM(1)*FACI(1,2)+DELAM(2)*FACI(2,2)+
      *             DELAM(3)*FACI(3,2)+DELAM(4)*FACI(4,2)
-         QDTM(2)=SQDT(1)*FACI(1,2)+SQDT(2)*FACI(2,2)+
-     *           SQDT(3)*FACI(3,2)+SQDT(4)*FACI(4,2)
+         QDTMI(2)=QDTM(1)*FACI(1,2)+QDTM(2)*FACI(2,2)+
+     *           QDTM(3)*FACI(3,2)+QDTM(4)*FACI(4,2)
          HS3(2)=HS1(1)*FACI(1,2)+HS1(2)*FACI(2,2)+
      *          HS1(3)*FACI(3,2)+HS1(4)*FACI(4,2)
-         EPSILM(2)=SESUM(1)*FACI(1,2)+SESUM(2)*FACI(2,2)+
-     *           SESUM(3)*FACI(3,2)+SESUM(4)*FACI(4,2)
+         EPSILM(2)=ESUMM(1)*FACI(1,2)+ESUMM(2)*FACI(2,2)+
+     *           ESUMM(3)*FACI(3,2)+ESUMM(4)*FACI(4,2)
          ALM(2)=CLSUN*(HL(1)*FACI(1,2)+HL(2)*FACI(2,2)+
      *          HL(3)*FACI(3,2)+HL(4)*FACI(4,2))
          HGM(2)=HG(1)*FACI(1,2)+HG(2)*FACI(2,2)+
@@ -115,8 +116,8 @@ C  opacity.
          OPM(2)=OM(1)*FACI(1,2)+OM(2)*FACI(2,2)+
      *          OM(3)*FACI(3,2)+OM(4)*FACI(4,2)
 C  specific heat
-         CPM(2)=CP(1)*FACI(1,2)+CP(2)*FACI(2,2)+
-     *          CP(3)*FACI(3,2)+CP(4)*FACI(4,2)
+         CPMI(2)=CPM(1)*FACI(1,2)+CPM(2)*FACI(2,2)+
+     *          CPM(3)*FACI(3,2)+CPM(4)*FACI(4,2)
       ELSE
          I0 = IMIN
       ENDIF
@@ -151,12 +152,12 @@ C  TREATMENT OF LAST INTERFACE.
      *            DELRM(M-1)*FACI(3,M)+DELRM(M)*FACI(4,M)
          DELAMI(M)=DELAM(M-3)*FACI(1,M)+DELAM(M-2)*FACI(2,M)+
      *             DELAM(M-1)*FACI(3,M)+DELAM(M)*FACI(4,M)
-         QDTM(M)=SQDT(M-3)*FACI(1,M)+SQDT(M-2)*FACI(2,M)+
-     *           SQDT(M-1)*FACI(3,M)+SQDT(M)*FACI(4,M)
+         QDTMI(M)=QDTM(M-3)*FACI(1,M)+QDTM(M-2)*FACI(2,M)+
+     *           QDTM(M-1)*FACI(3,M)+QDTM(M)*FACI(4,M)
          HS3(M)=HS1(M-3)*FACI(1,M)+HS1(M-2)*FACI(2,M)+
      *          HS1(M-1)*FACI(3,M)+HS1(M)*FACI(4,M)
-         EPSILM(M)=SESUM(M-3)*FACI(1,M)+SESUM(M-2)*FACI(2,M)+
-     *           SESUM(M-1)*FACI(3,M)+SESUM(M)*FACI(4,M)
+         EPSILM(M)=ESUMM(M-3)*FACI(1,M)+ESUMM(M-2)*FACI(2,M)+
+     *           ESUMM(M-1)*FACI(3,M)+ESUMM(M)*FACI(4,M)
          ALM(M)=CLSUN*(HL(M-3)*FACI(1,M)+HL(M-2)*FACI(2,M)+
      *          HL(M-1)*FACI(3,M)+HL(M)*FACI(4,M))
          HGM(M)=HG(M-3)*FACI(1,M)+HG(M-2)*FACI(2,M)+
@@ -165,8 +166,8 @@ C  opacity.
          OPM(M)=OM(M-3)*FACI(1,M)+OM(M-2)*FACI(2,M)+
      *          OM(M-1)*FACI(3,M)+OM(M)*FACI(4,M)
 C  specific heat
-         CPM(M)=CP(M-3)*FACI(1,M)+CP(M-2)*FACI(2,M)+
-     *          CP(M-1)*FACI(3,M)+CP(M)*FACI(4,M)
+         CPMI(M)=CPM(M-3)*FACI(1,M)+CPM(M-2)*FACI(2,M)+
+     *          CPM(M-1)*FACI(3,M)+CPM(M)*FACI(4,M)
       ELSE
          I1 = IMAX
       ENDIF
@@ -213,14 +214,14 @@ C  DEL(ADIABATIC).
          DELAMI(I)=DELAM(I-2)*FACI(1,I)+DELAM(I-1)*FACI(2,I)+
      *             DELAM(I)*FACI(3,I)+DELAM(I+1)*FACI(4,I)
 C  D LN RHO/D LN T.
-         QDTM(I)=SQDT(I-2)*FACI(1,I)+SQDT(I-1)*FACI(2,I)+
-     *           SQDT(I)*FACI(3,I)+SQDT(I+1)*FACI(4,I)
+         QDTMI(I)=QDTM(I-2)*FACI(1,I)+QDTM(I-1)*FACI(2,I)+
+     *           QDTM(I)*FACI(3,I)+QDTM(I+1)*FACI(4,I)
 C  UNLOGGED MASS INTERIOR TO THE INTERFACE.
          HS3(I)=HS1(I-2)*FACI(1,I)+HS1(I-1)*FACI(2,I)+
      *          HS1(I)*FACI(3,I)+HS1(I+1)*FACI(4,I)
 C  SPECIFIC ENERGY GENERATION RATE.
-         EPSILM(I)=SESUM(I-2)*FACI(1,I)+SESUM(I-1)*FACI(2,I)+
-     *           SESUM(I)*FACI(3,I)+SESUM(I+1)*FACI(4,I)
+         EPSILM(I)=ESUMM(I-2)*FACI(1,I)+ESUMM(I-1)*FACI(2,I)+
+     *           ESUMM(I)*FACI(3,I)+ESUMM(I+1)*FACI(4,I)
 C  LUMINOSITY.
          ALM(I)=CLSUN*(HL(I-2)*FACI(1,I)+HL(I-1)*FACI(2,I)+
      *          HL(I)*FACI(3,I)+HL(I+1)*FACI(4,I))
@@ -231,8 +232,8 @@ C  opacity.
          OPM(I)=OM(I-2)*FACI(1,I)+OM(I-1)*FACI(2,I)+
      *          OM(I)*FACI(3,I)+OM(I+1)*FACI(4,I)
 C  specific heat
-         CPM(I)=CP(I-2)*FACI(1,I)+CP(I-1)*FACI(2,I)+
-     *          CP(I)*FACI(3,I)+CP(I+1)*FACI(4,I)
+         CPMI(I)=CPM(I-2)*FACI(1,I)+CPM(I-1)*FACI(2,I)+
+     *          CPM(I)*FACI(3,I)+CPM(I+1)*FACI(4,I)
    30 CONTINUE
       DO 35 I = IMIN,IMAX
          DELMI(I) = MIN(DELMI(I),DELAMI(I))
@@ -265,7 +266,7 @@ C  ALL INTERFACES.
       CPIGI = 4.0D0/C4PI/CG
       DO 40 I = IMIN,IMAX
          IF(.NOT.LDIFAD)THEN
-            DELMU = (LOG10(HAMU(I))-LOG10(HAMU(I-1)))/
+            DELMU = (LOG10(AMUM(I))-LOG10(AMUM(I-1)))/
      *              (HP(I)-HP(I-1))
          ELSE
             DELMU = 0.0D0
@@ -293,7 +294,7 @@ C         FESTIME(I) = PM(I)/(HGM(I)*DDEL*DM(I)*TM(I))
          ETA = 2.0D0*CC23*RM(I)**3/CG/HS3(I)
 C        TTHERM = 8.0d0*CC23*CSIG*TM(I)**3/OPM(I)/DM(I)**2/CPM(I)
          FGSFK(I)= 8.0D0*HPSC*ETA/DDEL
-         FF = PM(I)/(HGM(I)*DDEL*CPM(I)*DM(I)*TM(I))
+         FF = PM(I)/(HGM(I)*DDEL*CPMI(I)*DM(I)*TM(I))
          FAC = 2.0D0*ETA*FF
          EM = ALM(I)/HS3(I)
          FES1(I) = FAC*(EM-EPSILM(I))
@@ -311,7 +312,7 @@ C  VES = FACT1*FACT2*OMEGA**2 (ENDAL AND SOFIA PAPER II).
 C  NOTE THAT TO AVOID OVERFLOW 1/(DEL(AD)-DEL)IS SET TO A MAXIMUM OF 10^6.
 C  THIS SHOULD ONLY BE AN ISSUE IF YOU HAVE ZERO OVERSHOOT AT THE BOUNDARY
 C  OF A CONVECTION ZONE.  CAVEAT EMPTOR.
-         FACT1(I) = 1.0D0/QDTM(I)/MAX(DELAMI(I)-DELMI(I),1.0D-3)
+         FACT1(I) = 1.0D0/QDTMI(I)/MAX(DELAMI(I)-DELMI(I),1.0D-3)
 C         FACT2(I) = DELAMI(I)*ALM(I)*(RM(I)**3/CG2/HS3(I)**2)*
 C     *              (2.0D0*RM(I)**2*(EPSILM(I)/ALM(I) - 1.0D0/HS3(I))
 C    *              - 3.0D0/(C4PI*DM(I)*RM(I)))
@@ -365,7 +366,7 @@ C MHP 06/02 ADDED TERMS OF ORDER DW/DR FROM ZAH&MAEDER 1998
 C         DDEL = MAX(DELAMI(I)-DELMI(I),1.0D-3)
          HPSC = PM(I)*RM(I)**2/DM(I)/HS3(I)/CG
          HTSC = HPSC/DELMI(I)
-         F1 = PM(I)/(HGM(I)*DDELM(I)*CPM(I)*DM(I)*TM(I))
+         F1 = PM(I)/(HGM(I)*DDELM(I)*CPMI(I)*DM(I)*TM(I))
          F2 = ALM(I)*RM(I)/HS3(I)/3.0D0
          F3 = 0.75D0*HS3(I)/(CPI*DM(I)*RM(I)**3)
          V0 = -F1*F2*F3

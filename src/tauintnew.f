@@ -17,10 +17,12 @@ C      *                     DEL1,DEL2,HSTOT,RBCZ)  ! KC 2025-05-31
       COMMON/JTEST/ IMAX1, IMAX2, LJVS
 C Needs access to this common block: grants knowledge of envellope
 C KC 2025-05-30 reordered common block elements
+C JvS 08/25 Updated with new elements
       COMMON/ENVSTRUCT/ENVP(JSON),ENVT(JSON),ENVS(JSON),ENVD(JSON),
-     *                 ENVR(JSON),ENVX(JSON),ENVZ(JSON),LCENV(JSON),
-C      *                 NUMENV,EDELS(3,JSON),EVELS(JSON)
-     *                 EDELS(3,JSON),EVELS(JSON),EBETAS(JSON),NUMENV
+     *     ENVR(JSON),ENVX(JSON),ENVZ(JSON),LCENV(JSON),
+     *     EDELS(3,JSON),EVELS(JSON),EBETAS(JSON),
+     *     EGAM1(JSON),EQCP(JSON),EFXIONS(3,JSON),
+     *     ENVO(JSON), ENVL(JSON),EQDT(JSON),NUMENV     
 C       DIMENSION HCOMP(15,JSON),HS2(JSON),LCZ(JSON),  ! KC 2025-05-31
       DIMENSION LCZ(JSON),
      *     HR(JSON), HP(JSON), HD(JSON), HG(JSON), HS1(JSON),  ! XSUM(15)
