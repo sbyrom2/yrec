@@ -32,6 +32,7 @@ C MHP 10/24 MIXTURE TYPE FOR NEW HEAVY ELEMENT MIXTURE MACHINERY
      1          RSCLCM(50)
       CHARACTER*256 FISO
       CHARACTER*256 FATM
+      CHARACTER*256 FSTCH
       CHARACTER*256 FALLARD,FSCVH,FSCVHE,FSCVZ
       CHARACTER*256 FLAST, FFIRST, FRUN, FSTAND, FFERMI,
      1    FDEBUG, FTRACK, FSHORT, FMILNE, FMODPT,
@@ -60,7 +61,7 @@ C     4    FMHD1, FMHD2, FMHD3, FMHD4, FMHD5, FMHD6, FMHD7, FMHD8
 C MHP 6/98
       COMMON/IOMONTE/FMONTE1,FMONTE2,IMONTE1,IMONTE2
       COMMON/DESC/DESCRIP
-      COMMON/CCOUT/LSTORE,LSTATM,LSTENV,LSTMOD,LSTPHYS,LSTROT,LSCRIB
+      COMMON/CCOUT/LSTORE,LSTATM,LSTENV,LSTMOD,LSTPHYS,LSTROT,LSCRIB,LSTCH
       COMMON/CCOUT1/NPENV,NPRTMOD,NPRTPT,NPOINT
       COMMON/CCOUT2/LDEBUG,LCORR,LMILNE,LTRACK,LSTPCH
       COMMON/CENV/TRIDT,TRIDL,SENV0,LSENV0,LNEW0
@@ -299,7 +300,7 @@ C SPLIT NAMELIST INTO TWO: CONTROL and PHYSICS
      *   DESCRIP,
      *   ENDAGE,
      *   FLAOL, FPUREZ,FLAOL2, FOPAL2,
-     *   FLAST, FFIRST, FFERMI, FDEBUG, FTRACK, FSHORT,
+     *   FLAST, FFIRST, FFERMI, FDEBUG, FTRACK, FSHORT, FSTCH,
      *   FMILNE, FMODPT, FSTOR, FPMOD, FPATM, FPENV,
      *   FDYN, FLLDAT, FSNU, FSCOMP, FKUR, FMHD1,
      *   FMHD2, FMHD3, FMHD4, FMHD5, FMHD6, FMHD7, FMHD8, FISO, FATM,
@@ -308,7 +309,7 @@ C SPLIT NAMELIST INTO TWO: CONTROL and PHYSICS
      *   IPVER, ITRVER,
      *   KINDRN,
      *   LDEBUG, LCORR, LMILNE, LTRACK, LSTORE, LFIRST,
-     *   LSTPCH, LSCRIB,
+     *   LSTPCH, LSCRIB, LSTCH,
 C G Somers 11/14
      *   LSTATM,LSTENV,LSTMOD,LSTPHYS,LSTROT,
 C G Somers END
@@ -416,6 +417,7 @@ C MHP 9/93
      1 LSTPCH
      2  /.FALSE., .TRUE., 1, .FALSE., .TRUE., .FALSE.,.FALSE./
       DATA LSCRIB/.TRUE./
+      DATA LSTCH/.FALSE./
       DATA LENVG, ATMSTP, ENVSTP/.FALSE.,0.5,0.5/
       DATA NPRTMOD, NPRTPT/1,1/
       DATA NUMRUN, KINDRN, LFIRST, NMODLS
@@ -803,6 +805,7 @@ C same conventions
             WRITE(ICLCD,*) 'age (Gyr),radius(cm),1/sound speed(s/cm),radius (CZ), 1/cs (CZ)
      *       delad,gamma1,P, T, X'
 
+
 C      IACAT = 92
 C      FACAT=FSHORT(1:MRK-1)//'acatm'
 C      OPEN(UNIT=IACAT, FILE=FACAT, STATUS='UNKNOWN')
@@ -810,9 +813,9 @@ C      WRITE(IACAT,*) 'Acoustic depth calculation output file: atmosphere integr
 C      WRITE(IACAT,*) 'age (Gyr),radius(cm),1/sound speed(s/cm),delad,gamma1,
 C     * P, T, X'
 
-            IJLAST = 93
-            FJLAST=FSHORT(1:MRK-1)//'jlast'
-            OPEN(UNIT=IJLAST, FILE=FJLAST, STATUS='UNKNOWN')
+C            IJLAST = 93
+C            FJLAST=FSHORT(1:MRK-1)//'jlast'
+C            OPEN(UNIT=IJLAST, FILE=FJLAST, STATUS='UNKNOWN')
 
 C      IJVS = 94
 C      FJVS=FSHORT(1:MRK-1)//'jvs'
@@ -882,7 +885,13 @@ C 3/09 Disable older Alexander opacities if a newer one is specified
       REWIND(ISTOR)
 C G Somers 11/14 write the new header for the .store file, if LSTORE = TRUE.
       IF(LSTORE)THEN
-         WRITE(ISTOR,1012)
+C JvS 08/25 Added stitched interior and envelope option      
+         IF(LSTCH)THEN
+            !WRITE(ISTOR,1013)
+            !WRITE(ISTOR,1014)
+         ELSE
+            WRITE(ISTOR,1012)
+         ENDIF   
       ENDIF
  1012 FORMAT('# Header Key',/,'# ModType    ModNum    #Shells    ',
      1 'M/Msun    log(Teff)    log(L/Lsun)    log(M/gram)    Age/Gyr',
@@ -895,7 +904,19 @@ C G Somers 11/14 write the new header for the .store file, if LSTORE = TRUE.
      1 'OldNeu_lum    Grav_lum',/,'# ENV1-3   log(Teff)',
      1 '    log(L/Lsun)    P_base    T_base    R_base    MatrixElements'
      1 ,/)
+C 1013 FORMAT('# JCORE  JENV  CMIXL  EOS  ATM  ALOK HIK  LPUREZ  COMPMIX',
+C     1 '  LEXCOM  LDIFY  LDIFZ  LSEMIC  LOVSTC  LOVSTE  LOVSTM',
+C     1 '  LROT  LINSTB  LJDOT0  LDISK  TDISK  PDISK  WMAX  LSTORE',
+C     1 '  LSTATM  LSTENV  LSTMOD  LSTPHYS  LSTROT'
+C     1 ,/)
+C 1014     FORMAT(
+C     1'MODEL SHELL MASS RADIUS LUMINOSITY PRESSURE TEMPERATURE DENSITY OMEGA ',
+C     1'CONVECTIVE INTERIOR_PT H1 He4 METALS He3 C12 C13 N14 N15 O16 O17 O18 H2 Li6 Li7 ',
+C     1'Be9 OPACITY GRAV DELR DEL DELAD V_CONV GAM1 HII HEII HEIII BETA ',
+C     1'ETA PPI PPII PPIII CNO TRIPLE_ALPHA E_NUC E_NEU E_GRAV CP DLNRHODLNT A RP/RE FP ',
+C     1'FT J/M MOMENT DEL_KE V_ES V_GSF V_SS VTOT ')
 C G Somers END
+
       OPEN(ISHORT,FILE=FSHORT,FORM='FORMATTED',STATUS='UNKNOWN')
       REWIND(ISHORT)
       IF (LTRACK) THEN
@@ -903,6 +924,7 @@ C G Somers END
      *        STATUS='UNKNOWN')
           REWIND(ITRACK)
       ENDIF
+
 C SNU OUTPUT
       IF(LSNU) THEN
           OPEN(UNIT=ISNU,FILE=FSNU, FORM='FORMATTED',
