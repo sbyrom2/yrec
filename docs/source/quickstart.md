@@ -184,4 +184,3 @@ YREC produces multiple output files, which can be parsed and plotted. The nature
 While the YREC repository itself doesn't have an "official" set of scripts, many scripts and analysis notebooks have been contributed by the community. Some examples include:
 
 - [YREC User Tools](https://github.com/sbyrom2/yrec_user_tools): Functions and guidelines for using the Yale Rotating Evolution Code 
-- [YREC-Wrappers](https://github.com/yreclab/YREC-Wrappers): Wrappers, helpful codes, and additional machinery to interface with YREC with languages such as Python
